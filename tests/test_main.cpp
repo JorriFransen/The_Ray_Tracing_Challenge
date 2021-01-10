@@ -9,7 +9,7 @@ static const MunitSuite child_suites[] = {
 };
 
 static const MunitSuite suite = {
-    (char*)"/Ray_Tracer",
+    (char*)"/RT",
     nullptr,
     (MunitSuite*)child_suites,
     1,
