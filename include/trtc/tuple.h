@@ -18,6 +18,7 @@ Tuple tuple_add(const Tuple &lhs, const Tuple &rhs);
 Tuple tuple_sub(const Tuple &lhs, const Tuple &rhs);
 Tuple tuple_neg(const Tuple &t);
 Tuple tuple_scale(const Tuple &t, float scale);
+Tuple tuple_div(const Tuple &t, float divisor);
 
 bool tuple_is_point(Tuple *tuple);
 bool tuple_is_vector(Tuple *tuple);

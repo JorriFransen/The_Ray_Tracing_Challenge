@@ -4,6 +4,9 @@
 #include "tuple.h"
 #include "point.h"
 #include "vector.h"
+#include "util.h"
+
+#include <cmath>
 
 MunitResult T01_Tuple_Point_Constr(const MunitParameter args[], void *user_data)
 {
@@ -318,6 +321,147 @@ MunitResult T18_Tumple_Fraction_MUL(const MunitParameter args[], void *user_data
     return MUNIT_OK;
 }
 
+MunitResult T19_Tumple_Fraction_DIV(const MunitParameter args[], void *user_data)
+{
+    Tuple a = tuple(1, -2, 3, -4);
+
+    Tuple expected_result = tuple(0.5, -1, 1.5, -2);
+    Tuple result = tuple_div(a, 2);
+
+    assert_true(tuple_eq(result, expected_result));
+
+    assert_float(result.x, ==, expected_result.x);
+    assert_float(result.y, ==, expected_result.y);
+    assert_float(result.z, ==, expected_result.z);
+    assert_float(result.w, ==, expected_result.w);
+
+    return MUNIT_OK;
+}
+
+MunitResult T20_Vector_Length_X1(const MunitParameter args[], void *user_data)
+{
+    Vector v = vector(1, 0, 0);
+
+    float expected_result = 1;
+    float result = vector_length(v);
+
+    assert_float(result, ==, expected_result);
+
+    return MUNIT_OK;
+}
+
+MunitResult T21_Vector_Length_Y1(const MunitParameter args[], void *user_data)
+{
+    Vector v = vector(0, 1, 0);
+
+    float expected_result = 1;
+    float result = vector_length(v);
+
+    assert_float(result, ==, expected_result);
+
+    return MUNIT_OK;
+}
+
+MunitResult T22_Vector_Length_Z1(const MunitParameter args[], void *user_data)
+{
+    Vector v = vector(0, 0, 1);
+
+    float expected_result = 1;
+    float result = vector_length(v);
+
+    assert_float(result, ==, expected_result);
+
+    return MUNIT_OK;
+}
+
+MunitResult T23_Vector_Length_1_2_3(const MunitParameter args[], void *user_data)
+{
+
+    Vector v = vector(1, 2, 3);
+
+    float expected_result = sqrt(14);
+    float result = vector_length(v);
+
+    assert_float(result, ==, expected_result);
+
+    return MUNIT_OK;
+}
+
+MunitResult T24_Vector_Length_1_2_3_neg(const MunitParameter args[], void *user_data)
+{
+
+    Vector v = vector(-1, -2, -3);
+
+    float expected_result = sqrt(14);
+    float result = vector_length(v);
+
+    assert_float(result, ==, expected_result);
+
+    return MUNIT_OK;
+}
+
+MunitResult T25_Vector_Normalize_X4(const MunitParameter args[], void *user_data)
+{
+    Vector v = vector(4, 0, 0);
+
+    Vector expected_result = vector(1, 0, 0);
+    Vector result = vector_normalized(v);
+
+    assert_true(tuple_eq(result, expected_result));
+
+    assert_float(result.x, ==, expected_result.x);
+    assert_float(result.y, ==, expected_result.y);
+    assert_float(result.z, ==, expected_result.z);
+    assert_float(result.w, ==, expected_result.w);
+
+    return MUNIT_OK;
+}
+
+MunitResult T26_Vector_Normalize_1_2_3(const MunitParameter args[], void *user_data)
+{
+    Vector v = vector(1, 2, 3);
+
+    Vector expected_result = vector(0.26726, 0.53452, 0.80178);
+    float sqrt14 = sqrt(14);
+    Vector expected_result2 = vector(1 / sqrt14, 2 / sqrt14, 3 / sqrt14);
+    Vector result = vector_normalized(v);
+
+    // tuple_eq uses EPSILON so this will pass
+    assert_true(tuple_eq(result, expected_result));
+
+    assert_true(tuple_eq(result, expected_result2));
+
+    // Here we need to specify precision
+    munit_assert_double_equal(result.x, expected_result.x, 5);
+    munit_assert_double_equal(result.y, expected_result.y, 5);
+    munit_assert_double_equal(result.z, expected_result.z, 5);
+    munit_assert_double_equal(result.w, expected_result.w, 5);
+
+    assert_float(result.x, ==, expected_result2.x);
+    assert_float(result.y, ==, expected_result2.y);
+    assert_float(result.z, ==, expected_result2.z);
+    assert_float(result.w, ==, expected_result2.w);
+
+    return MUNIT_OK;
+
+}
+
+MunitResult T27_Vector_Normalize_Length_1(const MunitParameter args[], void *user_data)
+{
+    Vector v = vector(1, 2, 3);
+
+    Vector norm = vector_normalized(v);
+
+    float expected_result = 1;
+    float result = vector_length(norm);
+
+
+    assert_true(float_eq(result, expected_result));
+    munit_assert_double_equal(result, expected_result, 5);
+
+    return MUNIT_OK;
+}
+
 MunitTest ch01_tests[] = {
 
     REGISTER_TEST(T01_Tuple_Point_Constr)
@@ -338,6 +482,16 @@ MunitTest ch01_tests[] = {
     REGISTER_TEST(T16_Vector_NEG)
     REGISTER_TEST(T17_Tumple_Scalar_MUL)
     REGISTER_TEST(T18_Tumple_Fraction_MUL)
+    REGISTER_TEST(T19_Tumple_Fraction_DIV)
+    REGISTER_TEST(T20_Vector_Length_X1)
+    REGISTER_TEST(T21_Vector_Length_Y1)
+    REGISTER_TEST(T22_Vector_Length_Z1)
+    REGISTER_TEST(T23_Vector_Length_1_2_3)
+    REGISTER_TEST(T24_Vector_Length_1_2_3_neg)
+    REGISTER_TEST(T25_Vector_Normalize_X4)
+    REGISTER_TEST(T26_Vector_Normalize_1_2_3)
+    REGISTER_TEST_NAMED("T27_Vector_Normalize_Len", T27_Vector_Normalize_Length_1)
+
     REGISTER_EMPTY_TEST()
 };
 
