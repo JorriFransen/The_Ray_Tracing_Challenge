@@ -287,7 +287,7 @@ MunitResult T16_Vector_NEG(const MunitParameter args[], void *user_data)
     return MUNIT_OK;
 }
 
-MunitResult T17_Tumple_Scalar_MUL(const MunitParameter args[], void *user_data)
+MunitResult T17_Tuple_Scalar_MUL(const MunitParameter args[], void *user_data)
 {
     Tuple a = tuple(1, -2, 3, -4);
 
@@ -304,7 +304,7 @@ MunitResult T17_Tumple_Scalar_MUL(const MunitParameter args[], void *user_data)
     return MUNIT_OK;
 }
 
-MunitResult T18_Tumple_Fraction_MUL(const MunitParameter args[], void *user_data)
+MunitResult T18_Tuple_Fraction_MUL(const MunitParameter args[], void *user_data)
 {
     Tuple a = tuple(1, -2, 3, -4);
 
@@ -321,7 +321,7 @@ MunitResult T18_Tumple_Fraction_MUL(const MunitParameter args[], void *user_data
     return MUNIT_OK;
 }
 
-MunitResult T19_Tumple_Fraction_DIV(const MunitParameter args[], void *user_data)
+MunitResult T19_Tuple_Fraction_DIV(const MunitParameter args[], void *user_data)
 {
     Tuple a = tuple(1, -2, 3, -4);
 
@@ -480,9 +480,9 @@ MunitTest ch01_tests[] = {
     REGISTER_TEST(T14_Tuple_NEG)
     REGISTER_TEST(T15_Point_NEG)
     REGISTER_TEST(T16_Vector_NEG)
-    REGISTER_TEST(T17_Tumple_Scalar_MUL)
-    REGISTER_TEST(T18_Tumple_Fraction_MUL)
-    REGISTER_TEST(T19_Tumple_Fraction_DIV)
+    REGISTER_TEST(T17_Tuple_Scalar_MUL)
+    REGISTER_TEST(T18_Tuple_Fraction_MUL)
+    REGISTER_TEST(T19_Tuple_Fraction_DIV)
     REGISTER_TEST(T20_Vector_Length_X1)
     REGISTER_TEST(T21_Vector_Length_Y1)
     REGISTER_TEST(T22_Vector_Length_Z1)
