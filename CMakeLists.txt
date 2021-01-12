@@ -9,6 +9,8 @@ set (RAY_TRACER_SOURCE
     source/point.cpp
     source/vector.cpp
     source/util.cpp
+
+    source/chapter_01/putting_it_together.cpp
 )
 
 add_executable(raytracer source/main.cpp)
