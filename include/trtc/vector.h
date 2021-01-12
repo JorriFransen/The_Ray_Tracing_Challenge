@@ -22,3 +22,6 @@ float vector_length(const Vector &v);
 Vector vector_normalized(const Vector &v);
 void vector_normalize(Vector *v);
 
+float vector_dot(const Vector &a, const Vector &b);
+
+Vector vector_cross(const Vector& a, const Vector &b);

@@ -67,3 +67,18 @@ void vector_normalize(Vector *v)
     v->y /= length;
     v->z /= length;
 }
+
+float vector_dot(const Vector &a, const Vector &b)
+{
+    assert(a.w == 0);
+    assert(b.w == 0);
+
+    return a.x * b.x + a.y * b.y + a.z * b.z;
+}
+
+Vector vector_cross(const Vector& a, const Vector &b)
+{
+    return vector(a.y * b.z - a.z * b.y,
+                  a.z * b.x - a.x * b.z,
+                  a.x * b.y - a.y * b.x);
+}

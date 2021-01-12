@@ -462,6 +462,46 @@ MunitResult T27_Vector_Normalize_Length_1(const MunitParameter args[], void *use
     return MUNIT_OK;
 }
 
+MunitResult T28_Vector_Dot(const MunitParameter args[], void *user_data)
+{
+    Vector a = vector(1, 2, 3);
+    Vector b = vector(2, 3, 4);
+
+    float expected_result = 20;
+    float result = vector_dot(a, b);
+
+    assert_double(result, ==, expected_result);
+
+    return MUNIT_OK;
+}
+
+MunitResult T29_Vector_Cross(const MunitParameter args[], void *user_data)
+{
+    Vector a = vector(1, 2, 3);
+    Vector b = vector(2, 3, 4);
+
+    Vector expected_result_cross_ab = vector(-1, 2, -1);
+    Vector expected_result_cross_ba = vector(1, -2, 1);
+
+    Vector result_ab = vector_cross(a, b);
+    Vector result_ba = vector_cross(b, a);
+
+    assert_true(vector_eq(result_ab, expected_result_cross_ab));
+    assert_true(vector_eq(result_ba, expected_result_cross_ba));
+
+    assert_float(result_ab.x, ==, expected_result_cross_ab.x);
+    assert_float(result_ab.y, ==, expected_result_cross_ab.y);
+    assert_float(result_ab.z, ==, expected_result_cross_ab.z);
+    assert_float(result_ab.w, ==, expected_result_cross_ab.w);
+
+    assert_float(result_ba.x, ==, expected_result_cross_ba.x);
+    assert_float(result_ba.y, ==, expected_result_cross_ba.y);
+    assert_float(result_ba.z, ==, expected_result_cross_ba.z);
+    assert_float(result_ba.w, ==, expected_result_cross_ba.w);
+
+    return MUNIT_OK;
+}
+
 MunitTest ch01_tests[] = {
 
     REGISTER_TEST(T01_Tuple_Point_Constr)
@@ -491,6 +531,8 @@ MunitTest ch01_tests[] = {
     REGISTER_TEST(T25_Vector_Normalize_X4)
     REGISTER_TEST(T26_Vector_Normalize_1_2_3)
     REGISTER_TEST_NAMED("T27_Vector_Normalize_Len", T27_Vector_Normalize_Length_1)
+    REGISTER_TEST(T28_Vector_Dot)
+    REGISTER_TEST(T29_Vector_Cross)
 
     REGISTER_EMPTY_TEST()
 };
