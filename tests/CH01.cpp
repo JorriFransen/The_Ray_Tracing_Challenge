@@ -538,7 +538,7 @@ MunitTest ch01_tests[] = {
 };
 
 static const MunitSuite CH01_Suite = {
-    (char*)"/CH01",
+    (char*)"CH01",
     ch01_tests,
     nullptr,
     1,
