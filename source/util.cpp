@@ -1,5 +1,8 @@
 
 #include "util.h"
+
+#include <assert.h>
+#include <cstdlib>
 #include <cstring>
 
 float abs_f(float x)
@@ -17,16 +20,21 @@ bool float_eq(float lhs, float rhs)
 
 String string_ref(const char *cstr)
 {
+    return string_ref(cstr, strlen(cstr));
+}
+
+String string_ref(const char *cstr, int length)
+{
     String result;
     result.data = (char *)cstr;
-    result.length = strlen(cstr);
+    result.length = length;
     return result;
 }
 
-void string_builder_init(String_Builder *sb, int64_t block_size);
-void string_builder_free(String_Builder *sb);
-String string_builder_to_string(String_Builder *sb);
+void string_free(String *str)
+{
+    free(str->data);
+    str->data = nullptr;
+    str->length = 0;
+}
 
-void string_builder_append(String_Builder *sb, const String &str);
-void string_builder_append(String_Builder *sb, const char *cstr, int length);
-void string_builder_appendf(String_Builder *sb, const char *format, ...);

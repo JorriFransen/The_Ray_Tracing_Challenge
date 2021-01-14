@@ -1,20 +1,19 @@
-#include "chapter_01/putting_it_together.h"
+#include "putting_it_together_ch01.h"
 
 #include <stdio.h>
 
 void CH01_putting_it_together()
 {
     Projectile p =
-        projectile(point(0, 1, 0),
-                   vector_normalized(vector(1, 1, 0))); 
+        projectile(point(0, 1, 0), vector_normalized(vector(1, 1, 0))); 
 
-    Environment e = environment(vector(0, -0.1, 0),
-                                vector(-0.01, 0, 0));
+    Environment e = environment(vector(0, -0.1, 0), vector(-0.01, 0, 0));
 
     while (p.position.y > 0) {
         projectile_print(p);
         p = tick(e, p);    
     } 
+    projectile_print(p);
 }
 
 Projectile projectile(const Point &pos, const Vector &vel)

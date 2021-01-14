@@ -1,5 +1,7 @@
 #include "canvas.h"
 
+#include "string_builder.h"
+
 #include <cstdlib>
 #include <cstring>
 
@@ -71,13 +73,14 @@ void canvas_set_pixel(Canvas *c, int x, int y, const Color &color)
 
 String canvas_to_ppm(const Canvas &c)
 {
-    assert(false);
-    // String_Builder sb;
-    // string_builder_init(&sb, 2048);
+    String_Builder sb;
+    string_builder_init(&sb, 2048);
 
-    // assert(false);
+    string_builder_append(&sb, "P3\n");
+    string_builder_appendf(&sb, "%d %d\n", c.width, c.height);
+    string_builder_append(&sb, "255\n") ;
 
-    // String result = string_builder_to_string(&sb);
-    // string_builder_free(&sb);
-    // return result;
+    String result = string_builder_to_string(&sb);
+    string_builder_free(&sb);
+    return result;
 }

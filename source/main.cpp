@@ -1,7 +1,7 @@
 
 #include <stdio.h>
 
-#include "chapter_01/putting_it_together.h"
+#include "putting_it_together_ch01.h"
 
 int main(int argc, char** argv)
 {

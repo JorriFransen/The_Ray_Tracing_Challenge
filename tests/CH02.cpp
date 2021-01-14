@@ -160,16 +160,36 @@ MunitResult T07_Canvas_Write_Pixel(const MunitParameter args[], void *user_data)
 
 MunitResult T08_PPM_Header(const MunitParameter args[], void *user_data)
 {
-    munit_assert_true(false);
-    // Canvas c = canvas(5, 3);
-    // String ppm_str = canvas_to_ppm(c);
+    Canvas c = canvas(5, 3);
+    String ppm_str = canvas_to_ppm(c);
 
-    // String expected_ppm_str = string_ref("P3\n5 3\n255\n");
+    String expected_ppm_str = string_ref("P3\n5 3\n255\n");
 
-    // munit_assert_string_equal(ppm_str.data, expected_ppm_str.data);
+    munit_assert_string_equal(ppm_str.data, expected_ppm_str.data);
 
-    // string_free(&ppm_str);
-    // canvas_free(&c);
+    string_free(&ppm_str);
+    canvas_free(&c);
+    return MUNIT_OK;
+}
+
+MunitResult T09_PPM_Pixel_Data(const MunitParameter args[], void *user_data)
+{
+    Canvas c = canvas(5, 3);
+    Color c1 = color(1.5, 0, 0);
+    Color c2 = color(0, 0.5, 0);
+    Color c3 = color(-0.5, 0, 1);
+
+    canvas_set_pixel(&c, 0, 0, c1);
+    canvas_set_pixel(&c, 2, 1, c2);
+    canvas_set_pixel(&c, 4, 2, c3);
+
+    String ppm_str = canvas_to_ppm(c);
+
+
+
+    string_free(&ppm_str);
+    canvas_free(&c);
+
     return MUNIT_OK;
 }
 
@@ -183,6 +203,7 @@ MunitTest ch02_tests[] = {
     REGISTER_TEST(T06_Canvas_Creation)
     REGISTER_TEST(T07_Canvas_Write_Pixel)
     REGISTER_TEST(T08_PPM_Header)
+    REGISTER_TEST(T09_PPM_Pixel_Data)
 
     REGISTER_EMPTY_TEST()
 };
@@ -193,4 +214,5 @@ static const MunitSuite CH02_Suite = {
     nullptr,
     1,
     MUNIT_SUITE_OPTION_NONE,
+    // char *cstr = alloc_array<char>(allocator, required_cap + 1);
 };
