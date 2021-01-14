@@ -172,27 +172,29 @@ MunitResult T08_PPM_Header(const MunitParameter args[], void *user_data)
     munit_assert_string_equal(ppm_str.data, expected_ppm_str.data);
 
     canvas_free(&c);
+
     return MUNIT_OK;
 }
 
 MunitResult T09_PPM_Pixel_Data(const MunitParameter args[], void *user_data)
 {
-    // auto ta = temp_allocator_get();
-    // temp_allocator_reset(ta);
+    auto ta = temp_allocator_get();
+    temp_allocator_reset(ta);
 
-    // Canvas c = canvas(5, 3);
-    // Color c1 = color(1.5, 0, 0);
-    // Color c2 = color(0, 0.5, 0);
-    // Color c3 = color(-0.5, 0, 1);
+    Canvas c = canvas(5, 3);
+    Color c1 = color(1.5, 0, 0);
+    Color c2 = color(0, 0.5, 0);
+    Color c3 = color(-0.5, 0, 1);
 
-    // canvas_set_pixel(&c, 0, 0, c1);
-    // canvas_set_pixel(&c, 2, 1, c2);
-    // canvas_set_pixel(&c, 4, 2, c3);
+    canvas_set_pixel(&c, 0, 0, c1);
+    canvas_set_pixel(&c, 2, 1, c2);
+    canvas_set_pixel(&c, 4, 2, c3);
 
-    // String ppm_str = canvas_to_ppm(c, ta);
+    String ppm_str = canvas_to_ppm(c, ta);
 
-    // string_free(&ppm_str);
-    // canvas_free(&c);
+    Array<String> lines = string_split_ref(ta, ppm_str, '\n');
+
+    canvas_free(&c);
 
     return MUNIT_OK;
 }
