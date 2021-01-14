@@ -1,5 +1,6 @@
 #pragma once
 
+#include "allocator.h"
 #include "color.h"
 #include "util.h"
 
@@ -25,4 +26,4 @@ Color canvas_get_pixel(const Canvas *c, int x, int y);
 
 void canvas_set_pixel(Canvas *c, int x, int y, const Color &color);
 
-String canvas_to_ppm(const Canvas &c);
+String canvas_to_ppm(const Canvas &c, Allocator *allocator);

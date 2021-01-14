@@ -5,8 +5,11 @@ set(CMAKE_EXPORT_COMPILE_COMMANDS 1)
 project(ray_tracer)
 
 set (RAY_TRACER_SOURCE
+    source/allocator.cpp
     source/canvas.cpp
     source/color.cpp
+    source/c_allocator.cpp
+    source/temp_allocator.cpp
     source/tuple.cpp
     source/point.cpp
     source/vector.cpp

@@ -1,28 +1,30 @@
 #include "string_builder.h"
 
 #include <algorithm>
-#include <cassert>
-#include <cstdio>
-#include <cstdlib>
+#include <assert.h>
 #include <cstring>
+#include <stdio.h>
 
-void string_builder_init(String_Builder *sb, uint64_t default_block_cap/*=2048*/)
+void string_builder_init(Allocator *allocator, String_Builder *sb, uint64_t default_block_cap/*=2048*/)
 {
+    assert(allocator);
     assert(sb);
     assert(default_block_cap);
 
-    auto first_block = string_builder_allocate_block(default_block_cap);
+    auto first_block = string_builder_allocate_block(allocator, default_block_cap);
     assert(first_block);
 
     sb->first_block = first_block;
     sb->current_block = first_block;
+    sb->allocator = allocator;
 
 }
 
 void string_builder_free(String_Builder *sb)
 {
-    assert(sb); 
+    assert(sb);
 
+    assert(sb->allocator);
     assert(sb->first_block);
 
     auto block = sb->first_block;
@@ -30,16 +32,16 @@ void string_builder_free(String_Builder *sb)
     {
         auto next = block->next;
 
-        free(block);
+        free(sb->allocator, block);
 
         block = next;
     }
 }
 
-String_Builder_Block *string_builder_allocate_block(uint64_t capacity)
+String_Builder_Block *string_builder_allocate_block(Allocator *allocator, uint64_t capacity)
 {
     auto block_size = sizeof(String_Builder_Block) + capacity;
-    auto mem = malloc(block_size);
+    auto mem = alloc(allocator, block_size);
 
     String_Builder_Block *block = (String_Builder_Block*)mem;
     assert(block);
@@ -54,7 +56,7 @@ String_Builder_Block *string_builder_allocate_block(uint64_t capacity)
 
 void string_builder_push_new_block(String_Builder *sb, uint64_t capacity)
 {
-    auto new_block = string_builder_allocate_block(capacity);
+    auto new_block = string_builder_allocate_block(sb->allocator, capacity);
     assert(sb->current_block);
     assert(sb->current_block->next == nullptr);
     sb->current_block->next = new_block;
@@ -101,12 +103,14 @@ void string_builder_appendf(String_Builder *sb, const char *fmt ...)
 
 void string_builder_appendf(String_Builder *sb, const char *fmt, va_list args)
 {
+    auto allocator = sb->allocator;
+
     va_list args_copy;
     va_copy(args_copy, args);
     auto size = vsnprintf(nullptr, 0, fmt, args_copy);
     va_end(args_copy);
 
-    char *buf = (char *)malloc(size + 1);
+    char *buf = alloc_array<char>(allocator, size + 1);
     assert(buf);
 
     auto written_size = vsnprintf(buf, size + 1, fmt, args);
@@ -114,7 +118,7 @@ void string_builder_appendf(String_Builder *sb, const char *fmt, va_list args)
 
     string_builder_append(sb, buf, written_size);
 
-    free(buf);
+    free(allocator, buf);
 }
 
 void string_builder_append_to_block(String_Builder_Block *sbb, const char *cstr, uint64_t length)
@@ -130,7 +134,7 @@ void string_builder_append_to_block(String_Builder_Block *sbb, const char *cstr,
     sbb->used += length;
 }
 
-String string_builder_to_string(String_Builder *sb)
+String string_builder_to_string(Allocator *allocator, String_Builder *sb)
 {
     uint64_t required_cap = 0;
 
@@ -141,7 +145,7 @@ String string_builder_to_string(String_Builder *sb)
         block = block->next;
     }
 
-    char *cstr = (char *)malloc(required_cap + 1);
+    char *cstr = alloc_array<char>(allocator, required_cap + 1);
     auto dest_cur = cstr;
     block = sb->first_block;
 

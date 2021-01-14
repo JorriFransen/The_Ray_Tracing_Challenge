@@ -1,6 +1,7 @@
 #include "canvas.h"
 
 #include "string_builder.h"
+#include "temp_allocator.h"
 
 #include <cstdlib>
 #include <cstring>
@@ -71,16 +72,19 @@ void canvas_set_pixel(Canvas *c, int x, int y, const Color &color)
     c->buffer[x + y * c->width] = cv;
 }
 
-String canvas_to_ppm(const Canvas &c)
+String canvas_to_ppm(const Canvas &c, Allocator *allocator)
 {
+    auto ta = temp_allocator_get();
+
     String_Builder sb;
-    string_builder_init(&sb, 2048);
+    string_builder_init(ta, &sb, 2048);
 
     string_builder_append(&sb, "P3\n");
     string_builder_appendf(&sb, "%d %d\n", c.width, c.height);
     string_builder_append(&sb, "255\n") ;
 
-    String result = string_builder_to_string(&sb);
+    String result = string_builder_to_string(allocator, &sb);
     string_builder_free(&sb);
+
     return result;
 }
