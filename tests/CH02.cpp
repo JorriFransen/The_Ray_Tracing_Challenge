@@ -1,7 +1,8 @@
 #include "common.h"
 
-#include "util.h"
+#include "canvas.h"
 #include "color.h"
+#include "util.h"
 
 MunitResult T01_Color_Create(const MunitParameter args[], void *user_data)
 {
@@ -106,6 +107,72 @@ MunitResult T05_Color_Hadamard(const MunitParameter args[], void *user_data)
     return MUNIT_OK;
 }
 
+MunitResult T06_Canvas_Creation(const MunitParameter args[], void *user_data)
+{
+    Canvas c = canvas(10, 20);
+
+    Color expected_color = color(0, 0, 0);
+
+    munit_assert_int(c.width, ==, 10);
+    munit_assert_int(c.height, ==, 20);
+
+    for (int y = 0; y < c.width; y++)
+    {
+        for (int x = 0; x < c.width; x++)
+        {
+            Color pixel_c = canvas_get_pixel(c, x, y);
+
+            assert_float(pixel_c.r, ==, expected_color.r);
+            assert_float(pixel_c.g, ==, expected_color.g);
+            assert_float(pixel_c.b, ==, expected_color.b);
+            assert_float(pixel_c.a, ==, expected_color.a);
+
+            assert_true(color_eq(pixel_c, expected_color));
+
+        }
+    }
+
+    canvas_free(&c);
+
+    return MUNIT_OK;
+}
+
+MunitResult T07_Canvas_Write_Pixel(const MunitParameter args[], void *user_data)
+{
+    Canvas c = canvas(10, 20);
+    Color red = color(1, 0, 0);
+
+    canvas_set_pixel(&c, 2, 3, red);
+
+    Color result = canvas_get_pixel(&c, 2, 3);
+
+    assert_true(color_eq(result, red));
+
+    assert_float(result.r, ==, red.r);
+    assert_float(result.g, ==, red.g);
+    assert_float(result.b, ==, red.b);
+    assert_float(result.a, ==, red.a);
+
+    canvas_free(&c);
+
+    return MUNIT_OK;
+}
+
+MunitResult T08_PPM_Header(const MunitParameter args[], void *user_data)
+{
+    munit_assert_true(false);
+    // Canvas c = canvas(5, 3);
+    // String ppm_str = canvas_to_ppm(c);
+
+    // String expected_ppm_str = string_ref("P3\n5 3\n255\n");
+
+    // munit_assert_string_equal(ppm_str.data, expected_ppm_str.data);
+
+    // string_free(&ppm_str);
+    // canvas_free(&c);
+    return MUNIT_OK;
+}
+
 MunitTest ch02_tests[] = {
 
     REGISTER_TEST(T01_Color_Create)
@@ -113,6 +180,9 @@ MunitTest ch02_tests[] = {
     REGISTER_TEST(T03_Color_Sub)
     REGISTER_TEST(T04_Color_Mul_Scalar)
     REGISTER_TEST(T05_Color_Hadamard)
+    REGISTER_TEST(T06_Canvas_Creation)
+    REGISTER_TEST(T07_Canvas_Write_Pixel)
+    REGISTER_TEST(T08_PPM_Header)
 
     REGISTER_EMPTY_TEST()
 };

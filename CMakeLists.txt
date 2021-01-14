@@ -5,6 +5,7 @@ set(CMAKE_EXPORT_COMPILE_COMMANDS 1)
 project(ray_tracer)
 
 set (RAY_TRACER_SOURCE
+    source/canvas.cpp
     source/color.cpp
     source/tuple.cpp
     source/point.cpp
