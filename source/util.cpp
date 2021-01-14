@@ -38,3 +38,46 @@ void string_free(String *str)
     str->length = 0;
 }
 
+bool string_eq(const String &a, const char *b)
+{
+    return string_eq(a, string_ref(b));
+}
+
+bool string_eq(const String &a, const String &b)
+{
+    if (a == b) return true;
+    if (a.length != b.length) return false;
+
+    for (int64_t i = 0; i < a.length; i++)
+    {
+        if (a[i] != b[i]) return false;
+    }
+
+    return true;
+}
+
+Array<String> string_split_ref(Allocator *allocator, const String &str, char split_on)
+{
+    Array<String> result = array_create<String>(allocator, 4);
+
+    String current_ref;
+    current_ref.data = str.data;
+    current_ref.length = 0;
+
+    int64_t i = 0;
+
+    while (i < str.length) {
+        if (str[i] == split_on) {
+            array_append(&result, current_ref);
+            current_ref.data = &str.data[i] + 1;
+            current_ref.length = 0;
+        } else {
+            current_ref.length += 1;
+        }
+
+        i += 1;
+    }
+
+    return result;
+}
+

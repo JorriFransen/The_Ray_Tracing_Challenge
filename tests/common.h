@@ -21,3 +21,14 @@
         MUNIT_TEST_OPTION_NONE, \
         nullptr, \
     },
+
+#define assert_custom_string_equal(a, b) \
+  do { \
+    if (MUNIT_UNLIKELY(string_eq(a, b) == false)) { \
+      munit_errorf("assertion failed: string %s == %s (\"%.*s\" == \"%.*s\")", \
+                   #a, #b, (int)a.length, a.data, (int)b.length, b.data); \
+    } \
+    MUNIT_PUSH_DISABLE_MSVC_C4127_ \
+  } while (0) \
+  MUNIT_POP_DISABLE_MSVC_C4127_
+

@@ -1,9 +1,11 @@
 #include "common.h"
 
+#include "array.h"
 #include "canvas.h"
 #include "color.h"
 #include "temp_allocator.h"
 #include "util.h"
+#include <cstdio>
 
 MunitResult T01_Color_Create(const MunitParameter args[], void *user_data)
 {
@@ -167,9 +169,12 @@ MunitResult T08_PPM_Header(const MunitParameter args[], void *user_data)
     Canvas c = canvas(5, 3);
     String ppm_str = canvas_to_ppm(c, ta);
 
-    String expected_ppm_str = string_ref("P3\n5 3\n255\n");
+    auto lines = string_split_ref(ta, ppm_str, '\n');
 
-    munit_assert_string_equal(ppm_str.data, expected_ppm_str.data);
+    assert_int64(lines.count, ==, 3);
+    assert_custom_string_equal(lines[0], string_ref("P3"));
+    assert_custom_string_equal(lines[1], string_ref("5 3"));
+    assert_custom_string_equal(lines[2], string_ref("255"));
 
     canvas_free(&c);
 
@@ -193,6 +198,11 @@ MunitResult T09_PPM_Pixel_Data(const MunitParameter args[], void *user_data)
     String ppm_str = canvas_to_ppm(c, ta);
 
     Array<String> lines = string_split_ref(ta, ppm_str, '\n');
+
+    assert_int64(lines.count, ==, 6);
+    assert_custom_string_equal(lines[3], string_ref("255 0 0 0 0 0 0 0 0 0 0 0 0 0 0"));
+    assert_custom_string_equal(lines[4], string_ref("0 0 0 0 0 0 0 128 0 0 0 0 0 0 0"));
+    assert_custom_string_equal(lines[5], string_ref("0 0 0 0 0 0 0 0 0 0 0 0 0 0 255"));
 
     canvas_free(&c);
 
