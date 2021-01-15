@@ -4,6 +4,7 @@
 #include "canvas.h"
 #include "color.h"
 #include "temp_allocator.h"
+#include "c_allocator.h"
 #include "util.h"
 #include <cstdio>
 
@@ -166,10 +167,10 @@ MunitResult T07_Canvas_Write_Pixel(const MunitParameter args[], void *user_data)
 MunitResult T08_PPM_Header(const MunitParameter args[], void *user_data)
 {
     auto ta = temp_allocator_get();
-    temp_allocator_reset(ta);
+    auto ca = c_allocator_get();
 
     Canvas c = canvas(5, 3);
-    String ppm_str = canvas_to_ppm(c, ta);
+    String ppm_str = canvas_to_ppm(c, ca);
 
     auto lines = string_split_ref(ta, ppm_str, '\n');
 
@@ -178,6 +179,7 @@ MunitResult T08_PPM_Header(const MunitParameter args[], void *user_data)
     assert_custom_string_equal(lines[1], string_ref("5 3"));
     assert_custom_string_equal(lines[2], string_ref("255"));
 
+    free(ca, ppm_str.data);
     canvas_free(&c);
 
     return MUNIT_OK;
@@ -185,6 +187,7 @@ MunitResult T08_PPM_Header(const MunitParameter args[], void *user_data)
 
 MunitResult T09_PPM_Pixel_Data(const MunitParameter args[], void *user_data)
 {
+    auto ca = c_allocator_get();
     auto ta = temp_allocator_get();
     temp_allocator_reset(ta);
 
@@ -197,7 +200,7 @@ MunitResult T09_PPM_Pixel_Data(const MunitParameter args[], void *user_data)
     canvas_set_pixel(&c, 2, 1, c2);
     canvas_set_pixel(&c, 4, 2, c3);
 
-    String ppm_str = canvas_to_ppm(c, ta);
+    String ppm_str = canvas_to_ppm(c, ca);
 
     Array<String> lines = string_split_ref(ta, ppm_str, '\n');
 
@@ -206,6 +209,7 @@ MunitResult T09_PPM_Pixel_Data(const MunitParameter args[], void *user_data)
     assert_custom_string_equal(lines[4], string_ref("0 0 0 0 0 0 0 128 0 0 0 0 0 0 0"));
     assert_custom_string_equal(lines[5], string_ref("0 0 0 0 0 0 0 0 0 0 0 0 0 0 255"));
 
+    free(ca, ppm_str.data);
     canvas_free(&c);
 
     return MUNIT_OK;
@@ -213,6 +217,7 @@ MunitResult T09_PPM_Pixel_Data(const MunitParameter args[], void *user_data)
 
 MunitResult T10_PPM_Line_Limit(const MunitParameter args[], void *user_data)
 {
+    auto ca = c_allocator_get();
     auto ta = temp_allocator_get();
     temp_allocator_reset(ta);
 
@@ -220,7 +225,7 @@ MunitResult T10_PPM_Line_Limit(const MunitParameter args[], void *user_data)
 
     canvas_clear(&c, color(1, 0.8, 0.6));
 
-    String ppm_str = canvas_to_ppm(c, ta);
+    String ppm_str = canvas_to_ppm(c, ca);
     Array<String> lines = string_split_ref(ta, ppm_str, '\n');
 
     assert_int64(lines.count, ==, 7);
@@ -234,21 +239,24 @@ MunitResult T10_PPM_Line_Limit(const MunitParameter args[], void *user_data)
     assert_custom_string_equal(lines[5], l4);
     assert_custom_string_equal(lines[6], l5);
 
+    free(ca, ppm_str.data);
     canvas_free(&c);
     return MUNIT_OK;
 }
 
 MunitResult T11_PPM_Ends_With_Newline(const MunitParameter args[], void *user_data)
 {
+    auto ca = c_allocator_get();
     auto ta = temp_allocator_get();
     temp_allocator_reset(ta);
 
     Canvas c = canvas(5, 3);
 
-    String ppm_str = canvas_to_ppm(c, ta);
+    String ppm_str = canvas_to_ppm(c, ca);
 
     assert_char(ppm_str[ppm_str.length - 1], ==, '\n');
 
+    free(ca, ppm_str.data);
     canvas_free(&c);
     return MUNIT_OK;
 }

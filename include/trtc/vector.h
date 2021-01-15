@@ -16,6 +16,7 @@ Vector vector(const Vector &v);
 
 #define vector_eq(a, b) (tuple_eq((a), (b)))
 
+Vector vector_scale(const Vector &v, float scale);
 Vector vector_add(const Vector &lhs, const Vector &rhs);
 Vector vector_sub(const Vector &lhs, const Vector &rhs);
 Vector vector_neg(const Vector &v);

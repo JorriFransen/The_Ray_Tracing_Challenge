@@ -1,13 +1,13 @@
 
 #include <stdio.h>
 
-#include "putting_it_together_ch01.h"
+#include "putting_it_together_ch02.h"
+
+using namespace RayTracer::CH02;
 
 int main(int argc, char** argv)
 {
-    printf("Hello World!\n");
-
-    CH01_putting_it_together();
+    CH02_putting_it_together();
 
     return 0;
 }

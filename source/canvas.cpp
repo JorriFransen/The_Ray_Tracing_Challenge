@@ -92,7 +92,8 @@ String canvas_to_ppm(const Canvas &c, Allocator *allocator)
     auto ta = temp_allocator_get();
 
     String_Builder sb;
-    string_builder_init(ta, &sb, 2048);
+    int predicted_size = (c.width * c.height * 12) + 32;
+    string_builder_init(allocator, &sb, predicted_size);
 
     char line[70];
     int current_line_length = 0;
@@ -102,6 +103,7 @@ String canvas_to_ppm(const Canvas &c, Allocator *allocator)
     if (current_line_length + (str.length) + 1 > 70) { \
         string_builder_appendf(&sb, "%.*s\n", current_line_length, line); \
         current_line_length = 0; \
+        temp_allocator_reset(ta); \
     } \
     if (current_line_length != 0) { \
         line[current_line_length] = ' '; \
@@ -142,7 +144,8 @@ String canvas_to_ppm(const Canvas &c, Allocator *allocator)
 
         if (current_line_length) {
             string_builder_appendf(&sb, "%.*s\n", current_line_length, line);
-            current_line_length = 0;
+           current_line_length = 0;
+           temp_allocator_reset(ta);
         }
     }
 
@@ -157,6 +160,9 @@ String canvas_to_ppm(const Canvas &c, Allocator *allocator)
     string_builder_free(&sb);
 
     assert(result[result.length - 1] == '\n');
+
+    // printf("predicted_size: %d\n", predicted_size);
+    // printf("acutal size: %ld\n", result.length);
 
     return result;
 }

@@ -11,7 +11,7 @@ void string_builder_init(Allocator *allocator, String_Builder *sb, uint64_t defa
     assert(sb);
     assert(default_block_cap);
 
-    auto first_block = string_builder_allocate_block(allocator, default_block_cap);
+    auto first_block = string_builder_allocate_block(allocator, sb, default_block_cap);
     assert(first_block);
 
     sb->first_block = first_block;
@@ -38,8 +38,9 @@ void string_builder_free(String_Builder *sb)
     }
 }
 
-String_Builder_Block *string_builder_allocate_block(Allocator *allocator, uint64_t capacity)
+String_Builder_Block *string_builder_allocate_block(Allocator *allocator, String_Builder *sb, uint64_t capacity)
 {
+    // printf("SB alloc: 0x%p: capacity: %lu\n", sb, capacity);
     auto block_size = sizeof(String_Builder_Block) + capacity;
     auto mem = alloc(allocator, block_size);
 
@@ -56,7 +57,7 @@ String_Builder_Block *string_builder_allocate_block(Allocator *allocator, uint64
 
 void string_builder_push_new_block(String_Builder *sb, uint64_t capacity)
 {
-    auto new_block = string_builder_allocate_block(sb->allocator, capacity);
+    auto new_block = string_builder_allocate_block(sb->allocator, sb, capacity);
     assert(sb->current_block);
     assert(sb->current_block->next == nullptr);
     sb->current_block->next = new_block;

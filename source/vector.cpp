@@ -26,6 +26,13 @@ Vector vector(const Vector &v)
     return result;
 }
 
+Vector vector_scale(const Vector &v, float scale)
+{
+    Tuple result = tuple_scale(v, scale);
+    assert(result.w == 0.0f);
+    return *(Vector*)&result;
+}
+
 Vector vector_add(const Vector &lhs, const Vector &rhs)
 {
     Tuple result = tuple_add(lhs, rhs);

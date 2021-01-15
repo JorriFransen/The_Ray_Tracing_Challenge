@@ -2,6 +2,11 @@
 
 #include <stdio.h>
 
+namespace RayTracer
+{
+namespace CH01
+{
+
 void CH01_putting_it_together()
 {
     Projectile p =
@@ -45,4 +50,7 @@ Projectile tick(const Environment &env, const Projectile &p)
     Vector new_velocity = vector_add(vector_add(p.velocity, env.gravity), env.wind);
 
     return projectile(new_position, new_velocity);
+}
+
+}
 }

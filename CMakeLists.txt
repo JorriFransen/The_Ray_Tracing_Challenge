@@ -17,6 +17,7 @@ set (RAY_TRACER_SOURCE
     source/string_builder.cpp
 
     source/putting_it_together_ch01.cpp
+    source/putting_it_together_ch02.cpp
 )
 
 add_executable(raytracer source/main.cpp)
