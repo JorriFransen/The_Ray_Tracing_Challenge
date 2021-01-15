@@ -276,5 +276,4 @@ static const MunitSuite CH02_Suite = {
     nullptr,
     1,
     MUNIT_SUITE_OPTION_NONE,
-    // char *cstr = alloc_array<char>(allocator, required_cap + 1);
 };
