@@ -7,6 +7,8 @@
 #include "util.h"
 #include <cstdio>
 
+using namespace RayTracer;
+
 MunitResult T01_Color_Create(const MunitParameter args[], void *user_data)
 {
     Color c = color(-0.5, 0.4, 1.7);
@@ -171,7 +173,7 @@ MunitResult T08_PPM_Header(const MunitParameter args[], void *user_data)
 
     auto lines = string_split_ref(ta, ppm_str, '\n');
 
-    assert_int64(lines.count, ==, 3);
+    assert_int64(lines.count, >=, 3);
     assert_custom_string_equal(lines[0], string_ref("P3"));
     assert_custom_string_equal(lines[1], string_ref("5 3"));
     assert_custom_string_equal(lines[2], string_ref("255"));
@@ -209,6 +211,48 @@ MunitResult T09_PPM_Pixel_Data(const MunitParameter args[], void *user_data)
     return MUNIT_OK;
 }
 
+MunitResult T10_PPM_Line_Limit(const MunitParameter args[], void *user_data)
+{
+    auto ta = temp_allocator_get();
+    temp_allocator_reset(ta);
+
+    Canvas c = canvas(10, 2);
+
+    canvas_clear(&c, color(1, 0.8, 0.6));
+
+    String ppm_str = canvas_to_ppm(c, ta);
+    Array<String> lines = string_split_ref(ta, ppm_str, '\n');
+
+    assert_int64(lines.count, ==, 7);
+
+    String l4 = string_ref("255 204 153 255 204 153 255 204 153 255 204 153 255 204 153 255 204");
+    assert_custom_string_equal(lines[3], l4);
+
+    String l5 = string_ref("153 255 204 153 255 204 153 255 204 153 255 204 153");
+    assert_custom_string_equal(lines[4], l5);
+
+    assert_custom_string_equal(lines[5], l4);
+    assert_custom_string_equal(lines[6], l5);
+
+    canvas_free(&c);
+    return MUNIT_OK;
+}
+
+MunitResult T11_PPM_Ends_With_Newline(const MunitParameter args[], void *user_data)
+{
+    auto ta = temp_allocator_get();
+    temp_allocator_reset(ta);
+
+    Canvas c = canvas(5, 3);
+
+    String ppm_str = canvas_to_ppm(c, ta);
+
+    assert_char(ppm_str[ppm_str.length - 1], ==, '\n');
+
+    canvas_free(&c);
+    return MUNIT_OK;
+}
+
 MunitTest ch02_tests[] = {
 
     REGISTER_TEST(T01_Color_Create)
@@ -220,6 +264,8 @@ MunitTest ch02_tests[] = {
     REGISTER_TEST(T07_Canvas_Write_Pixel)
     REGISTER_TEST(T08_PPM_Header)
     REGISTER_TEST(T09_PPM_Pixel_Data)
+    REGISTER_TEST(T10_PPM_Line_Limit)
+    REGISTER_TEST(T11_PPM_Ends_With_Newline)
 
     REGISTER_EMPTY_TEST()
 };

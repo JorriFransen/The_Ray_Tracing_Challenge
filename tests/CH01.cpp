@@ -8,6 +8,8 @@
 
 #include <cmath>
 
+using namespace RayTracer;
+
 MunitResult T01_Tuple_Point_Constr(const MunitParameter args[], void *user_data)
 {
     Tuple a = tuple(4.3, -4.2, 3.1, 1.0);

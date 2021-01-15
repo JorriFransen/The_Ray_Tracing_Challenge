@@ -3,6 +3,8 @@
 #include "vector.h"
 #include "point.h"
 
+using namespace RayTracer;
+
 struct Projectile
 {
     Point position;

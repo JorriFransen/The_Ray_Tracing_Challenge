@@ -2,6 +2,9 @@
 
 #include <cassert>
 
+namespace RayTracer
+{
+
 void color_init(Color *color, float r, float g, float b, float a)
 {
     tuple_init(&color->tuple, r, g, b, a);
@@ -45,4 +48,6 @@ Color color_mul(const Color &c1, float s)
 Color color_hadamard(const Color &c1, const Color &c2)
 {
     return color(c1.r * c2.r, c1.g * c2.g, c1.b * c2.b, c1.a * c2.a);
+}
+
 }

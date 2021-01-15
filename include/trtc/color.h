@@ -2,6 +2,9 @@
 
 #include "tuple.h"
 
+namespace RayTracer
+{
+
 struct Color
 {
     union
@@ -29,3 +32,5 @@ Color color_sub(const Color &c1, const Color &c2);
 Color color_mul(const Color &c1, float s);
 
 Color color_hadamard(const Color &c1, const Color &c2);
+
+}

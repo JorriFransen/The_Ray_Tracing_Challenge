@@ -3,6 +3,8 @@
 
 #include <assert.h>
 
+namespace RayTracer
+{
 
 void point_init(Point *point, float x, float y, float z)
 {
@@ -42,4 +44,6 @@ Point point_neg(const Point &p)
     Tuple result = tuple_neg(p);
     assert(result.w == 1.0f || result.w == -1);
     return *(Point*)&result;
+}
+
 }

@@ -4,10 +4,22 @@
 
 #include <inttypes.h>
 
+namespace RayTracer
+{
+
 const float EPSILON = 0.00001f;
 
 float abs_f(float x);
 bool float_eq(float lhs, float rhs);
+float ceil(float f);
+
+template <typename OUT_TYPE, typename IN_TYPE>
+OUT_TYPE clamp(OUT_TYPE min, OUT_TYPE max, IN_TYPE x)
+{
+    if (x < min) return min;
+    if (x > max) return max;
+    return x;
+}
 
 struct String
 {
@@ -34,9 +46,15 @@ struct String
 
 String string_ref(const char *cstr);
 String string_ref(const char *cstr, int length);
+String string_copy(Allocator *allocator, const char *cstr, int length);
+
 void string_free(String *str);
 
 bool string_eq(const String &a, const char *b);
 bool string_eq(const String &a, const String &b);
 
+String uint_to_string(Allocator *allocator, uint64_t x);
+
 Array<String> string_split_ref(Allocator *allocator, const String &str, char split_on);
+
+}

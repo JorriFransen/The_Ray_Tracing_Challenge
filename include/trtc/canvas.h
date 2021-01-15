@@ -6,6 +6,9 @@
 
 #include <assert.h>
 
+namespace RayTracer
+{
+
 struct Canvas_Pixel;
 struct Canvas
 {
@@ -26,4 +29,8 @@ Color canvas_get_pixel(const Canvas *c, int x, int y);
 
 void canvas_set_pixel(Canvas *c, int x, int y, const Color &color);
 
+void canvas_clear(Canvas *c, const Color &color);
+
 String canvas_to_ppm(const Canvas &c, Allocator *allocator);
+
+}

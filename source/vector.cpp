@@ -4,6 +4,9 @@
 #include <assert.h>
 #include <cmath>
 
+namespace RayTracer
+{
+
 void vector_init(Vector *vector, float x, float y, float z)
 {
     tuple_init(vector, x, y, z, 0.0f);
@@ -81,4 +84,6 @@ Vector vector_cross(const Vector& a, const Vector &b)
     return vector(a.y * b.z - a.z * b.y,
                   a.z * b.x - a.x * b.z,
                   a.x * b.y - a.y * b.x);
+}
+
 }

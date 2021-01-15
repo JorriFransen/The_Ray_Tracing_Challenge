@@ -1,5 +1,8 @@
 #pragma once
 
+namespace RayTracer
+{
+
 struct Tuple
 {
     float x;
@@ -22,3 +25,5 @@ Tuple tuple_div(const Tuple &t, float divisor);
 
 bool tuple_is_point(Tuple *tuple);
 bool tuple_is_vector(Tuple *tuple);
+
+}

@@ -3,6 +3,9 @@
 
 #include "util.h"
 
+namespace RayTracer
+{
+
 void tuple_init(Tuple *tuple, float x, float y, float z, float w)
 {
     tuple->x = x;
@@ -81,4 +84,6 @@ bool tuple_is_point(Tuple *tuple)
 bool tuple_is_vector(Tuple *tuple)
 {
     return tuple->w == 0.0f;
+}
+
 }

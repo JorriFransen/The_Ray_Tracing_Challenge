@@ -3,6 +3,9 @@
 
 #include "tuple.h"
 
+namespace RayTracer
+{
+
 struct Vector : public Tuple
 {
 };
@@ -25,3 +28,5 @@ void vector_normalize(Vector *v);
 float vector_dot(const Vector &a, const Vector &b);
 
 Vector vector_cross(const Vector& a, const Vector &b);
+
+}
