@@ -1,6 +1,7 @@
 
 #include "matrix.h"
 #include "util.h"
+#include <cstdio>
 
 namespace RayTracer {
 
@@ -118,15 +119,33 @@ Matrix matrix_mul(const Matrix &a, const Matrix &b)
 Tuple matrix_mul(const Matrix &m, const Tuple &t)
 {
     return {
-    // x
-    m.m00 * t.x + m.m01 * t.y + m.m02 * t.z + m.m03 * t.w,
-    // y
-    m.m10 * t.x + m.m11 * t.y + m.m12 * t.z + m.m13 * t.w,
-    // z
-    m.m20 * t.x + m.m21 * t.y + m.m22 * t.z + m.m23 * t.w,
-    // w
-    m.m30 * t.x + m.m31 * t.y + m.m32 * t.z + m.m33 * t.w,
+        // x
+        m.m00 * t.x + m.m01 * t.y + m.m02 * t.z + m.m03 * t.w,
+        // y
+        m.m10 * t.x + m.m11 * t.y + m.m12 * t.z + m.m13 * t.w,
+        // z
+        m.m20 * t.x + m.m21 * t.y + m.m22 * t.z + m.m23 * t.w,
+        // w
+        m.m30 * t.x + m.m31 * t.y + m.m32 * t.z + m.m33 * t.w,
     };
+}
+
+Matrix matrix_transpose(const Matrix &m)
+{
+    return {
+        m.m00, m.m10, m.m20, m.m30,
+        m.m01, m.m11, m.m21, m.m31,
+        m.m02, m.m12, m.m22, m.m32,
+        m.m03, m.m13, m.m23, m.m33
+    };
+}
+
+void matrix_print(const Matrix& m)
+{
+    printf("{ %f, %f, %f, %f\n", m.m00, m.m01, m.m02, m.m03);
+    printf("  %f, %f, %f, %f\n", m.m10, m.m11, m.m12, m.m13);
+    printf("  %f, %f, %f, %f\n", m.m20, m.m21, m.m22, m.m23);
+    printf("  %f, %f, %f, %f }\n", m.m30, m.m31, m.m32, m.m33);
 }
 
 }

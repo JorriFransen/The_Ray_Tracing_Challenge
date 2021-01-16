@@ -84,6 +84,11 @@ union Matrix2x2
     }
 };
 
+static const Matrix identity_matrix = { 1, 0, 0, 0,
+                                        0, 1, 0, 0,
+                                        0, 0, 1, 0,
+                                        0, 0, 0, 1 };
+
 Matrix matrix(float m00, float m01, float m02, float m03,
               float m10, float m11, float m12, float m13,
               float m20, float m21, float m22, float m23,
@@ -103,5 +108,8 @@ bool matrix_eq(const Matrix2x2 &a, const Matrix2x2 &b);
 void matrix_mul_with(Matrix *a, const Matrix &b);
 Matrix matrix_mul(const Matrix &a, const Matrix &b);
 Tuple matrix_mul(const Matrix &m, const Tuple &t);
+Matrix matrix_transpose(const Matrix &m);
+
+void matrix_print(const Matrix& m);
 }
 

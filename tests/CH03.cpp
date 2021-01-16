@@ -2,6 +2,7 @@
 
 #include "matrix.h"
 #include "tuple.h"
+#include <cstdio>
 
 using namespace RayTracer;
 
@@ -563,6 +564,124 @@ MunitResult T14_M4x4_Mul_Tuple(const MunitParameter args[], void *user_data)
     return MUNIT_OK;
 }
 
+MunitResult T15_M4x4_Mul_Identity(const MunitParameter args[], void *user_data)
+{
+    Matrix a = { 0, 1,  2,  4,
+                 1, 2,  4,  8,
+                 2, 4,  8, 16,
+                 4, 8, 16, 32 };
+
+    Matrix result = matrix_mul(a, identity_matrix);
+
+    assert_float(result.m00, ==, a.m00);
+    assert_float(result.m01, ==, a.m01);
+    assert_float(result.m02, ==, a.m02);
+    assert_float(result.m03, ==, a.m03);
+
+    assert_float(result.m10, ==, a.m10);
+    assert_float(result.m11, ==, a.m11);
+    assert_float(result.m12, ==, a.m12);
+    assert_float(result.m13, ==, a.m13);
+
+    assert_float(result.m20, ==, a.m20);
+    assert_float(result.m21, ==, a.m21);
+    assert_float(result.m22, ==, a.m22);
+    assert_float(result.m23, ==, a.m23);
+
+    assert_float(result.m30, ==, a.m30);
+    assert_float(result.m31, ==, a.m31);
+    assert_float(result.m32, ==, a.m32);
+    assert_float(result.m33, ==, a.m33);
+
+    assert_true(matrix_eq(result, a));
+
+    return MUNIT_OK;
+}
+
+MunitResult T16_M4x4_Mul_Identity_Tuple(const MunitParameter args[], void *user_data)
+{
+    Tuple t = { 1, 2, 3, 4 };
+
+    Tuple result = matrix_mul(identity_matrix, t);
+
+    assert_float(result.x, ==, t.x);
+    assert_float(result.y, ==, t.y);
+    assert_float(result.z, ==, t.z);
+    assert_float(result.w, ==, t.w);
+
+    assert_true(tuple_eq(result, t));
+
+    return MUNIT_OK;
+}
+
+MunitResult T17_M4x4_Transpose(const MunitParameter args[], void *user_data)
+{
+    Matrix a = { 0, 9, 3, 0,
+                 9, 8, 0, 8,
+                 1, 8, 5, 3,
+                 0, 0, 5, 8 };
+
+    Matrix expected_result = { 0, 9, 1, 0,
+                               9, 8, 8, 0,
+                               3, 0, 5, 5,
+                               0, 8, 3, 8 };
+
+    Matrix result = matrix_transpose(a);
+
+    assert_float(result.m00, ==, expected_result.m00);
+    assert_float(result.m01, ==, expected_result.m01);
+    assert_float(result.m02, ==, expected_result.m02);
+    assert_float(result.m03, ==, expected_result.m03);
+
+    assert_float(result.m10, ==, expected_result.m10);
+    assert_float(result.m11, ==, expected_result.m11);
+    assert_float(result.m12, ==, expected_result.m12);
+    assert_float(result.m13, ==, expected_result.m13);
+
+    assert_float(result.m20, ==, expected_result.m20);
+    assert_float(result.m21, ==, expected_result.m21);
+    assert_float(result.m22, ==, expected_result.m22);
+    assert_float(result.m23, ==, expected_result.m23);
+
+    assert_float(result.m30, ==, expected_result.m30);
+    assert_float(result.m31, ==, expected_result.m31);
+    assert_float(result.m32, ==, expected_result.m32);
+    assert_float(result.m33, ==, expected_result.m33);
+
+    assert_true(matrix_eq(result, expected_result));
+
+    return MUNIT_OK;
+}
+
+MunitResult T18_M4x4_Transpose_Identity(const MunitParameter args[], void *user_data)
+{
+    Matrix a = matrix_transpose(identity_matrix);
+
+    assert_float(a.m00, ==, identity_matrix.m00);
+    assert_float(a.m01, ==, identity_matrix.m01);
+    assert_float(a.m02, ==, identity_matrix.m02);
+    assert_float(a.m03, ==, identity_matrix.m03);
+
+    assert_float(a.m10, ==, identity_matrix.m10);
+    assert_float(a.m11, ==, identity_matrix.m11);
+    assert_float(a.m12, ==, identity_matrix.m12);
+    assert_float(a.m13, ==, identity_matrix.m13);
+
+    assert_float(a.m20, ==, identity_matrix.m20);
+    assert_float(a.m21, ==, identity_matrix.m21);
+    assert_float(a.m22, ==, identity_matrix.m22);
+    assert_float(a.m23, ==, identity_matrix.m23);
+
+    assert_float(a.m30, ==, identity_matrix.m30);
+    assert_float(a.m31, ==, identity_matrix.m31);
+    assert_float(a.m32, ==, identity_matrix.m32);
+    assert_float(a.m33, ==, identity_matrix.m33);
+
+    assert_true(matrix_eq(a, identity_matrix));
+
+    return MUNIT_OK;
+}
+
 MunitTest ch03_tests[] = {
 
     REGISTER_TEST(T01_M4x4_Layout)
@@ -579,6 +698,10 @@ MunitTest ch03_tests[] = {
     REGISTER_TEST(T12_M2x2_CMP_Different)
     REGISTER_TEST(T13_M4x4_Mul)
     REGISTER_TEST(T14_M4x4_Mul_Tuple)
+    REGISTER_TEST(T15_M4x4_Mul_Identity)
+    REGISTER_TEST(T16_M4x4_Mul_Identity_Tuple)
+    REGISTER_TEST(T17_M4x4_Transpose)
+    REGISTER_TEST(T18_M4x4_Transpose_Identity)
 
     REGISTER_EMPTY_TEST()
 };
