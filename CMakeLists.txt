@@ -13,6 +13,7 @@ set (RAY_TRACER_SOURCE
     source/tuple.cpp
     source/point.cpp
     source/vector.cpp
+    source/matrix.cpp
     source/util.cpp
     source/string_builder.cpp
 

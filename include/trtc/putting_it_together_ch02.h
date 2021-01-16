@@ -3,10 +3,8 @@
 #include "vector.h"
 #include "point.h"
 
-namespace RayTracer
-{
-namespace CH02
-{
+namespace RayTracer {
+namespace CH02 {
 
 
 struct Projectile
@@ -30,5 +28,4 @@ Environment environment(const Vector &gravity, const Vector &wind);
 
 Projectile tick(const Environment &env, const Projectile &p);
 
-}
-}
+} }

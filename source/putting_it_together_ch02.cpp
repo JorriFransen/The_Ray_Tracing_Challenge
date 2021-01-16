@@ -29,18 +29,18 @@ void CH02_putting_it_together()
         Point pixel_pos = point(p.position.x, c.height - p.position.y, p.position.z);
         pixel_pos.x = clamp(0, c.width - 1, pixel_pos.x);
         pixel_pos.y = clamp(0, c.height - 1, pixel_pos.y);
-        // canvas_set_pixel(&c, pixel_pos.x, pixel_pos.y, p_color);
+        canvas_set_pixel(&c, pixel_pos.x, pixel_pos.y, p_color);
         p = tick(e, p);
     }
     Point pixel_pos = point(p.position.x, c.height - p.position.y, p.position.z);
         pixel_pos.x = clamp(0, c.width - 1, pixel_pos.x);
         pixel_pos.y = clamp(0, c.height - 1, pixel_pos.y);
-    // canvas_set_pixel(&c, pixel_pos.x, pixel_pos.y, p_color);
+    canvas_set_pixel(&c, pixel_pos.x, pixel_pos.y, p_color);
 
     auto ca = c_allocator_get();
 
     String ppm_str = canvas_to_ppm(c, ca);
-    // printf("%s\n", ppm_str.data);
+    printf("%s\n", ppm_str.data);
 
     free(ca, ppm_str.data);
     canvas_free(&c);
