@@ -140,12 +140,131 @@ Matrix matrix_transpose(const Matrix &m)
     };
 }
 
+float matrix_determinant(const Matrix2x2 &m)
+{
+    return m.m00 * m.m11 - m.m01 * m.m10;
+}
+
+float matrix_determinant(const Matrix3x3 &m)
+{
+    return m.m00 * matrix_cofactor(m, 0, 0) +
+           m.m01 * matrix_cofactor(m, 0, 1) +
+           m.m02 * matrix_cofactor(m, 0, 2);
+}
+
+float matrix_determinant(const Matrix &m)
+{
+    return m.m00 * matrix_cofactor(m, 0, 0) +
+           m.m01 * matrix_cofactor(m, 0, 1) +
+           m.m02 * matrix_cofactor(m, 0, 2) +
+           m.m03 * matrix_cofactor(m, 0, 3);
+}
+
+float matrix_minor(const Matrix3x3 &m, int r, int c)
+{
+    return matrix_determinant(matrix_submatrix(m, r, c));
+}
+
+float matrix_minor(const Matrix &m, int r, int c)
+{
+    return matrix_determinant(matrix_submatrix(m, r, c));
+}
+
+float matrix_cofactor(const Matrix3x3 &m, int r, int c)
+{
+    float result = matrix_minor(m, r, c);
+    if ((r + c) % 2 != 0) result *= -1;
+    return result;
+}
+
+float matrix_cofactor(const Matrix &m, int r, int c)
+{
+    float result = matrix_minor(m, r, c);
+    if ((r + c) % 2 != 0) result *= -1;
+    return result;
+}
+
+Matrix2x2 matrix_submatrix(const Matrix3x3 &m, int remove_row, int remove_column)
+{
+    assert(remove_row >= 0);
+    assert(remove_row <= 2);
+    assert(remove_column >= 0);
+    assert(remove_column <= 2);
+
+    Matrix2x2 result;
+
+    int dr = 0;
+    int dc = 0;
+
+    for (int r = 0; r < 3; r++) {
+
+        if (r == remove_row) continue;
+
+        for (int c = 0; c < 3; c++) {
+
+            if (c == remove_column) continue;
+
+            assert(dr <= 2);
+            assert(dc <= 2);
+            result.m[dr][dc] = m.m[r][c];
+
+            dc += 1;
+        }
+
+        dc = 0;
+        dr += 1;
+    }
+
+    return result;
+}
+
+Matrix3x3 matrix_submatrix(const Matrix &m, int remove_row, int remove_column)
+{
+    assert(remove_row >= 0);
+    assert(remove_row <= 3);
+    assert(remove_column >= 0);
+    assert(remove_column <= 3);
+
+    Matrix3x3 result;
+
+    int dr = 0;
+    int dc = 0;
+
+    for (int r = 0; r < 4; r++) {
+
+        if (r == remove_row) continue;
+
+        for (int c = 0; c < 4; c++) {
+
+            if (c == remove_column) continue;
+
+            assert(dr <= 3);
+            assert(dc <= 3);
+            result.m[dr][dc] = m.m[r][c];
+
+            dc += 1;
+        }
+
+        dc = 0;
+        dr += 1;
+    }
+
+    return result;
+
+}
+
 void matrix_print(const Matrix& m)
 {
     printf("{ %f, %f, %f, %f\n", m.m00, m.m01, m.m02, m.m03);
     printf("  %f, %f, %f, %f\n", m.m10, m.m11, m.m12, m.m13);
     printf("  %f, %f, %f, %f\n", m.m20, m.m21, m.m22, m.m23);
     printf("  %f, %f, %f, %f }\n", m.m30, m.m31, m.m32, m.m33);
+}
+
+void matrix_print(const Matrix2x2& m)
+{
+    printf("{ %f, %f\n", m.m00, m.m01);
+    printf("  %f, %f }\n", m.m10, m.m11);
 }
 
 }

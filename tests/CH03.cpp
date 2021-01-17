@@ -682,6 +682,143 @@ MunitResult T18_M4x4_Transpose_Identity(const MunitParameter args[], void *user_
     return MUNIT_OK;
 }
 
+MunitResult T19_M2x2_Determinant(const MunitParameter args[], void *user_data)
+{
+    Matrix2x2 a = {  1, 5,
+                    -3, 2 };
+
+    float expected_result = 17;
+    float result = matrix_determinant(a);
+
+    assert_float(result, ==, expected_result);
+
+    return MUNIT_OK;
+}
+
+MunitResult T20_M3x3_Submatrix_2x2(const MunitParameter args[], void *user_data)
+{
+    Matrix3x3 a = {  1, 5, 0,
+                    -3, 2, 7,
+                     0, 6, 3 };
+
+    Matrix2x2 expected_result = { -3, 2,
+                                   0, 6 };
+
+    Matrix2x2 result = matrix_submatrix(a, 0, 2);
+
+    assert_float(result.m00, ==, expected_result.m00);
+    assert_float(result.m01, ==, expected_result.m01);
+
+    assert_float(result.m10, ==, expected_result.m10);
+    assert_float(result.m11, ==, expected_result.m11);
+
+    assert_true(matrix_eq(result, expected_result));
+
+    return MUNIT_OK;
+}
+
+MunitResult T21_M4x4_Submatrix_3x3(const MunitParameter args[], void *user_data)
+{
+    Matrix a = { -6, 1,  1, 6,
+                 -8, 5,  8, 6,
+                 -1, 0,  8, 2,
+                 -7, 1, -1, 1 };
+
+    Matrix3x3 expected_result = { -6,  1, 6,
+                                  -8,  8, 6,
+                                  -7, -1, 1 };
+
+    Matrix3x3 result = matrix_submatrix(a, 2, 1);
+
+    assert_float(result.m00, ==, expected_result.m00);
+    assert_float(result.m01, ==, expected_result.m01);
+    assert_float(result.m02, ==, expected_result.m02);
+
+    assert_float(result.m10, ==, expected_result.m10);
+    assert_float(result.m11, ==, expected_result.m11);
+    assert_float(result.m12, ==, expected_result.m12);
+
+    assert_float(result.m20, ==, expected_result.m20);
+    assert_float(result.m21, ==, expected_result.m21);
+    assert_float(result.m22, ==, expected_result.m22);
+
+    assert_true(matrix_eq(result, expected_result));
+
+    return MUNIT_OK;
+}
+
+MunitResult T22_M3x3_Minor(const MunitParameter args[], void *user_data)
+{
+    Matrix3x3 a = { 3,  5,  0,
+                    2, -1, -7,
+                    6, -1,  5 };
+
+    Matrix2x2 b = matrix_submatrix(a, 1, 0);
+
+    assert_float(matrix_determinant(b), ==, 25);
+    assert_float(matrix_minor(a, 1, 0), ==, 25);
+
+    assert_float(matrix_minor(a, 0, 0), ==, -12);
+    assert_float(matrix_minor(a, 0, 1), ==, 52);
+    assert_float(matrix_minor(a, 0, 2), ==, 4);
+
+    assert_float(matrix_minor(a, 1, 1), ==, 15);
+    assert_float(matrix_minor(a, 1, 2), ==, -33);
+
+    assert_float(matrix_minor(a, 2, 0), ==, -35);
+    assert_float(matrix_minor(a, 2, 1), ==, -21);
+    assert_float(matrix_minor(a, 2, 2), ==, -13);
+    return MUNIT_OK;
+}
+
+MunitResult T23_M3x3_Cofactor(const MunitParameter args[], void *user_data)
+{
+    Matrix3x3 a = { 3,  5,  0,
+                    2, -1, -7,
+                    6, -1,  5 };
+
+    assert_float(matrix_cofactor(a, 0, 0), ==, -12);
+    assert_float(matrix_cofactor(a, 0, 1), ==, -52);
+    assert_float(matrix_cofactor(a, 0, 2), ==, 4);
+
+    assert_float(matrix_cofactor(a, 1, 0), ==, -25);
+    assert_float(matrix_cofactor(a, 1, 1), ==, 15);
+    assert_float(matrix_cofactor(a, 1, 2), ==, 33);
+
+    assert_float(matrix_cofactor(a, 2, 0), ==, -35);
+    assert_float(matrix_cofactor(a, 2, 1), ==, 21);
+    assert_float(matrix_cofactor(a, 2, 2), ==, -13);
+
+    return MUNIT_OK;
+}
+
+MunitResult T24_M3x3_Determinant(const MunitParameter args[], void *user_data)
+{
+    Matrix3x3 a = {  1, 2,  6,
+                    -5, 8, -4,
+                     2, 6,  4 };
+
+    assert_float(matrix_determinant(a), ==, -196);
+
+    return MUNIT_OK;
+}
+
+MunitResult T25_M4x4_Determinant(const MunitParameter args[], void *user_data)
+{
+    Matrix a = { -2, -8,  3,  5,
+                 -3,  1,  7,  3,
+                  1,  2, -9,  6,
+                 -6,  7,  7, -9 };
+
+    assert_float(matrix_cofactor(a, 0, 0), ==, 690);
+    assert_float(matrix_cofactor(a, 0, 1), ==, 447);
+    assert_float(matrix_cofactor(a, 0, 2), ==, 210);
+    assert_float(matrix_cofactor(a, 0, 3), ==, 51);
+    assert_float(matrix_determinant(a), ==, -4071);
+
+    return MUNIT_OK;
+}
+
 MunitTest ch03_tests[] = {
 
     REGISTER_TEST(T01_M4x4_Layout)
@@ -702,6 +839,13 @@ MunitTest ch03_tests[] = {
     REGISTER_TEST(T16_M4x4_Mul_Identity_Tuple)
     REGISTER_TEST(T17_M4x4_Transpose)
     REGISTER_TEST(T18_M4x4_Transpose_Identity)
+    REGISTER_TEST(T19_M2x2_Determinant)
+    REGISTER_TEST(T20_M3x3_Submatrix_2x2)
+    REGISTER_TEST(T21_M4x4_Submatrix_3x3)
+    REGISTER_TEST(T22_M3x3_Minor)
+    REGISTER_TEST(T23_M3x3_Cofactor)
+    REGISTER_TEST(T24_M3x3_Determinant)
+    REGISTER_TEST(T25_M4x4_Determinant)
 
     REGISTER_EMPTY_TEST()
 };

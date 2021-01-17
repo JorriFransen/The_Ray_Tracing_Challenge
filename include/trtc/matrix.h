@@ -110,6 +110,18 @@ Matrix matrix_mul(const Matrix &a, const Matrix &b);
 Tuple matrix_mul(const Matrix &m, const Tuple &t);
 Matrix matrix_transpose(const Matrix &m);
 
+float matrix_determinant(const Matrix2x2 &m);
+float matrix_determinant(const Matrix3x3 &m);
+float matrix_determinant(const Matrix &m);
+float matrix_minor(const Matrix3x3 &m, int r, int c);
+float matrix_minor(const Matrix &m, int r, int c);
+float matrix_cofactor(const Matrix3x3 &m, int r, int c);
+float matrix_cofactor(const Matrix &m, int r, int c);
+Matrix2x2 matrix_submatrix(const Matrix3x3 &m, int remove_row, int remove_column);
+Matrix3x3 matrix_submatrix(const Matrix &m, int remove_row, int remove_column);
+
+
 void matrix_print(const Matrix& m);
+void matrix_print(const Matrix2x2& m);
 }
 
