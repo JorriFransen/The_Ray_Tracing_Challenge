@@ -7,6 +7,7 @@ namespace RayTracer {
 union Matrix
 {
     float m[4][4];
+    float flat[16];
     struct
     {
         float m00;
@@ -117,8 +118,11 @@ float matrix_minor(const Matrix3x3 &m, int r, int c);
 float matrix_minor(const Matrix &m, int r, int c);
 float matrix_cofactor(const Matrix3x3 &m, int r, int c);
 float matrix_cofactor(const Matrix &m, int r, int c);
+Matrix matrix_cofactor_matrix(const Matrix& m);
 Matrix2x2 matrix_submatrix(const Matrix3x3 &m, int remove_row, int remove_column);
 Matrix3x3 matrix_submatrix(const Matrix &m, int remove_row, int remove_column);
+
+Matrix matrix_inverse(const Matrix &m);
 
 
 void matrix_print(const Matrix& m);

@@ -184,6 +184,31 @@ float matrix_cofactor(const Matrix &m, int r, int c)
     return result;
 }
 
+Matrix matrix_cofactor_matrix(const Matrix& m)
+{
+    return {
+        matrix_cofactor(m, 0, 0),
+        matrix_cofactor(m, 0, 1),
+        matrix_cofactor(m, 0, 2),
+        matrix_cofactor(m, 0, 3),
+
+        matrix_cofactor(m, 1, 0),
+        matrix_cofactor(m, 1, 1),
+        matrix_cofactor(m, 1, 2),
+        matrix_cofactor(m, 1, 3),
+
+        matrix_cofactor(m, 2, 0),
+        matrix_cofactor(m, 2, 1),
+        matrix_cofactor(m, 2, 2),
+        matrix_cofactor(m, 2, 3),
+
+        matrix_cofactor(m, 3, 0),
+        matrix_cofactor(m, 3, 1),
+        matrix_cofactor(m, 3, 2),
+        matrix_cofactor(m, 3, 3),
+    };
+}
+
 Matrix2x2 matrix_submatrix(const Matrix3x3 &m, int remove_row, int remove_column)
 {
     assert(remove_row >= 0);
@@ -251,6 +276,33 @@ Matrix3x3 matrix_submatrix(const Matrix &m, int remove_row, int remove_column)
 
     return result;
 
+}
+
+Matrix matrix_inverse(const Matrix &m)
+{
+    float determinant = matrix_determinant(m);
+    assert(determinant != 0.0f);
+
+    // Matrix result = matrix_cofactor_matrix(m);
+
+    // result = matrix_transpose(result);
+    // for (int i = 0; i < 16; i++) {
+    //     result.flat[i] /= determinant;
+    // }
+
+    // return result;
+
+    Matrix result;
+    for (int r = 0; r < 4; r++) {
+        for (int c = 0; c < 4; c++) {
+            float cofactor = matrix_cofactor(m, r, c);
+
+            // Transpose in place
+            result[c][r] = cofactor / determinant;
+        }
+    }
+
+    return result;
 }
 
 void matrix_print(const Matrix& m)

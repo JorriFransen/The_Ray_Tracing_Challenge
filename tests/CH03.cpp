@@ -819,6 +819,120 @@ MunitResult T25_M4x4_Determinant(const MunitParameter args[], void *user_data)
     return MUNIT_OK;
 }
 
+MunitResult T26_M4x4_Invertibility(const MunitParameter args[], void *user_data)
+{
+    Matrix a = { 6,  4, 4,  4,
+                 5,  5, 7,  6,
+                 4, -9, 3, -7,
+                 9,  1, 7, -6 };
+
+    // Non zero determinant means this matrix can be inverted
+    assert_float(matrix_determinant(a), ==, -2120);
+
+    return MUNIT_OK;
+}
+
+MunitResult T27_M4x4_Non_Invertibility(const MunitParameter args[], void *user_data)
+{
+    Matrix a = { -4,  2, -2, -3,
+                  9,  6,  2,  6,
+                  0, -5,  1, -5,
+                  0,  0,  0,  0 };
+
+    // Zero determinant means this matrix can not be inverted
+    assert_float(matrix_determinant(a), ==, 0);
+    return MUNIT_OK;
+}
+
+MunitResult T28_M4x4_Inverse(const MunitParameter args[], void *user_data)
+{
+    Matrix a = { -5,  2,  6, -8,
+                  1, -5,  1,  8,
+                  7,  7, -6, -7,
+                  1, -3,  7,  4 };
+
+    Matrix expected_result = {
+         0.21805,  0.45113,  0.24060, -0.04511,
+        -0.80827, -1.45677, -0.44361,  0.52068,
+        -0.07895, -0.22368, -0.05263,  0.19737,
+        -0.52256, -0.81391, -0.30075,  0.30639,
+    };
+
+    Matrix b = matrix_inverse(a);
+
+    assert_float(matrix_determinant(a), ==, 532);
+    assert_float(matrix_cofactor(a, 2, 3), ==, -160);
+    assert_float(b.m32, ==, (-160./532.));
+    assert_float(matrix_cofactor(a, 3, 2), ==, 105);
+    assert_float(b.m23, ==, (105./532.));
+
+    assert_true(matrix_eq(b, expected_result));
+
+    return MUNIT_OK;
+}
+
+MunitResult T29_M4x4_Inverse2(const MunitParameter args[], void *user_data)
+{
+    Matrix a = {  8, -5,  9,  2,
+                  7,  5,  6,  1,
+                 -6,  0,  9,  6,
+                 -3,  0, -9, -4};
+
+    Matrix expected_result = {
+        -0.15385, -0.15385, -0.28205, -0.53846,
+        -0.07692,  0.12308,  0.02564,  0.03077,
+         0.35897,  0.35897,  0.43590,  0.92308,
+        -0.69231, -0.69231, -0.76923, -1.92308,
+    };
+
+    Matrix b = matrix_inverse(a);
+
+    assert_true(matrix_eq(b, expected_result));
+
+    return MUNIT_OK;
+}
+
+MunitResult T30_M4x4_Inverse3(const MunitParameter args[], void *user_data)
+{
+    Matrix a = {  9,  3,  0,  9,
+                 -5, -2, -6, -3,
+                 -4,  9,  6,  4,
+                 -7,  6,  6,  2, };
+
+    Matrix expected_result = {
+        -0.04074, -0.07778,  0.14444, -0.22222,
+        -0.07778,  0.03333,  0.36667, -0.33333,
+        -0.02901, -0.14630, -0.10926,  0.12963,
+         0.17778,  0.06667, -0.26667,  0.33333,
+    };
+
+    Matrix b = matrix_inverse(a);
+
+    assert_true(matrix_eq(b, expected_result));
+
+    return MUNIT_OK;
+
+}
+
+MunitResult T31_M4x4_Mul_Inverse(const MunitParameter args[], void *user_data)
+{
+    Matrix a = {  3, -9,  7,  3,
+                  3, -8,  2, -9,
+                 -4,  4,  4,  1,
+                 -6,  5, -1,  1, };
+
+    Matrix b = { 8,  2,  2,  2,
+                 3, -1,  7,  0,
+                 7,  0,  5,  4,
+                 6, -2,  0,  5, };
+
+    Matrix c = matrix_mul(a, b);
+
+    assert_true(matrix_eq(matrix_mul(c, matrix_inverse(b)), a));
+
+    return MUNIT_OK;
+}
+
 MunitTest ch03_tests[] = {
 
     REGISTER_TEST(T01_M4x4_Layout)
@@ -846,6 +960,12 @@ MunitTest ch03_tests[] = {
     REGISTER_TEST(T23_M3x3_Cofactor)
     REGISTER_TEST(T24_M3x3_Determinant)
     REGISTER_TEST(T25_M4x4_Determinant)
+    REGISTER_TEST(T26_M4x4_Invertibility)
+    REGISTER_TEST(T27_M4x4_Non_Invertibility)
+    REGISTER_TEST(T28_M4x4_Inverse)
+    REGISTER_TEST(T29_M4x4_Inverse2)
+    REGISTER_TEST(T30_M4x4_Inverse3)
+    REGISTER_TEST(T31_M4x4_Mul_Inverse)
 
     REGISTER_EMPTY_TEST()
 };
