@@ -1,7 +1,11 @@
 #pragma once
 
+#include "point.h"
 #include "tuple.h"
+
 #include <cstddef>
+#include <cmath>
+
 namespace RayTracer {
 
 union Matrix
@@ -109,6 +113,8 @@ bool matrix_eq(const Matrix2x2 &a, const Matrix2x2 &b);
 void matrix_mul_with(Matrix *a, const Matrix &b);
 Matrix matrix_mul(const Matrix &a, const Matrix &b);
 Tuple matrix_mul(const Matrix &m, const Tuple &t);
+Point matrix_mul(const Matrix &m, const Point &p);
+Vector matrix_mul(const Matrix &m, const Vector &v);
 Matrix matrix_transpose(const Matrix &m);
 
 float matrix_determinant(const Matrix2x2 &m);
@@ -124,6 +130,11 @@ Matrix3x3 matrix_submatrix(const Matrix &m, int remove_row, int remove_column);
 
 Matrix matrix_inverse(const Matrix &m);
 
+Matrix matrix_translation(float x, float y, float z);
+Matrix matrix_scale(float x, float y, float z);
+Matrix matrix_rotation_x(float radians);
+Matrix matrix_rotation_y(float radians);
+Matrix matrix_rotation_z(float radians);
 
 void matrix_print(const Matrix& m);
 void matrix_print(const Matrix2x2& m);

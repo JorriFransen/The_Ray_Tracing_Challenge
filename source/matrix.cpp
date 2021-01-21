@@ -1,6 +1,7 @@
 
 #include "matrix.h"
 #include "util.h"
+
 #include <cstdio>
 
 namespace RayTracer {
@@ -128,6 +129,18 @@ Tuple matrix_mul(const Matrix &m, const Tuple &t)
         // w
         m.m30 * t.x + m.m31 * t.y + m.m32 * t.z + m.m33 * t.w,
     };
+}
+
+Point matrix_mul(const Matrix &m, const Point &p)
+{
+    Tuple result = matrix_mul(m, static_cast<Tuple>(p));
+    return *(Point *)&result;
+}
+
+Vector matrix_mul(const Matrix &m, const Vector &v)
+{
+    Tuple result = matrix_mul(m, static_cast<Tuple>(v));
+    return *(Vector *)&result;
 }
 
 Matrix matrix_transpose(const Matrix &m)
@@ -303,6 +316,66 @@ Matrix matrix_inverse(const Matrix &m)
     }
 
     return result;
+}
+
+Matrix matrix_translation(float x, float y, float z)
+{
+    Matrix result = identity_matrix;
+
+    result.m03 = x;
+    result.m13 = y;
+    result.m23 = z;
+
+    return result;
+}
+
+Matrix matrix_scale(float x, float y, float z)
+{
+    return {
+        x, 0, 0, 0,
+        0, y, 0, 0,
+        0, 0, z, 0,
+        0, 0, 0, 1
+    };
+}
+
+Matrix matrix_rotation_x(float radians)
+{
+    float cr = cos(radians);
+    float sr = sin(radians);
+
+    return {
+        1,  0,   0, 0,
+        0, cr, -sr, 0,
+        0, sr,  cr, 0,
+        0,  0,   0, 1,
+    };
+}
+
+Matrix matrix_rotation_y(float radians)
+{
+    float cr = cos(radians);
+    float sr = sin(radians);
+
+    return {
+         cr, 0, sr, 0,
+          0, 1,  0, 0,
+        -sr, 0, cr, 0,
+          0, 0,  0, 1
+    };
+}
+
+Matrix matrix_rotation_z(float radians)
+{
+    float cr = cos(radians);
+    float sr = sin(radians);
+
+    return {
+        cr, -sr, 0, 0,
+        sr,  cr, 0, 0,
+         0,   0, 1, 0,
+         0,   0, 0, 1
+    };
 }
 
 void matrix_print(const Matrix& m)
