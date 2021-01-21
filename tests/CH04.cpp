@@ -241,7 +241,198 @@ MunitResult T11_Z_Rotation(const MunitParameter args[], void *user_data)
     return MUNIT_OK;
 }
 
+MunitResult T12_Schear_XY(const MunitParameter args[], void *user_data)
+{
+    Matrix transform = matrix_shear(1, 0, 0, 0, 0, 0);
+    Point p = point(2, 3, 4);
+
+    Point expected_result = point(5, 3, 4);
+    Point result = matrix_mul(transform, p);
+
+    assert_float(result.x, ==, expected_result.x);
+    assert_float(result.y, ==, expected_result.y);
+    assert_float(result.z, ==, expected_result.z);
+    assert_float(result.w, ==, expected_result.w);
+
+    assert_true(point_eq(result, expected_result));
+
+    return MUNIT_OK;
+}
+
+MunitResult T13_Schear_XZ(const MunitParameter args[], void *user_data)
+{
+    Matrix transform = matrix_shear(0, 1, 0, 0, 0, 0);
+    Point p = point(2, 3, 4);
+
+    Point expected_result = point(6, 3, 4);
+    Point result = matrix_mul(transform, p);
+
+    assert_float(result.x, ==, expected_result.x);
+    assert_float(result.y, ==, expected_result.y);
+    assert_float(result.z, ==, expected_result.z);
+    assert_float(result.w, ==, expected_result.w);
+
+    assert_true(point_eq(result, expected_result));
+
+    return MUNIT_OK;
+}
+
+MunitResult T14_Schear_YX(const MunitParameter args[], void *user_data)
+{
+    Matrix transform = matrix_shear(0, 0, 1, 0, 0, 0);
+    Point p = point(2, 3, 4);
+
+    Point expected_result = point(2, 5, 4);
+    Point result = matrix_mul(transform, p);
+
+    assert_float(result.x, ==, expected_result.x);
+    assert_float(result.y, ==, expected_result.y);
+    assert_float(result.z, ==, expected_result.z);
+    assert_float(result.w, ==, expected_result.w);
+
+    assert_true(point_eq(result, expected_result));
+
+    return MUNIT_OK;
+}
+
+MunitResult T15_Schear_YZ(const MunitParameter args[], void *user_data)
+{
+    Matrix transform = matrix_shear(0, 0, 0, 1, 0, 0);
+    Point p = point(2, 3, 4);
+
+    Point expected_result = point(2, 7, 4);
+    Point result = matrix_mul(transform, p);
+
+    assert_float(result.x, ==, expected_result.x);
+    assert_float(result.y, ==, expected_result.y);
+    assert_float(result.z, ==, expected_result.z);
+    assert_float(result.w, ==, expected_result.w);
+
+    assert_true(point_eq(result, expected_result));
+
+    return MUNIT_OK;
+}
+
+MunitResult T16_Schear_ZX(const MunitParameter args[], void *user_data)
+{
+    Matrix transform = matrix_shear(0, 0, 0, 0, 1, 0);
+    Point p = point(2, 3, 4);
+
+    Point expected_result = point(2, 3, 6);
+    Point result = matrix_mul(transform, p);
+
+    assert_float(result.x, ==, expected_result.x);
+    assert_float(result.y, ==, expected_result.y);
+    assert_float(result.z, ==, expected_result.z);
+    assert_float(result.w, ==, expected_result.w);
+
+    assert_true(point_eq(result, expected_result));
+
+    return MUNIT_OK;
+}
+
+MunitResult T17_Schear_ZY(const MunitParameter args[], void *user_data)
+{
+    Matrix transform = matrix_shear(0, 0, 0, 0, 0, 1);
+    Point p = point(2, 3, 4);
+
+    Point expected_result = point(2, 3, 7);
+    Point result = matrix_mul(transform, p);
+
+    assert_float(result.x, ==, expected_result.x);
+    assert_float(result.y, ==, expected_result.y);
+    assert_float(result.z, ==, expected_result.z);
+    assert_float(result.w, ==, expected_result.w);
+
+    assert_true(point_eq(result, expected_result));
+
+    return MUNIT_OK;
+}
+
+MunitResult T18_Transform_Sequence(const MunitParameter args[], void *user_data)
+{
+    Point p = point(1, 0, 1);
+
+    Matrix a = matrix_rotation_x(M_PI / 2);
+    Matrix b = matrix_scale(5, 5, 5);
+    Matrix c = matrix_translation(10, 5, 7);
+
+    Point expected_p2 = point(1, -1, 0);
+    Point p2 = matrix_mul(a, p);
+
+    assert_double_equal(p2.x, expected_p2.x, 5);
+    assert_double_equal(p2.y, expected_p2.y, 5);
+    assert_double_equal(p2.z, expected_p2.z, 5);
+    assert_double_equal(p2.w, expected_p2.w, 5);
+
+    assert_true(point_eq(p2, expected_p2));
+
+    Point expected_p3 = point(5, -5, 0);
+    Point p3 = matrix_mul(b, p2);
+
+    assert_double_equal(p3.x, expected_p3.x, 5);
+    assert_double_equal(p3.y, expected_p3.y, 5);
+    assert_double_equal(p3.z, expected_p3.z, 5);
+    assert_double_equal(p3.w, expected_p3.w, 5);
+
+    assert_true(point_eq(p3, expected_p3));
+
+    Point expected_p4 = point(15, 0, 7);
+    Point p4 = matrix_mul(c, p3);
+
+    assert_double_equal(p4.x, expected_p4.x, 5);
+    assert_double_equal(p4.y, expected_p4.y, 5);
+    assert_double_equal(p4.z, expected_p4.z, 5);
+    assert_double_equal(p4.w, expected_p4.w, 5);
+
+    assert_true(point_eq(p4, expected_p4));
+
+    return MUNIT_OK;
+}
+
+MunitResult T19_Chain_Sequence(const MunitParameter args[], void *user_data)
+{
+    Point p = point(1, 0, 1);
+
+    Matrix a = matrix_rotation_x(M_PI/2);
+    Matrix b = matrix_scale(5, 5, 5);
+    Matrix c = matrix_translation(10, 5, 7);
+
+    Matrix t = matrix_mul(matrix_mul(c, b), a);
+
+    Point expected_result = point(15, 0, 7);
+    Point result = matrix_mul(t, p);
+
+    assert_float(result.x, ==, expected_result.x);
+    assert_float(result.y, ==, expected_result.y);
+    assert_float(result.z, ==, expected_result.z);
+    assert_float(result.w, ==, expected_result.w);
+
+    assert_true(point_eq(result, expected_result));
+
+    return MUNIT_OK;
+}
+
+MunitResult T20_Fluency(const MunitParameter args[], void *user_data)
+{
+    Point p = point(1, 0, 1);
+    Matrix transform = matrix_identity().rotate_x(M_PI / 2).scale(5, 5, 5).translate(10, 5, 7);
+
+    Point expected_result = point(15, 0, 7);
+    Point result = matrix_mul(transform, p);
+
+    assert_float(result.x, ==, expected_result.x);
+    assert_float(result.y, ==, expected_result.y);
+    assert_float(result.z, ==, expected_result.z);
+    assert_float(result.w, ==, expected_result.w);
+
+    assert_true(point_eq(result, expected_result));
+
+    return MUNIT_OK;
+}
+
 MunitTest ch04_tests[] = {
+
     REGISTER_TEST(T01_Point_Mul_Translation)
     REGISTER_TEST(T02_Point_Mul_Translation_Inv)
     REGISTER_TEST(T03_Vector_Mul_Translation)
@@ -253,6 +444,15 @@ MunitTest ch04_tests[] = {
     REGISTER_TEST(T09_X_Rotation_Inv)
     REGISTER_TEST(T10_Y_Rotation)
     REGISTER_TEST(T11_Z_Rotation)
+    REGISTER_TEST(T12_Schear_XY)
+    REGISTER_TEST(T13_Schear_XZ)
+    REGISTER_TEST(T14_Schear_YX)
+    REGISTER_TEST(T15_Schear_YZ)
+    REGISTER_TEST(T16_Schear_ZX)
+    REGISTER_TEST(T17_Schear_ZY)
+    REGISTER_TEST(T18_Transform_Sequence)
+    REGISTER_TEST(T19_Chain_Sequence)
+    REGISTER_TEST(T20_Fluency)
 
     REGISTER_EMPTY_TEST()
 };

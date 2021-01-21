@@ -6,6 +6,42 @@
 
 namespace RayTracer {
 
+Matrix &Matrix::translate(float x, float y, float z)
+{
+    Matrix translation = matrix_translation(x, y, z);
+    *this = matrix_mul(translation, *this);
+    return *this;
+}
+
+Matrix &Matrix::scale(float x, float y, float z)
+{
+    Matrix scale = matrix_scale(x, y, z);
+    *this = matrix_mul(scale, *this);
+    return *this;
+}
+
+Matrix &Matrix::rotate_x(float radians)
+{
+    Matrix rot_x = matrix_rotation_x(radians);
+    *this = matrix_mul(rot_x, *this);
+    return *this;
+}
+
+Matrix &Matrix::rotate_y(float radians)
+{
+    Matrix rot_y = matrix_rotation_y(radians);
+    *this = matrix_mul(rot_y, *this);
+    return *this;
+}
+
+Matrix &Matrix::rotate_z(float radians)
+{
+    Matrix rot_y = matrix_rotation_y(radians);
+    *this = matrix_mul(rot_y, *this);
+    return *this;
+}
+
+
 Matrix matrix(float m00, float m01, float m02, float m03,
               float m10, float m11, float m12, float m13,
               float m20, float m21, float m22, float m23,
@@ -73,6 +109,11 @@ bool matrix_eq(const Matrix2x2 &a, const Matrix2x2 &b)
     return
         float_eq(a.m00, b.m00) && float_eq(a.m01, b.m01) &&
         float_eq(a.m10, b.m10) && float_eq(a.m11, b.m11);
+}
+
+Matrix matrix_identity()
+{
+    return identity_matrix;
 }
 
 Matrix matrix_mul(const Matrix &a, const Matrix &b)
@@ -375,6 +416,16 @@ Matrix matrix_rotation_z(float radians)
         sr,  cr, 0, 0,
          0,   0, 1, 0,
          0,   0, 0, 1
+    };
+}
+
+Matrix matrix_shear(float xy, float xz, float yx, float yz, float zx, float zy)
+{
+    return {
+         1, xy, xz, 0,
+        yx,  1, yz, 0,
+        zx, zy,  1, 0,
+         0,  0,  0, 1,
     };
 }
 

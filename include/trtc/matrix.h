@@ -41,6 +41,12 @@ union Matrix
     {
         return m[i];
     }
+
+    Matrix &translate(float x, float y, float z);
+    Matrix &scale(float x, float y, float z);
+    Matrix &rotate_x(float radians);
+    Matrix &rotate_y(float radians);
+    Matrix &rotate_z(float radians);
 };
 
 union Matrix3x3
@@ -110,7 +116,8 @@ bool matrix_eq(const Matrix &a, const Matrix &b);
 bool matrix_eq(const Matrix3x3 &a, const Matrix3x3 &b);
 bool matrix_eq(const Matrix2x2 &a, const Matrix2x2 &b);
 
-void matrix_mul_with(Matrix *a, const Matrix &b);
+Matrix matrix_identity();
+
 Matrix matrix_mul(const Matrix &a, const Matrix &b);
 Tuple matrix_mul(const Matrix &m, const Tuple &t);
 Point matrix_mul(const Matrix &m, const Point &p);
@@ -135,6 +142,7 @@ Matrix matrix_scale(float x, float y, float z);
 Matrix matrix_rotation_x(float radians);
 Matrix matrix_rotation_y(float radians);
 Matrix matrix_rotation_z(float radians);
+Matrix matrix_shear(float xy, float xz, float yx, float yz, float zx, float zy);
 
 void matrix_print(const Matrix& m);
 void matrix_print(const Matrix2x2& m);
