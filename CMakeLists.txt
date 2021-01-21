@@ -16,6 +16,10 @@ set (RAY_TRACER_SOURCE
     source/matrix.cpp
     source/util.cpp
     source/string_builder.cpp
+
+    source/putting_it_together_ch01.cpp
+    source/putting_it_together_ch02.cpp
+    source/putting_it_together_ch04.cpp
 )
 
 add_library(raytracer_lib ${RAY_TRACER_SOURCE})
@@ -27,9 +31,6 @@ target_link_libraries(raytracer raytracer_lib)
 
 set (TEST_SOURCES
     lib/munit/munit.c
-
-    source/putting_it_together_ch01.cpp
-    source/putting_it_together_ch02.cpp
 )
 
 add_executable(tests tests/test_main.cpp)
