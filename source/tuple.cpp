@@ -6,22 +6,9 @@
 namespace RayTracer
 {
 
-void tuple_init(Tuple *tuple, float x, float y, float z, float w)
-{
-    tuple->x = x;
-    tuple->y = y;
-    tuple->z = z;
-    tuple->w = w;
-
-}
-
 Tuple tuple(float x, float y, float z, float w)
 {
-    Tuple result;
-
-    tuple_init(&result, x, y, z, w);
-
-    return result;
+    return { x, y, z, w };
 }
 
 bool tuple_eq(Tuple *lhs, Tuple *rhs)

@@ -11,7 +11,6 @@ struct Point : public Tuple
 {
 };
 
-void point_init(Point *point, float x, float y, float z);
 Point point(float x, float y, float z);
 
 #define point_eq(a, b) (tuple_eq((a), (b)))

@@ -7,16 +7,17 @@ find_package(glfw3 3.3 REQUIRED)
 
 set (RAY_TRACER_LIB_SOURCE
     source/allocator.cpp
+    source/c_allocator.cpp
     source/canvas.cpp
     source/color.cpp
-    source/c_allocator.cpp
+    source/matrix.cpp
+    source/point.cpp
+    source/ray.cpp
+    source/string_builder.cpp
     source/temp_allocator.cpp
     source/tuple.cpp
-    source/point.cpp
-    source/vector.cpp
-    source/matrix.cpp
     source/util.cpp
-    source/string_builder.cpp
+    source/vector.cpp
 
     source/putting_it_together_ch01.cpp
     source/putting_it_together_ch02.cpp

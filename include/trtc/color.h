@@ -21,7 +21,6 @@ struct Color
     };
 };
 
-void color_init(Color *color, float r, float g, float b);
 Color color(float r, float g, float b);
 Color color(float r, float g, float b, float a);
 

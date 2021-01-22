@@ -26,7 +26,6 @@ int main(int argc, char** argv)
     guisystem_init();
 
     guiwindow_show(c);
-    guiwindow_show(c);
 
     guisystem_deinit();
 

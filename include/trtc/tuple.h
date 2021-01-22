@@ -11,7 +11,6 @@ struct Tuple
     float w;
 };
 
-void tuple_init(Tuple *tuple, float x, float y, float z, float w);
 Tuple tuple(float x, float y, float z, float w);
 
 bool tuple_eq(Tuple *lhs, Tuple *rhs);

@@ -10,9 +10,9 @@ struct Vector : public Tuple
 {
 };
 
-void vector_init(Vector *vector, float x, float y, float z);
 Vector vector(float x, float y, float z);
 Vector vector(const Vector &v);
+Vector vector(const Tuple &t);
 
 #define vector_eq(a, b) (tuple_eq((a), (b)))
 

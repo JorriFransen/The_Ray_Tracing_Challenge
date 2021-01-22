@@ -5,23 +5,14 @@
 namespace RayTracer
 {
 
-void color_init(Color *color, float r, float g, float b, float a)
-{
-    tuple_init(&color->tuple, r, g, b, a);
-}
-
 Color color(float r, float g, float b)
 {
-    Color result;
-    color_init(&result, r, g, b, 1.0f);
-    return result;
+    return color(r, g, b, 1.0f);
 }
 
 Color color(float r, float g, float b, float a)
 {
-    Color result;
-    color_init(&result, r, g, b, a);
-    return result;
+    return { .tuple = tuple(r, g, b, a) };
 }
 
 Color color_add(const Color &c1, const Color &c2)
