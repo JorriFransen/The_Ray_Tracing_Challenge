@@ -57,4 +57,6 @@ String uint_to_string(Allocator *allocator, uint64_t x);
 
 Array<String> string_split_ref(Allocator *allocator, const String &str, char split_on);
 
+void write_file(const char *file_path, const String &file_data);
+void write_file(const String &file_path, const String &file_data);
 }

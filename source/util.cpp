@@ -2,6 +2,8 @@
 #include "util.h"
 
 #include <assert.h>
+#include <bits/types/FILE.h>
+#include <cstdio>
 #include <cstdlib>
 #include <cstring>
 
@@ -150,4 +152,20 @@ Array<String> string_split_ref(Allocator *allocator, const String &str, char spl
     return result;
 }
 
+void write_file(const char *file_path, const String &file_data)
+{
+    write_file(string_ref(file_path), file_data);
 }
+
+void write_file(const String &file_path, const String &file_data)
+{
+    FILE *f = fopen(file_path.data, "w");
+
+    fprintf(f, "%.*s", (int)file_data.length, file_data.data);
+
+    fclose(f);
+}
+
+}
+
+

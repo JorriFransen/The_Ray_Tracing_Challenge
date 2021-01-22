@@ -36,7 +36,7 @@ Matrix &Matrix::rotate_y(float radians)
 
 Matrix &Matrix::rotate_z(float radians)
 {
-    Matrix rot_y = matrix_rotation_y(radians);
+    Matrix rot_y = matrix_rotation_z(radians);
     *this = matrix_mul(rot_y, *this);
     return *this;
 }
@@ -429,11 +429,21 @@ Matrix matrix_shear(float xy, float xz, float yx, float yz, float zx, float zy)
     };
 }
 
+Matrix matrix_ortho(float l, float r, float b, float t, float n, float f)
+{
+    return {
+        2 / (r - l), 0,           0,            -(r + l) / (r - l),
+        0,           2 / (t - b), 0,            -(t + b) / (t - b),
+        0,           0,           -2 / (f - n), -(f + n) / (f - n),
+        0,           0,           0,            1,
+    };
+}
+
 void matrix_print(const Matrix& m)
 {
-    printf("{ %f, %f, %f, %f\n", m.m00, m.m01, m.m02, m.m03);
-    printf("  %f, %f, %f, %f\n", m.m10, m.m11, m.m12, m.m13);
-    printf("  %f, %f, %f, %f\n", m.m20, m.m21, m.m22, m.m23);
+    printf("{ %f, %f, %f, %f\n",   m.m00, m.m01, m.m02, m.m03);
+    printf("  %f, %f, %f, %f\n",   m.m10, m.m11, m.m12, m.m13);
+    printf("  %f, %f, %f, %f\n",   m.m20, m.m21, m.m22, m.m23);
     printf("  %f, %f, %f, %f }\n", m.m30, m.m31, m.m32, m.m33);
 }
 

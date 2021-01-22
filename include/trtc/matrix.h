@@ -144,6 +144,8 @@ Matrix matrix_rotation_y(float radians);
 Matrix matrix_rotation_z(float radians);
 Matrix matrix_shear(float xy, float xz, float yx, float yz, float zx, float zy);
 
+Matrix matrix_ortho(float left, float right, float bottom, float top, float zNear, float zFar);
+
 void matrix_print(const Matrix& m);
 void matrix_print(const Matrix2x2& m);
 }

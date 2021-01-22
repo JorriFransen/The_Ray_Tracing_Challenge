@@ -1,7 +1,6 @@
 
 #include "putting_it_together_ch04.h"
 #include "c_allocator.h"
-#include "canvas.h"
 #include "matrix.h"
 #include "point.h"
 #include <cstdio>
@@ -9,8 +8,8 @@
 namespace RayTracer {
 namespace CH04 {
 
-int rect_size = 6;
-int canvas_size = 500;
+int rect_size = 20;
+int canvas_size = 1000;
 Canvas  c;
 
 Matrix canvas_matrix;
@@ -33,35 +32,42 @@ void center_rect(Point center, Color color)
     }
 }
 
-void CH04_putting_it_together()
+Canvas CH04_putting_it_together(Allocator *allocator)
 {
-    auto ca = c_allocator_get();
-
     c = canvas(canvas_size, canvas_size);
 
     Color white = color(1, 1, 1);
+    Color red = color(1, 0, 0);
+    Color green = color(0, 1, 0);
+    Color blue = color(0, 0, 1);
 
     float scale_factor = canvas_size / 2. * .85;
 
     canvas_matrix = matrix_identity().scale(scale_factor, -scale_factor, 1);
     canvas_matrix.translate(canvas_size / 2., canvas_size / 2., 0);
 
-
     Matrix rot_mat = matrix_rotation_z(-M_PI / 6);
     Point current_point = point(0, 1, 0);
 
     for (int i = 0; i < 12; i++) {
+
+        Color c;
+        if (i == 0) c = red;
+        else if(i == 3) c = green;
+        else if (i == 6) c = blue;
+        else c = white;
+
         Point canvas_point = matrix_mul(canvas_matrix, current_point);
-        // set_pixel(canvas_point, white);
-        center_rect(canvas_point, white);
+        center_rect(canvas_point, c);
         current_point = matrix_mul(rot_mat, current_point);
     }
-
-    String ppm_str = canvas_to_ppm(c, ca);
-    printf("%s", ppm_str.data);
 
-    free(ca, ppm_str.data);
-    canvas_free(&c);
+    // String ppm_str = canvas_to_ppm(c, ca);
+    // write_file("clock.ppm", ppm_str);
+
+    // free(ca, ppm_str.data);
+    // canvas_free(&c);
+    return c;
 }
 
 } }

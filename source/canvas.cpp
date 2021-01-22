@@ -161,9 +161,6 @@ String canvas_to_ppm(const Canvas &c, Allocator *allocator)
 
     assert(result[result.length - 1] == '\n');
 
-    // printf("predicted_size: %d\n", predicted_size);
-    // printf("acutal size: %ld\n", result.length);
-
     return result;
 }
 

@@ -1,8 +1,9 @@
 cmake_minimum_required(VERSION 3.13)
 
+project(ray_tracer)
 set(CMAKE_EXPORT_COMPILE_COMMANDS 1)
 
-project(ray_tracer)
+find_package(glfw3 3.3 REQUIRED)
 
 set (RAY_TRACER_SOURCE
     source/allocator.cpp
@@ -26,7 +27,8 @@ add_library(raytracer_lib ${RAY_TRACER_SOURCE})
 target_include_directories(raytracer_lib PUBLIC include/trtc)
 
 add_executable(raytracer source/main.cpp)
-target_link_libraries(raytracer raytracer_lib)
+target_link_libraries(raytracer raytracer_lib glfw)
+target_include_directories(raytracer PRIVATE lib)
 
 
 set (TEST_SOURCES
