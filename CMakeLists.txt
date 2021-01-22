@@ -5,7 +5,7 @@ set(CMAKE_EXPORT_COMPILE_COMMANDS 1)
 
 find_package(glfw3 3.3 REQUIRED)
 
-set (RAY_TRACER_SOURCE
+set (RAY_TRACER_LIB_SOURCE
     source/allocator.cpp
     source/canvas.cpp
     source/color.cpp
@@ -23,11 +23,16 @@ set (RAY_TRACER_SOURCE
     source/putting_it_together_ch04.cpp
 )
 
-add_library(raytracer_lib ${RAY_TRACER_SOURCE})
+add_library(raytracer_lib ${RAY_TRACER_LIB_SOURCE})
 target_include_directories(raytracer_lib PUBLIC include/trtc)
 
-add_executable(raytracer source/main.cpp)
-target_link_libraries(raytracer raytracer_lib glfw)
+set(RAY_TRACER_SOURCES
+    source/main.cpp
+    source/gui_window.cpp
+)
+
+add_executable(raytracer ${RAY_TRACER_SOURCES})
+target_link_libraries(raytracer raytracer_lib glfw pthread)
 target_include_directories(raytracer PRIVATE lib)
 
 
