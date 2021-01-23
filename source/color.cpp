@@ -5,12 +5,12 @@
 namespace RayTracer
 {
 
-Color color(float r, float g, float b)
+Color color_create(float r, float g, float b)
 {
-    return color(r, g, b, 1.0f);
+    return color_create(r, g, b, 1.0f);
 }
 
-Color color(float r, float g, float b, float a)
+Color color_create(float r, float g, float b, float a)
 {
     return { .tuple = tuple(r, g, b, a) };
 }
@@ -38,7 +38,7 @@ Color color_mul(const Color &c1, float s)
 
 Color color_hadamard(const Color &c1, const Color &c2)
 {
-    return color(c1.r * c2.r, c1.g * c2.g, c1.b * c2.b, c1.a * c2.a);
+    return color_create(c1.r * c2.r, c1.g * c2.g, c1.b * c2.b, c1.a * c2.a);
 }
 
 }

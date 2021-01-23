@@ -38,10 +38,10 @@ Canvas CH04_putting_it_together(Allocator *allocator)
 
     c = canvas(canvas_size, canvas_size, ca);
 
-    Color white = color(1, 1, 1);
-    Color red = color(1, 0, 0);
-    Color green = color(0, 1, 0);
-    Color blue = color(0, 0, 1);
+    Color white = color_create(1, 1, 1);
+    Color red = color_create(1, 0, 0);
+    Color green = color_create(0, 1, 0);
+    Color blue = color_create(0, 0, 1);
 
     float scale_factor = canvas_size / 2. * .85;
 

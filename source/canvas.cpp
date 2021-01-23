@@ -66,7 +66,7 @@ Color canvas_get_pixel(const Canvas *c, int x, int y)
     assert(y >= 0 && y < c->height);
 
     auto cv = c->buffer[x + y * c->width];
-    return color(cv.r, cv.g, cv.b, 1.0f);
+    return color_create(cv.r, cv.g, cv.b, 1.0f);
 }
 
 void canvas_set_pixel(Canvas *c, int x, int y, const Color &color)

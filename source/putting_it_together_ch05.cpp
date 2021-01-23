@@ -13,7 +13,7 @@ void CH05_putting_it_together(Canvas &canvas)
     assert(canvas.width == canvas.height);
     auto canvas_size = canvas.width;
 
-    Color red = color(1, 0, 0);
+    Color red = color_create(1, 0, 0);
     Sphere shape = sphere();
 
     // shape.transform.scale(1, 0.5, 1);

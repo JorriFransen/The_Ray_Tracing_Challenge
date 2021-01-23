@@ -41,6 +41,7 @@ void guiwindow_show(const Canvas &c)
     my_window.screen_ratio = (float)iwidth / (float)iheight;
 
     printf("Window size: %d, %d\n", iwidth, iheight);
+    printf("Canvas size: %d, %d\n", c.width, c.height);
 
     my_window.width = iwidth;
     my_window.height = iheight;

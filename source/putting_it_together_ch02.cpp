@@ -22,9 +22,9 @@ void CH02_putting_it_together()
     Environment e = environment(gravity, wind);
 
     Canvas c = canvas(900, 550, ca);
-    canvas_clear(&c, color(1, 1, 1));
+    canvas_clear(&c, color_create(1, 1, 1));
 
-    Color p_color = color(1, 0, 0);
+    Color p_color = color_create(1, 0, 0);
 
     while (p.position.y > 0) {
 

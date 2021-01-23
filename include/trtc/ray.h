@@ -1,5 +1,6 @@
 #pragma once
 
+#include "material.h"
 #include "matrix.h"
 #include "point.h"
 #include "vector.h"
@@ -20,6 +21,7 @@ struct Ray
 struct Intersection_Object
 {
     Matrix transform;
+    Material material;
 };
 
 struct Sphere : public Intersection_Object

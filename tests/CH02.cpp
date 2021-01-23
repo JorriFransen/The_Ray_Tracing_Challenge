@@ -12,7 +12,7 @@ using namespace RayTracer;
 
 MunitResult T01_Color_Create(const MunitParameter args[], void *user_data)
 {
-    Color c = color(-0.5, 0.4, 1.7);
+    Color c = color_create(-0.5, 0.4, 1.7);
 
     assert_float(c.r, ==, -0.5);
     assert_float(c.g, ==, 0.4);
@@ -24,10 +24,10 @@ MunitResult T01_Color_Create(const MunitParameter args[], void *user_data)
 
 MunitResult T02_Color_Add(const MunitParameter args[], void *user_data)
 {
-    Color c1 = color(0.9, 0.6, 0.75);
-    Color c2 = color(0.7, 0.1, 0.25);
+    Color c1 = color_create(0.9, 0.6, 0.75);
+    Color c2 = color_create(0.7, 0.1, 0.25);
 
-    Color expected_result = color(1.6, 0.7, 1.0, 2.0);
+    Color expected_result = color_create(1.6, 0.7, 1.0, 2.0);
     Color result = color_add(c1, c2);
 
     assert_true(color_eq(result, expected_result));
@@ -47,10 +47,10 @@ MunitResult T02_Color_Add(const MunitParameter args[], void *user_data)
 
 MunitResult T03_Color_Sub(const MunitParameter args[], void *user_data)
 {
-    Color c1 = color(0.9, 0.6, 0.75);
-    Color c2 = color(0.7, 0.1, 0.25);
+    Color c1 = color_create(0.9, 0.6, 0.75);
+    Color c2 = color_create(0.7, 0.1, 0.25);
 
-    Color expected_result = color(0.2, 0.5, 0.5, 0.0f);
+    Color expected_result = color_create(0.2, 0.5, 0.5, 0.0f);
     Color result = color_sub(c1, c2);
 
     assert_true(color_eq(result, expected_result));
@@ -70,9 +70,9 @@ MunitResult T03_Color_Sub(const MunitParameter args[], void *user_data)
 
 MunitResult T04_Color_Mul_Scalar(const MunitParameter args[], void *user_data)
 {
-    Color c = color(0.2, 0.3, 0.4);
+    Color c = color_create(0.2, 0.3, 0.4);
 
-    Color expected_result = color(0.4, 0.6, 0.8, 2.0f);
+    Color expected_result = color_create(0.4, 0.6, 0.8, 2.0f);
     Color result = color_mul(c, 2.0);
 
     assert_true(color_eq(result, expected_result));
@@ -92,10 +92,10 @@ MunitResult T04_Color_Mul_Scalar(const MunitParameter args[], void *user_data)
 
 MunitResult T05_Color_Hadamard(const MunitParameter args[], void *user_data)
 {
-    Color c1 = color(1, 0.2, 0.4);
-    Color c2 = color(0.9, 1, 0.1);
+    Color c1 = color_create(1, 0.2, 0.4);
+    Color c2 = color_create(0.9, 1, 0.1);
 
-    Color expected_result = color(0.9, 0.2, 0.04);
+    Color expected_result = color_create(0.9, 0.2, 0.04);
     Color result = color_hadamard(c1, c2);
 
     assert_true(color_eq(result, expected_result));
@@ -119,7 +119,7 @@ MunitResult T06_Canvas_Creation(const MunitParameter args[], void *user_data)
 
     Canvas c = canvas(10, 20, ca);
 
-    Color expected_color = color(0, 0, 0);
+    Color expected_color = color_create(0, 0, 0);
 
     munit_assert_int(c.width, ==, 10);
     munit_assert_int(c.height, ==, 20);
@@ -150,7 +150,7 @@ MunitResult T07_Canvas_Write_Pixel(const MunitParameter args[], void *user_data)
     auto ca = c_allocator_get();
 
     Canvas c = canvas(10, 20, ca);
-    Color red = color(1, 0, 0);
+    Color red = color_create(1, 0, 0);
 
     canvas_set_pixel(&c, 2, 3, red);
 
@@ -196,9 +196,9 @@ MunitResult T09_PPM_Pixel_Data(const MunitParameter args[], void *user_data)
     temp_allocator_reset(ta);
 
     Canvas c = canvas(5, 3, ca);
-    Color c1 = color(1.5, 0, 0);
-    Color c2 = color(0, 0.5, 0);
-    Color c3 = color(-0.5, 0, 1);
+    Color c1 = color_create(1.5, 0, 0);
+    Color c2 = color_create(0, 0.5, 0);
+    Color c3 = color_create(-0.5, 0, 1);
 
     canvas_set_pixel(&c, 0, 0, c1);
     canvas_set_pixel(&c, 2, 1, c2);
@@ -227,7 +227,7 @@ MunitResult T10_PPM_Line_Limit(const MunitParameter args[], void *user_data)
 
     Canvas c = canvas(10, 2, ca);
 
-    canvas_clear(&c, color(1, 0.8, 0.6));
+    canvas_clear(&c, color_create(1, 0.8, 0.6));
 
     String ppm_str = canvas_to_ppm(c, ca);
     Array<String> lines = string_split_ref(ta, ppm_str, '\n');

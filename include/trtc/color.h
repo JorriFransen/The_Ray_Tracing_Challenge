@@ -21,8 +21,8 @@ struct Color
     };
 };
 
-Color color(float r, float g, float b);
-Color color(float r, float g, float b, float a);
+Color color_create(float r, float g, float b);
+Color color_create(float r, float g, float b, float a);
 
 #define color_eq(c1, c2) (tuple_eq((c1.tuple), (c2.tuple)))
 

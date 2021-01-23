@@ -10,6 +10,8 @@ set (RAY_TRACER_LIB_SOURCE
     source/c_allocator.cpp
     source/canvas.cpp
     source/color.cpp
+    source/light.cpp
+    source/material.cpp
     source/matrix.cpp
     source/point.cpp
     source/ray.cpp
