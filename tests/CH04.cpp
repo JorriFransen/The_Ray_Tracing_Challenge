@@ -4,6 +4,9 @@
 #include "matrix.h"
 #include "point.h"
 
+#define _USE_MATH_DEFINES
+#include <math.h>
+
 using namespace RayTracer;
 
 MunitResult T01_Point_Mul_Translation(const MunitParameter args[], void *user_data)

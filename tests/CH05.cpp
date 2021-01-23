@@ -178,7 +178,7 @@ MunitResult T11_Hit_All_Negative_T(const MunitParameter args[], void *user_data)
     assert_int(sizeof(xs.intersections) / sizeof(xs.intersections[0]), ==, 2);
 
     bool hit;
-    auto i = best_hit(xs, &hit);
+    best_hit(xs, &hit);
 
     assert_false(hit);
 

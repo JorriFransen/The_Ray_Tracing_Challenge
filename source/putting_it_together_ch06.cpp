@@ -6,6 +6,9 @@
 
 #include <cassert>
 
+#define _USE_MATH_DEFINES
+#include <math.h>
+
 namespace RayTracer {
 namespace CH06 {
 
@@ -20,7 +23,7 @@ void CH06_putting_it_together(Canvas &canvas)
     sphere.material.color = color_create(1, 0.2, 1);
     // sphere.material.specular = 0.5;
 
-    sphere.transform.scale(1, 0.5, 1).rotate_z(M_PI / 3).scale(1, 0.5, 1);;
+    // sphere.transform.scale(1, 0.5, 1).rotate_z(M_PI / 3).scale(1, 0.5, 1);;
 
     Point ray_origin = point(0, 0, -5);
 

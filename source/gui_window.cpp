@@ -4,7 +4,6 @@
 #include <glad/gl.h>
 
 #include <cstdio>
-#include <pthread.h>
 
 void guisystem_init()
 {

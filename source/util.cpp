@@ -2,8 +2,7 @@
 #include "util.h"
 
 #include <assert.h>
-#include <bits/types/FILE.h>
-#include <cstdio>
+#include <stdio.h>
 #include <cstdlib>
 #include <cstring>
 

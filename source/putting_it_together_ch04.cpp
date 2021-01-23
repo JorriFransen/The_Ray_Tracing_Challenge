@@ -3,7 +3,11 @@
 #include "c_allocator.h"
 #include "matrix.h"
 #include "point.h"
+
 #include <cstdio>
+
+#define _USE_MATH_DEFINES
+#include <math.h>
 
 namespace RayTracer {
 namespace CH04 {
