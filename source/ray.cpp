@@ -14,11 +14,16 @@ Ray ray(Point origin, Vector direction)
     };
 }
 
-Sphere sphere()
+Sphere sphere_create()
 {
     Sphere result;
     result.transform = matrix_identity();
     return result;
+}
+
+Vector Sphere::normal_at(const Point &p)
+{
+    return sphere_normal(*this, p);
 }
 
 Vector sphere_normal(const Sphere &s, const Point &world_point)

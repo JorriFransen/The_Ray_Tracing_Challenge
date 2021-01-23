@@ -22,10 +22,13 @@ struct Intersection_Object
 {
     Matrix transform;
     Material material;
+
+    virtual Vector normal_at(const Point &p) = 0;
 };
 
 struct Sphere : public Intersection_Object
 {
+    Vector normal_at(const Point &p);
 };
 
 struct Intersection
@@ -55,7 +58,7 @@ struct Intersections
 };
 
 Ray ray(Point origin, Vector direction);
-Sphere sphere();
+Sphere sphere_create();
 Vector sphere_normal(const Sphere &s, const Point &p);
 
 Intersection intersection(float t, Intersection_Object *object);

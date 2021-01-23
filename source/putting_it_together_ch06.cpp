@@ -1,33 +1,26 @@
 
-#include "putting_it_together_ch05.h"
+#include "putting_it_together_ch06.h"
+#include "light.h"
 #include "point.h"
 #include "ray.h"
 
 #include <cassert>
 
 namespace RayTracer {
-namespace CH05 {
+namespace CH06 {
 
-void CH05_putting_it_together(Canvas &canvas)
+void CH06_putting_it_together(Canvas &canvas)
 {
     assert(canvas.width == canvas.height);
     auto canvas_size = canvas.width;
 
-    Color red = color_create(1, 0, 0);
-    Sphere shape = sphere_create();
+    Point_Light light = point_light(point(-10, 10, -10), color_create(1, 1, 1));
 
-    // shape.transform.scale(1, 0.5, 1);
-    // shape.transform.scale(0.5, 1, 1);
+    Sphere sphere = sphere_create();
+    sphere.material.color = color_create(1, 0.2, 1);
+    // sphere.material.specular = 0.5;
 
-    // Matrix r = matrix_rotation_z(M_PI / 4);
-    // Matrix s = matrix_scale(0.5, 1, 1);
-    // shape.transform = matrix_mul(r, s);
-
-    // shape.transform.scale(0.5, 1, 1).rotate_z(M_PI / 4);
-
-    // Matrix shear = matrix_shear(1, 0, 0, 0, 0, 0);
-    // Matrix scale = matrix_scale(0.5, 1, 1);
-    // shape.transform = matrix_mul(shear, scale);
+    sphere.transform.scale(1, 0.5, 1).rotate_z(M_PI / 3).scale(1, 0.5, 1);;
 
     Point ray_origin = point(0, 0, -5);
 
@@ -46,12 +39,17 @@ void CH05_putting_it_together(Canvas &canvas)
             Point position = point(world_x, world_y, wall_z);
 
             Ray r = ray(ray_origin, vector_normalized(point_sub(position, ray_origin)));
-            Intersection_Result ir = ray_intersects(r, &shape);
+            Intersection_Result ir = ray_intersects(r, &sphere);
 
             bool hit;
             Intersection i = best_hit_count(ir.count, ir.intersections, &hit);
             if (hit) {
-                canvas_set_pixel(&canvas, x, y, red);
+                Point point = ray_position(r, i.t);
+                Vector normal = i.object->normal_at(point);
+                Vector eye = vector_neg(r.direction);
+                // Vector eye = -r.direction;
+                Color color = lighting(i.object->material, light, point, eye, normal);
+                canvas_set_pixel(&canvas, x, y, color);
             }
         }
     }

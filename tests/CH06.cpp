@@ -9,7 +9,7 @@ using namespace RayTracer;
 
 MunitResult T01_Sphere_Normal_X_Axis(const MunitParameter args[], void *user_data)
 {
-    Sphere s = sphere();
+    Sphere s = sphere_create();
     Vector n = sphere_normal(s, point(1, 0, 0));
 
     assert_true(vector_eq(n, vector(1, 0, 0)));
@@ -19,7 +19,7 @@ MunitResult T01_Sphere_Normal_X_Axis(const MunitParameter args[], void *user_dat
 
 MunitResult T02_Sphere_Normal_Y_Axis(const MunitParameter args[], void *user_data)
 {
-    Sphere s = sphere();
+    Sphere s = sphere_create();
     Vector n = sphere_normal(s, point(0, 1, 0));
 
     assert_true(vector_eq(n, vector(0, 1, 0)));
@@ -29,7 +29,7 @@ MunitResult T02_Sphere_Normal_Y_Axis(const MunitParameter args[], void *user_dat
 
 MunitResult T03_Sphere_Normal_Z_Axis(const MunitParameter args[], void *user_data)
 {
-    Sphere s = sphere();
+    Sphere s = sphere_create();
     Vector n = sphere_normal(s, point(0, 0, 1));
 
     assert_true(vector_eq(n, vector(0, 0, 1)));
@@ -39,7 +39,7 @@ MunitResult T03_Sphere_Normal_Z_Axis(const MunitParameter args[], void *user_dat
 
 MunitResult T04_Sphere_Normal_Nonaxial(const MunitParameter args[], void *user_data)
 {
-    Sphere s = sphere();
+    Sphere s = sphere_create();
     float sqrt3_d3 = sqrt(3) / 3;
 
     Vector n = sphere_normal(s, point(sqrt3_d3, sqrt3_d3, sqrt3_d3));
@@ -51,7 +51,7 @@ MunitResult T04_Sphere_Normal_Nonaxial(const MunitParameter args[], void *user_d
 
 MunitResult T04_Sphere_Normal_Normalized(const MunitParameter args[], void *user_data)
 {
-    Sphere s = sphere();
+    Sphere s = sphere_create();
     float sqrt3_d3 = sqrt(3) / 3;
 
     Vector n = sphere_normal(s, point(sqrt3_d3, sqrt3_d3, sqrt3_d3));
@@ -63,7 +63,7 @@ MunitResult T04_Sphere_Normal_Normalized(const MunitParameter args[], void *user
 
 MunitResult T05_Translated_Sphere_Normal(const MunitParameter args[], void *user_data)
 {
-    auto s = sphere();
+    auto s = sphere_create();
     s.transform.translate(0, 1, 0);
 
     auto n = sphere_normal(s, point(0, 1.70711, -0.70711));
@@ -82,7 +82,7 @@ MunitResult T05_Translated_Sphere_Normal(const MunitParameter args[], void *user
 
 MunitResult T06_Transformed_Sphere_Normal(const MunitParameter args[], void *user_data)
 {
-    auto s = sphere();
+    auto s = sphere_create();
     s.transform.rotate_z(M_PI / 5).scale(1, 0.5, 1);
 
     float sqrt2_d2 = sqrt(2) / 2;
@@ -177,7 +177,7 @@ MunitResult T11_Material_EQ(const MunitParameter args[], void *user_data)
 
 MunitResult T12_Sphere_Default_Material(const MunitParameter args[], void *user_data)
 {
-    Sphere s = sphere();
+    Sphere s = sphere_create();
 
     assert_true(material_eq(s.material, material_create()));
 
@@ -186,7 +186,7 @@ MunitResult T12_Sphere_Default_Material(const MunitParameter args[], void *user_
 
 MunitResult T13_Sphere_Assign_Material(const MunitParameter args[], void *user_data)
 {
-    Sphere s = sphere();
+    Sphere s = sphere_create();
     Material m = material_create();
     m.ambient = 1;
 
@@ -274,7 +274,7 @@ MunitResult T18_Light_ELS(const MunitParameter args[], void *user_data)
 
     Color result = lighting(m, light, position, eye, normal);
 
-    assert_true(color_eq(result, color_create(0.1, 0.1, 0.1, 2.099999)));
+    assert_true(color_eq(result, color_create(0.1, 0.1, 0.1, 0.1)));
 
     return MUNIT_OK;
 }

@@ -1,7 +1,7 @@
 
 #include "c_allocator.h"
 #include "gui_window.h"
-#include "putting_it_together_ch05.h"
+#include "putting_it_together_ch06.h"
 
 using namespace RayTracer;
 
@@ -9,9 +9,10 @@ int main(int argc, char** argv)
 {
     auto ca = c_allocator_get();
 
-    Canvas c = canvas(200, 200, ca);
+    // Canvas c = canvas(500, 500, ca);
+    Canvas c = canvas(512, 512, ca);
 
-    CH05::CH05_putting_it_together(c);
+    CH06::CH06_putting_it_together(c);
 
     guisystem_init();
 
