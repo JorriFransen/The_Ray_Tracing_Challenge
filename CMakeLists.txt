@@ -3,7 +3,11 @@ cmake_minimum_required(VERSION 3.13)
 project(ray_tracer)
 set(CMAKE_EXPORT_COMPILE_COMMANDS 1)
 
-find_package(glfw3 3.3 REQUIRED)
+set(GLFW_BUILD_DOCS OFF CACHE BOOL "" FORCE)
+set(GLFW_BUILD_TESTS OFF CACHE BOOL "" FORCE)
+set(GLFW_BUILD_EXAMPLES OFF CACHE BOOL "" FORCE)
+
+add_subdirectory(lib/glfw)
 
 set (RAY_TRACER_LIB_SOURCE
     source/allocator.cpp
@@ -37,7 +41,7 @@ set(RAY_TRACER_SOURCES
 )
 
 add_executable(raytracer ${RAY_TRACER_SOURCES})
-target_link_libraries(raytracer raytracer_lib glfw pthread)
+target_link_libraries(raytracer raytracer_lib glfw)
 target_include_directories(raytracer PRIVATE lib)
 
 
