@@ -11,6 +11,8 @@ namespace CH02
 
 void CH02_putting_it_together()
 {
+     auto ca = c_allocator_get();
+
     Point start = point(0, 1, 0);
     Vector velocity = vector_scale(vector_normalized(vector(1, 1.8, 0)), 11.25);
     Projectile p = projectile(start, velocity);
@@ -19,7 +21,7 @@ void CH02_putting_it_together()
     Vector wind = vector(-0.01, 0, 0);
     Environment e = environment(gravity, wind);
 
-    Canvas c = canvas(900, 550);
+    Canvas c = canvas(900, 550, ca);
     canvas_clear(&c, color(1, 1, 1));
 
     Color p_color = color(1, 0, 0);
@@ -36,8 +38,6 @@ void CH02_putting_it_together()
         pixel_pos.x = clamp(0, c.width - 1, pixel_pos.x);
         pixel_pos.y = clamp(0, c.height - 1, pixel_pos.y);
     canvas_set_pixel(&c, pixel_pos.x, pixel_pos.y, p_color);
-
-    auto ca = c_allocator_get();
 
     String ppm_str = canvas_to_ppm(c, ca);
     printf("%s\n", ppm_str.data);

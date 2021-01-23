@@ -16,10 +16,12 @@ struct Canvas
     int height = -1;
 
     Canvas_Pixel *buffer = nullptr;
+
+    Allocator *allocator = nullptr;
 };
 
-void canvas_init(Canvas *c, int width, int height);
-Canvas canvas(int width, int height);
+void canvas_init(Canvas *c, int width, int height, Allocator *allocator);
+Canvas canvas(int width, int height, Allocator *allocator);
 void canvas_free(Canvas *c);
 
 Canvas_Pixel canvas_pixel(float r, float g, float b);

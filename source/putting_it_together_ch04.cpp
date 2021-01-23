@@ -34,7 +34,9 @@ void center_rect(Point center, Color color)
 
 Canvas CH04_putting_it_together(Allocator *allocator)
 {
-    c = canvas(canvas_size, canvas_size);
+    auto ca = c_allocator_get();
+
+    c = canvas(canvas_size, canvas_size, ca);
 
     Color white = color(1, 1, 1);
     Color red = color(1, 0, 0);

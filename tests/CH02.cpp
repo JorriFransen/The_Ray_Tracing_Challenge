@@ -115,7 +115,9 @@ MunitResult T05_Color_Hadamard(const MunitParameter args[], void *user_data)
 
 MunitResult T06_Canvas_Creation(const MunitParameter args[], void *user_data)
 {
-    Canvas c = canvas(10, 20);
+    auto ca = c_allocator_get();
+
+    Canvas c = canvas(10, 20, ca);
 
     Color expected_color = color(0, 0, 0);
 
@@ -145,7 +147,9 @@ MunitResult T06_Canvas_Creation(const MunitParameter args[], void *user_data)
 
 MunitResult T07_Canvas_Write_Pixel(const MunitParameter args[], void *user_data)
 {
-    Canvas c = canvas(10, 20);
+    auto ca = c_allocator_get();
+
+    Canvas c = canvas(10, 20, ca);
     Color red = color(1, 0, 0);
 
     canvas_set_pixel(&c, 2, 3, red);
@@ -169,7 +173,7 @@ MunitResult T08_PPM_Header(const MunitParameter args[], void *user_data)
     auto ta = temp_allocator_get();
     auto ca = c_allocator_get();
 
-    Canvas c = canvas(5, 3);
+    Canvas c = canvas(5, 3, ca);
     String ppm_str = canvas_to_ppm(c, ca);
 
     auto lines = string_split_ref(ta, ppm_str, '\n');
@@ -191,7 +195,7 @@ MunitResult T09_PPM_Pixel_Data(const MunitParameter args[], void *user_data)
     auto ta = temp_allocator_get();
     temp_allocator_reset(ta);
 
-    Canvas c = canvas(5, 3);
+    Canvas c = canvas(5, 3, ca);
     Color c1 = color(1.5, 0, 0);
     Color c2 = color(0, 0.5, 0);
     Color c3 = color(-0.5, 0, 1);
@@ -221,7 +225,7 @@ MunitResult T10_PPM_Line_Limit(const MunitParameter args[], void *user_data)
     auto ta = temp_allocator_get();
     temp_allocator_reset(ta);
 
-    Canvas c = canvas(10, 2);
+    Canvas c = canvas(10, 2, ca);
 
     canvas_clear(&c, color(1, 0.8, 0.6));
 
@@ -250,7 +254,7 @@ MunitResult T11_PPM_Ends_With_Newline(const MunitParameter args[], void *user_da
     auto ta = temp_allocator_get();
     temp_allocator_reset(ta);
 
-    Canvas c = canvas(5, 3);
+    Canvas c = canvas(5, 3, ca);
 
     String ppm_str = canvas_to_ppm(c, ca);
 

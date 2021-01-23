@@ -15,32 +15,34 @@ struct Canvas_Pixel
     float r, g, b;
 };
 
-void canvas_init(Canvas *c, int width, int height)
+void canvas_init(Canvas *c, int width, int height, Allocator *allocator)
 {
     c->width = width;
     c->height = height;
 
     auto pixel_count = width * height;
-    auto byte_size = pixel_count * sizeof(Canvas_Pixel);
-    c->buffer = (Canvas_Pixel *)malloc(byte_size);
-    memset(c->buffer, 0, byte_size);
+    // auto byte_size = pixel_count * sizeof(Canvas_Pixel);
+    // c->buffer = (Canvas_Pixel *)malloc(byte_size);
+    c->buffer = alloc_array<Canvas_Pixel>(allocator, pixel_count);
+    // memset(c->buffer, 0, byte_size);
+    c->allocator = allocator;
 }
 
 void canvas_free(Canvas *c)
 {
     assert(c->buffer);
 
-    free(c->buffer);
+    free(c->allocator, c->buffer);
 
     c->buffer = nullptr;
     c->width = -1;
     c->height = -1;
 }
 
-Canvas canvas(int width, int height)
+Canvas canvas(int width, int height, Allocator *allocator)
 {
     Canvas result;
-    canvas_init(&result, width, height);
+    canvas_init(&result, width, height, allocator);
     return result;
 }
 

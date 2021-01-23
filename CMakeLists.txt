@@ -22,6 +22,7 @@ set (RAY_TRACER_LIB_SOURCE
     source/putting_it_together_ch01.cpp
     source/putting_it_together_ch02.cpp
     source/putting_it_together_ch04.cpp
+    source/putting_it_together_ch05.cpp
 )
 
 add_library(raytracer_lib ${RAY_TRACER_LIB_SOURCE})
