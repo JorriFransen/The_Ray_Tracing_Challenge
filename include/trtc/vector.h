@@ -8,7 +8,12 @@ namespace RayTracer
 
 struct Vector : public Tuple
 {
+    Vector &operator-=(const Vector &rhs);
+    Vector &operator*=(const float rhs);
 };
+
+Vector operator-(Vector lhs, const Vector &rhs);
+Vector operator*(Vector lhs, const float rhs);
 
 Vector vector(float x, float y, float z);
 Vector vector(const Vector &v);
@@ -28,6 +33,8 @@ void vector_normalize(Vector *v);
 
 float vector_dot(const Vector &a, const Vector &b);
 
-Vector vector_cross(const Vector& a, const Vector &b);
+Vector vector_cross(const Vector &a, const Vector &b);
+
+Vector vector_reflect(const Vector &v, const Vector &n);
 
 }

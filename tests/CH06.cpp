@@ -96,6 +96,31 @@ MunitResult T06_Transformed_Sphere_Normal(const MunitParameter args[], void *use
     return MUNIT_OK;
 }
 
+MunitResult T07_Reflect_Vector_45D(const MunitParameter args[], void *user_data)
+{
+    Vector v = vector(1, -1, 0);
+    Vector n = vector(0, 1, 0);
+
+    Vector r = vector_reflect(v, n);
+
+    assert_true(vector_eq(r, vector(1, 1, 0)));
+
+    return MUNIT_OK;
+}
+
+MunitResult T08_Reflect_Vector_Slanted_N(const MunitParameter args[], void *user_data)
+{
+    Vector v = vector(0, -1, 0);
+    float sqrt2_d2 = sqrt(2) / 2;
+    Vector n = vector(sqrt2_d2, sqrt2_d2, 0);
+
+    Vector r = vector_reflect(v, n);
+
+    assert_true(vector_eq(r, vector(1, 0, 0)));
+
+    return MUNIT_OK;
+}
+
 MunitTest ch06_tests[] = {
 
     REGISTER_TEST(T01_Sphere_Normal_X_Axis)
@@ -104,6 +129,8 @@ MunitTest ch06_tests[] = {
     REGISTER_TEST(T04_Sphere_Normal_Nonaxial)
     REGISTER_TEST(T05_Translated_Sphere_Normal)
     REGISTER_TEST(T06_Transformed_Sphere_Normal)
+    REGISTER_TEST(T07_Reflect_Vector_45D)
+    REGISTER_TEST(T08_Reflect_Vector_Slanted_N)
 
     REGISTER_EMPTY_TEST()
 };

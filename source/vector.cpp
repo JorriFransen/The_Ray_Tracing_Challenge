@@ -7,6 +7,30 @@
 namespace RayTracer
 {
 
+Vector &Vector::operator-=(const Vector &rhs)
+{
+    *this = vector_sub(*this, rhs);
+    return *this;
+}
+
+Vector &Vector::operator*=(const float rhs)
+{
+    *this = vector_scale(*this, rhs);
+    return *this;
+}
+
+Vector operator-(Vector lhs, const Vector &rhs)
+{
+    lhs -= rhs;
+    return lhs;
+}
+
+Vector operator*(Vector lhs, const float rhs)
+{
+    lhs *= rhs;
+    return lhs;
+}
+
 Vector vector(float x, float y, float z)
 {
     Tuple result = tuple(x, y, z, 0.0);
@@ -88,6 +112,11 @@ Vector vector_cross(const Vector& a, const Vector &b)
     return vector(a.y * b.z - a.z * b.y,
                   a.z * b.x - a.x * b.z,
                   a.x * b.y - a.y * b.x);
+}
+
+Vector vector_reflect(const Vector &v, const Vector &n)
+{
+    return v - n * 2 * vector_dot(v, n);
 }
 
 }
