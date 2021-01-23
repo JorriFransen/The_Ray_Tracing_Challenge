@@ -2,6 +2,7 @@
 #include "util.h"
 
 #include <math.h>
+#include <float.h>
 
 namespace RayTracer {
 
@@ -13,8 +14,6 @@ Ray ray(Point origin, Vector direction)
     };
 }
 
-static int64_t next_sphere_id = 0;
-
 Sphere sphere()
 {
     return {};
@@ -23,6 +22,12 @@ Sphere sphere()
 Intersection intersection(float t, Intersection_Object *object)
 {
     return { t, object };
+}
+
+bool intersection_eq(const Intersection &a, const Intersection &b)
+{
+    if (a.object != b.object) return false;
+    return float_eq(a.t, b.t);
 }
 
 Point ray_position(const Ray &r, float t)
@@ -35,7 +40,7 @@ Point ray_position(const Ray &r, float t)
 
 Intersection_Result ray_intersects(const Ray &r, Sphere *s)
 {
-    Vector sphere_to_ray = point_sub(r.origin, s->origin);
+    Vector sphere_to_ray = point_sub(r.origin, s->object.origin);
 
     float a = vector_dot(r.direction, r.direction);
     float b = 2 * vector_dot(r.direction, sphere_to_ray);
@@ -65,9 +70,35 @@ Intersection_Result ray_intersects(const Ray &r, Sphere *s)
 
     return{
         .count = count,
-        .intersections = { intersection(t1, s),
-                           intersection(t2, s), },
+        .intersections = { intersection(t1, &s->object),
+                           intersection(t2, &s->object), },
     };
+}
+
+Intersection best_hit_count(int count, Intersection *intersections, bool *hit)
+{
+    assert(hit);
+
+    *hit = false;
+
+    if (count == 0) return {};
+
+    float lowest = FLT_MAX;
+    uint64_t lowest_index = -1;
+
+    for (int i = 0; i < count; i++) {
+        if (intersections[i].t < lowest &&
+            intersections[i].t >= EPSILON) {
+            lowest = intersections[i].t;
+            lowest_index = i;
+        }
+    }
+
+    if (lowest_index == -1) return {};
+
+    *hit = true;
+
+    return intersections[lowest_index];
 }
 
 }
