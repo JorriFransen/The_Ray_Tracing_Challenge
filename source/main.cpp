@@ -1,22 +1,9 @@
 
-#include "matrix.h"
-#include <cassert>
-#include <stdio.h>
-
-#include "gui_window.h"
-
 #include "c_allocator.h"
+#include "gui_window.h"
 #include "putting_it_together_ch04.h"
 
 using namespace RayTracer;
-
-bool toggle_wireframe = false;
-bool wireframe = false;
-float screen_ratio;
-
-Matrix model_matrix;
-GLint model_matrix_location;
-
 
 int main(int argc, char** argv)
 {
@@ -29,5 +16,6 @@ int main(int argc, char** argv)
 
     guisystem_deinit();
 
+    canvas_free(&c);
     return 0;
 }

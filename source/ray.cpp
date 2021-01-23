@@ -13,9 +13,16 @@ Ray ray(Point origin, Vector direction)
     };
 }
 
+static int64_t next_sphere_id = 0;
+
 Sphere sphere()
 {
     return {};
+}
+
+Intersection intersection(float t, Intersection_Object *object)
+{
+    return { t, object };
 }
 
 Point ray_position(const Ray &r, float t)
@@ -26,9 +33,9 @@ Point ray_position(const Ray &r, float t)
     return point_add(r.origin, distance_along_ray);
 }
 
-Ray_Sphere_Intersection ray_intersects(const Ray &r, const Sphere &s)
+Intersection_Result ray_intersects(const Ray &r, Sphere *s)
 {
-    Vector sphere_to_ray = point_sub(r.origin, s.origin);
+    Vector sphere_to_ray = point_sub(r.origin, s->origin);
 
     float a = vector_dot(r.direction, r.direction);
     float b = 2 * vector_dot(r.direction, sphere_to_ray);
@@ -42,15 +49,25 @@ Ray_Sphere_Intersection ray_intersects(const Ray &r, const Sphere &s)
 
     float sqrt_discriminant = sqrt(discriminant);
 
-    float _t1 = (-b - sqrt_discriminant) / (2 * a);
-    float _t2 = (-b + sqrt_discriminant) / (2 * a);
+    float t1 = (-b - sqrt_discriminant) / (2 * a);
+    float t2 = (-b + sqrt_discriminant) / (2 * a);
 
-    if (float_eq(_t1, _t2)) return { .count = 1, .distances = { _t1, _t2 }};
+    int count = 2;
 
-    float t1 = fmin(_t1, _t2);
-    float t2 = fmax(_t1, _t2);
+    if (float_eq(t1, t2)) {
+        count = 1;
+    } else {
+        float _t1 = fmin(t1, t2);
+        float _t2 = fmax(t1, t2);
+        t1 = _t1;
+        t2 = _t2;
+    }
 
-    return { .count = 2, .distances = { t1, t2 }};
+    return{
+        .count = count,
+        .intersections = { intersection(t1, s),
+                           intersection(t2, s), },
+    };
 }
 
 }

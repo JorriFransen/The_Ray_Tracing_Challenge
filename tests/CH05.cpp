@@ -45,11 +45,13 @@ MunitResult T03_Ray_Sphere_XS(const MunitParameter args[], void *user_data)
     Ray r = ray(point(0, 0, -5), vector(0, 0, 1));
     Sphere s = sphere();
 
-    Ray_Sphere_Intersection xs = ray_intersects(r, s);
+    Intersection_Result xs = ray_intersects(r, &s);
 
     assert_int32(xs.count, ==, 2);
-    assert_float(xs[0], ==, 4.0);
-    assert_float(xs[1], ==, 6.0);
+    assert_float(xs[0].t, ==, 4.0);
+    assert_float(xs[1].t, ==, 6.0);
+
+    assert_true(xs[0].object == &s);
 
     return MUNIT_OK;
 }
@@ -59,11 +61,11 @@ MunitResult T04_Ray_Sphere_Tangent_XS(const MunitParameter args[], void *user_da
     Ray r = ray(point(0, 1, -5), vector(0, 0, 1));
     Sphere s = sphere();
 
-    Ray_Sphere_Intersection xs = ray_intersects(r, s);
+    Intersection_Result xs = ray_intersects(r, &s);
 
     assert_int32(xs.count, ==, 1);
-    assert_float(xs[0], ==, 5.0);
-    assert_float(xs[1], ==, 5.0);
+    assert_float(xs[0].t, ==, 5.0);
+    assert_float(xs[1].t, ==, 5.0);
     return MUNIT_OK;
 }
 
@@ -72,7 +74,7 @@ MunitResult T05_Ray_Missing_Sphere(const MunitParameter args[], void *user_data)
     Ray r = ray(point(0, 2, -5), vector(0, 0, 1));
     Sphere s = sphere();
 
-    Ray_Sphere_Intersection xs = ray_intersects(r, s);
+    Intersection_Result xs = ray_intersects(r, &s);
 
     assert_int32(xs.count, ==, 0);
 
@@ -84,11 +86,14 @@ MunitResult T06_Ray_Inside_Sphere_XS(const MunitParameter args[], void *user_dat
     Ray r = ray(point(0, 0, 0), vector(0, 0, 1));
     Sphere s = sphere();
 
-    Ray_Sphere_Intersection xs = ray_intersects(r, s);
+    Intersection_Result xs = ray_intersects(r, &s);
 
     assert_int32(xs.count, ==, 2);
-    assert_float(xs[0], ==, -1);
-    assert_float(xs[1], ==, 1);
+    assert_float(xs[0].t, ==, -1);
+    assert_float(xs[1].t, ==, 1);
+
+    assert_true(xs[0].object == &s);
+    assert_true(xs[1].object == &s);
 
     return MUNIT_OK;
 }
@@ -98,11 +103,14 @@ MunitResult T07_Ray_Behind_Sphere_XS(const MunitParameter args[], void *user_dat
     Ray r = ray(point(0, 0, 5), vector(0, 0, 1));
     Sphere s = sphere();
 
-    Ray_Sphere_Intersection xs = ray_intersects(r, s);
+    Intersection_Result xs = ray_intersects(r, &s);
 
     assert_int32(xs.count, ==, 2);
-    assert_float(xs[0], ==, -6);
-    assert_float(xs[1], ==, -4);
+    assert_float(xs[0].t, ==, -6);
+    assert_float(xs[1].t, ==, -4);
+
+    assert_true(xs[0].object == &s);
+    assert_true(xs[1].object == &s);
 
     return MUNIT_OK;
 }

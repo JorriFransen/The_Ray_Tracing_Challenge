@@ -26,21 +26,24 @@ void guiwindow_show(const Canvas &c)
 {
 
     GLFWwindow *window;
-    
-    GUI_Window my_window;
 
-    int window_width = c.width;
-    int window_height = c.height;
-    my_window.screen_ratio = (float)window_width / (float)window_height;
-    my_window.width = window_width;
-    my_window.height = window_height;
+    GUI_Window my_window;
 
     glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
     glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 3);
     glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 3);
     // glfwWindowHint(GLFW_RESIZABLE, GLFW_FALSE);
-    window = glfwCreateWindow(window_width, window_height, "RayTracer", nullptr, nullptr);
+    window = glfwCreateWindow(c.width, c.height, "RayTracer", nullptr, nullptr);
     assert(window);
+
+    int iwidth, iheight;
+    glfwGetWindowSize(window, &iwidth, &iheight);
+    my_window.screen_ratio = (float)iwidth / (float)iheight;
+
+    printf("Window size: %d, %d\n", iwidth, iheight);
+
+    my_window.width = iwidth;
+    my_window.height = iheight;
 
     glfwSetWindowUserPointer(window, &my_window);
 
@@ -129,14 +132,12 @@ void guiwindow_show(const Canvas &c)
     my_window.view_matrix_location = glGetUniformLocation(program, "view");
     my_window.projection_matrix_location = glGetUniformLocation(program, "projection");
 
-    // model_matrix = matrix_identity().translate(-0.5, -0.5, 0).rotate_z(M_PI / 2).translate(0.5, 0.5,  0);
     my_window.model_matrix = matrix_identity();
-
     glUniformMatrix4fv(my_window.model_matrix_location, 1, GL_TRUE, my_window.model_matrix.flat);
 
     glClearColor(0.1, 0.1, 0.1, 1);
 
-    update_viewport(&my_window, window_width, window_height);
+    update_viewport(&my_window, my_window.width, my_window.height);
 
     glfwSwapInterval(1);
 
@@ -181,7 +182,16 @@ void update_viewport(GUI_Window *window, int width, int height)
     window->screen_ratio = (float)width / (float)height;
     glViewport(0, 0, width, height);
 
-    window->view_matrix = matrix_scale(width, height, 1);
+    float mxscale = 1.0f;
+    float myscale = 1.0f;
+
+    if (width > height) {
+        mxscale /= window->screen_ratio;
+    } else if (width < height) {
+        myscale *= window->screen_ratio;
+    }
+
+    window->view_matrix = matrix_scale(width * mxscale, height * myscale, 1);
     glUniformMatrix4fv(window->view_matrix_location, 1, GL_TRUE, window->view_matrix.flat);
 
     window->projection_matrix = matrix_ortho(0, width, height, 0, -1, 1);

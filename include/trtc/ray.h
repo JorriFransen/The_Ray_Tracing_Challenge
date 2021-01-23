@@ -14,30 +14,41 @@ struct Ray
     Vector direction;
 };
 
-struct Sphere
+struct Intersection_Object
+{
+};
+
+struct Sphere : public Intersection_Object
 {
     Point origin;
 };
 
-struct Ray_Sphere_Intersection
+struct Intersection
+{
+    float t;
+    Intersection_Object *object;
+};
+
+struct Intersection_Result
 {
     int32_t count = 0;
-    float distances[2];
+    Intersection intersections[2];
 
-    float operator[](int32_t i)
+    Intersection operator[](int32_t i)
     {
         assert(i >= 0);
         assert(i < 2);
 
-        return distances[i];
+        return intersections[i];
     }
 };
 
 
 Ray ray(Point origin, Vector direction);
 Sphere sphere();
+Intersection intersection(float t, Intersection_Object *object);
 
 Point ray_position(const Ray &r, float t);
 
-Ray_Sphere_Intersection ray_intersects(const Ray &r, const Sphere &s);
+Intersection_Result ray_intersects(const Ray &r, Sphere *s);
 }
