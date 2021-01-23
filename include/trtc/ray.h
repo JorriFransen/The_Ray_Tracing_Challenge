@@ -19,12 +19,11 @@ struct Ray
 
 struct Intersection_Object
 {
-    Point position;
+    Matrix transform;
 };
 
-struct Sphere
+struct Sphere : public Intersection_Object
 {
-    Intersection_Object object;
 };
 
 struct Intersection
@@ -55,6 +54,7 @@ struct Intersections
 
 Ray ray(Point origin, Vector direction);
 Sphere sphere();
+
 Intersection intersection(float t, Intersection_Object *object);
 
 bool intersection_eq(const Intersection &a, const Intersection &b);

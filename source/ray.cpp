@@ -16,7 +16,9 @@ Ray ray(Point origin, Vector direction)
 
 Sphere sphere()
 {
-    return {};
+    Sphere result;
+    result.transform = matrix_identity();
+    return result;
 }
 
 Intersection intersection(float t, Intersection_Object *object)
@@ -38,9 +40,11 @@ Point ray_position(const Ray &r, float t)
     return point_add(r.origin, distance_along_ray);
 }
 
-Intersection_Result ray_intersects(const Ray &r, Sphere *s)
+Intersection_Result ray_intersects(const Ray &_r, Sphere *s)
 {
-    Vector sphere_to_ray = point_sub(r.origin, s->object.position);
+    Ray r = ray_transform(_r, matrix_inverse(s->transform));
+
+    Vector sphere_to_ray = point_sub(r.origin, point(0, 0, 0));
 
     float a = vector_dot(r.direction, r.direction);
     float b = 2 * vector_dot(r.direction, sphere_to_ray);
@@ -70,8 +74,8 @@ Intersection_Result ray_intersects(const Ray &r, Sphere *s)
 
     return{
         .count = count,
-        .intersections = { intersection(t1, &s->object),
-                           intersection(t2, &s->object), },
+        .intersections = { intersection(t1, s),
+                           intersection(t2, s), },
     };
 }
 

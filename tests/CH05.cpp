@@ -52,7 +52,7 @@ MunitResult T03_Ray_Sphere_XS(const MunitParameter args[], void *user_data)
     assert_float(xs[0].t, ==, 4.0);
     assert_float(xs[1].t, ==, 6.0);
 
-    assert_ptr_equal(xs[0].object, &s.object);
+    assert_ptr_equal(xs[0].object, &s);
 
     return MUNIT_OK;
 }
@@ -93,8 +93,8 @@ MunitResult T06_Ray_Inside_Sphere_XS(const MunitParameter args[], void *user_dat
     assert_float(xs[0].t, ==, -1);
     assert_float(xs[1].t, ==, 1);
 
-    assert_ptr_equal(xs[0].object, &s.object);
-    assert_ptr_equal(xs[1].object, &s.object);
+    assert_ptr_equal(xs[0].object, &s);
+    assert_ptr_equal(xs[1].object, &s);
 
     return MUNIT_OK;
 }
@@ -110,8 +110,8 @@ MunitResult T07_Ray_Behind_Sphere_XS(const MunitParameter args[], void *user_dat
     assert_float(xs[0].t, ==, -6);
     assert_float(xs[1].t, ==, -4);
 
-    assert_ptr_equal(xs[0].object, &s.object);
-    assert_ptr_equal(xs[1].object, &s.object);
+    assert_ptr_equal(xs[0].object, &s);
+    assert_ptr_equal(xs[1].object, &s);
 
     return MUNIT_OK;
 }
@@ -119,10 +119,10 @@ MunitResult T07_Ray_Behind_Sphere_XS(const MunitParameter args[], void *user_dat
 MunitResult T08_Intersection_Creation(const MunitParameter args[], void *user_data)
 {
     Sphere s = sphere();
-    Intersection i = intersection(3.5, &s.object);
+    Intersection i = intersection(3.5, &s);
 
     assert_float(i.t, ==, 3.5);
-    assert_ptr_equal(i.object, &s.object);
+    assert_ptr_equal(i.object, &s);
 
     return MUNIT_OK;
 }
@@ -130,8 +130,8 @@ MunitResult T08_Intersection_Creation(const MunitParameter args[], void *user_da
 MunitResult T09_Hit_All_Positive_T(const MunitParameter args[], void *user_data)
 {
     auto s = sphere();
-    auto i1 = intersection(1, &s.object);
-    auto i2 = intersection(2, &s.object);
+    auto i1 = intersection(1, &s);
+    auto i2 = intersection(2, &s);
 
     auto xs = intersections(i2, i1);
 
@@ -150,8 +150,8 @@ MunitResult T09_Hit_All_Positive_T(const MunitParameter args[], void *user_data)
 MunitResult T10_Hit_Mixed_T(const MunitParameter args[], void *user_data)
 {
     auto s = sphere();
-    auto i1 = intersection(-1, &s.object);
-    auto i2 = intersection(1, &s.object);
+    auto i1 = intersection(-1, &s);
+    auto i2 = intersection(1, &s);
 
     auto xs = intersections(i2, i1);
 
@@ -170,8 +170,8 @@ MunitResult T10_Hit_Mixed_T(const MunitParameter args[], void *user_data)
 MunitResult T11_Hit_All_Negative_T(const MunitParameter args[], void *user_data)
 {
     auto s = sphere();
-    auto i1 = intersection(-2, &s.object);
-    auto i2 = intersection(-1, &s.object);
+    auto i1 = intersection(-2, &s);
+    auto i2 = intersection(-1, &s);
 
     auto xs = intersections(i2, i1);
 
@@ -188,10 +188,10 @@ MunitResult T11_Hit_All_Negative_T(const MunitParameter args[], void *user_data)
 MunitResult T12_Hit_Lowest_Positive_T(const MunitParameter args[], void *user_data)
 {
     auto s = sphere();
-    auto i1 = intersection(5, &s.object);
-    auto i2 = intersection(7, &s.object);
-    auto i3 = intersection(-3, &s.object);
-    auto i4 = intersection(2, &s.object);
+    auto i1 = intersection(5, &s);
+    auto i2 = intersection(7, &s);
+    auto i3 = intersection(-3, &s);
+    auto i4 = intersection(2, &s);
 
     auto xs = intersections(i1, i2, i3, i4);
 
@@ -233,6 +233,58 @@ MunitResult T14_Ray_Scaling(const MunitParameter args[], void *user_data)
     return MUNIT_OK;
 }
 
+MunitResult T15_SPhere_Default_Transform(const MunitParameter args[], void *user_data)
+{
+    Sphere s = sphere();
+
+    assert_true(matrix_eq(s.transform, matrix_identity()));
+
+    return MUNIT_OK;
+}
+
+MunitResult T16_SPhere_Modified_Transform(const MunitParameter args[], void *user_data)
+{
+    Sphere s = sphere();
+    Matrix t = matrix_translation(2, 3, 4);
+
+    // s.transform = t;
+    s.transform.translate(2, 3, 4);
+
+    assert_true(matrix_eq(s.transform, t));
+
+    return MUNIT_OK;
+}
+
+MunitResult T17_Intersect_Scaled_Sphere(const MunitParameter args[], void *user_data)
+{
+    Ray r = ray(point(0, 0, -5), vector(0, 0,  1));
+    Sphere s = sphere();
+
+    s.transform.scale(2, 2, 2);
+
+    auto xs = ray_intersects(r, &s);
+
+    assert_int(xs.count, ==, 2);
+    assert_float(xs[0].t, ==, 3);
+    assert_float(xs[1].t, ==, 7);
+
+    return MUNIT_OK;
+}
+
+MunitResult T18_Intersect_Transformed_Sphere(const MunitParameter args[], void *user_data)
+{
+    Ray r = ray(point(0, 0, -5), vector(0, 0, 1));
+    Sphere s = sphere();
+    
+    s.transform.translate(5, 0, 0);
+
+    auto xs = ray_intersects(r, &s);
+
+    assert_int(xs.count, ==, 0);
+
+    return MUNIT_OK;
+}
+
 MunitTest ch05_tests[] = {
 
     REGISTER_TEST(T01_Ray_Creation)
@@ -249,6 +301,10 @@ MunitTest ch05_tests[] = {
     REGISTER_TEST(T12_Hit_Lowest_Positive_T)
     REGISTER_TEST(T13_Ray_Translation)
     REGISTER_TEST(T14_Ray_Scaling)
+    REGISTER_TEST(T15_SPhere_Default_Transform)
+    REGISTER_TEST(T16_SPhere_Modified_Transform)
+    REGISTER_TEST(T17_Intersect_Scaled_Sphere)
+    REGISTER_TEST(T18_Intersect_Transformed_Sphere)
 
     REGISTER_EMPTY_TEST()
 };
