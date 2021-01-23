@@ -505,10 +505,10 @@ MunitResult T13_M4x4_Mul(const MunitParameter args[], void *user_data)
                       9, 8, 7, 6,
                       5, 4, 3, 2 );
 
-    Matrix b = matrix(2, 1, 2,  3,
-                      3, 2, 1, -1,
-                      4, 3, 6,  5,
-                      1, 2, 7,  8 );
+    Matrix b = matrix(-2, 1, 2,  3,
+                       3, 2, 1, -1,
+                       4, 3, 6,  5,
+                       1, 2, 7,  8 );
 
     Matrix expected_result = matrix(20, 22,  50,  48,
                                     44, 54, 114, 108,

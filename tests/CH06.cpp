@@ -274,7 +274,7 @@ MunitResult T18_Light_ELS(const MunitParameter args[], void *user_data)
 
     Color result = lighting(m, light, position, eye, normal);
 
-    assert_true(color_eq(result, color_create(0.1, 0.1, 0.1, 0.1)));
+    assert_true(color_eq(result, color_create(0.1, 0.1, 0.1, 2.099999)));
 
     return MUNIT_OK;
 }
