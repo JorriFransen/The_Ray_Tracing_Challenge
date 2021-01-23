@@ -5,6 +5,7 @@
 #include "CH03.cpp"
 #include "CH04.cpp"
 #include "CH05.cpp"
+#include "CH06.cpp"
 
 static const MunitSuite child_suites[] = {
     CH01_Suite,
@@ -12,6 +13,7 @@ static const MunitSuite child_suites[] = {
     CH03_Suite,
     CH04_Suite,
     CH05_Suite,
+    CH06_Suite,
 
     { nullptr, nullptr, nullptr, 0, MUNIT_SUITE_OPTION_NONE },
 };

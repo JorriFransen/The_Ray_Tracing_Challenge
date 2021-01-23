@@ -54,6 +54,7 @@ struct Intersections
 
 Ray ray(Point origin, Vector direction);
 Sphere sphere();
+Vector sphere_normal(const Sphere &s, const Point &p);
 
 Intersection intersection(float t, Intersection_Object *object);
 

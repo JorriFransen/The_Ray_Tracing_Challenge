@@ -21,6 +21,17 @@ Sphere sphere()
     return result;
 }
 
+Vector sphere_normal(const Sphere &s, const Point &world_point)
+{
+    Matrix inverse_transform = matrix_inverse(s.transform);
+
+    Point object_point = matrix_mul(inverse_transform, world_point);
+    Vector object_normal = point_sub(object_point, point(0, 0, 0));
+    Vector world_normal = matrix_mul(matrix_transpose(inverse_transform), object_normal);
+    world_normal.w = 0;
+    return vector_normalized(world_normal);
+}
+
 Intersection intersection(float t, Intersection_Object *object)
 {
     return { t, object };
