@@ -40,7 +40,7 @@ Point ray_position(const Ray &r, float t)
 
 Intersection_Result ray_intersects(const Ray &r, Sphere *s)
 {
-    Vector sphere_to_ray = point_sub(r.origin, s->object.origin);
+    Vector sphere_to_ray = point_sub(r.origin, s->object.position);
 
     float a = vector_dot(r.direction, r.direction);
     float b = 2 * vector_dot(r.direction, sphere_to_ray);
@@ -99,6 +99,14 @@ Intersection best_hit_count(int count, Intersection *intersections, bool *hit)
     *hit = true;
 
     return intersections[lowest_index];
+}
+
+Ray ray_transform(const Ray &r, const Matrix &m)
+{
+    return {
+        .origin = matrix_mul(m, r.origin),
+        .direction = matrix_mul(m, r.direction),
+    };
 }
 
 }

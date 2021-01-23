@@ -1,5 +1,6 @@
 #include "common.h"
 
+#include "matrix.h"
 #include "ray.h"
 
 using namespace RayTracer;
@@ -206,6 +207,32 @@ MunitResult T12_Hit_Lowest_Positive_T(const MunitParameter args[], void *user_da
     return MUNIT_OK;
 }
 
+MunitResult T13_Ray_Translation(const MunitParameter args[], void *user_data)
+{
+    Ray r = ray(point(1, 2, 3), vector(0, 1, 0));
+    Matrix m = matrix_translation(3, 4, 5);
+
+    Ray r2 = ray_transform(r, m);
+
+    assert_true(point_eq(r2.origin, point(4, 6, 8)));
+    assert_true(vector_eq(r2.direction, vector(0, 1, 0)));
+
+    return MUNIT_OK;
+}
+
+MunitResult T14_Ray_Scaling(const MunitParameter args[], void *user_data)
+{
+    Ray r = ray(point(1, 2, 3), vector(0, 1, 0));
+    Matrix m = matrix_scale(2, 3, 4);
+
+    Ray r2 = ray_transform(r, m);
+
+    assert_true(point_eq(r2.origin, point(2, 6, 12)));
+    assert_true(vector_eq(r2.direction, vector(0, 3, 0)));
+
+    return MUNIT_OK;
+}
+
 MunitTest ch05_tests[] = {
 
     REGISTER_TEST(T01_Ray_Creation)
@@ -220,6 +247,8 @@ MunitTest ch05_tests[] = {
     REGISTER_TEST(T10_Hit_Mixed_T)
     REGISTER_TEST(T11_Hit_All_Negative_T)
     REGISTER_TEST(T12_Hit_Lowest_Positive_T)
+    REGISTER_TEST(T13_Ray_Translation)
+    REGISTER_TEST(T14_Ray_Scaling)
 
     REGISTER_EMPTY_TEST()
 };

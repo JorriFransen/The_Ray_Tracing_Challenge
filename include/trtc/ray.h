@@ -1,5 +1,6 @@
 #pragma once
 
+#include "matrix.h"
 #include "point.h"
 #include "vector.h"
 
@@ -18,7 +19,7 @@ struct Ray
 
 struct Intersection_Object
 {
-    Point origin;
+    Point position;
 };
 
 struct Sphere
@@ -93,5 +94,7 @@ Intersection best_hit(Intersections<count> &intersections, bool *hit)
 {
     return best_hit_count(count, intersections.intersections, hit);
 }
+
+Ray ray_transform(const Ray &r, const Matrix &m);
 
 }
