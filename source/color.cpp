@@ -12,7 +12,7 @@ Color color_create(float r, float g, float b)
 
 Color color_create(float r, float g, float b, float a)
 {
-    return { .tuple = tuple(r, g, b, a) };
+    return {  tuple(r, g, b, a) };
 }
 
 Color color_add(const Color &c1, const Color &c2)

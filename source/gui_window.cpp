@@ -23,17 +23,15 @@ void guisystem_deinit()
 
 void guiwindow_show(const Canvas &c)
 {
-
     GLFWwindow *window;
 
     GUI_Window my_window;
 
-    glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
-    glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 3);
-    glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 3);
+    glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 2);
+    glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 1);
     // glfwWindowHint(GLFW_RESIZABLE, GLFW_FALSE);
     window = glfwCreateWindow(c.width, c.height, "RayTracer", nullptr, nullptr);
-    assert(window);
+    if (!window) return;
 
     int iwidth, iheight;
     glfwGetWindowSize(window, &iwidth, &iheight);
@@ -67,13 +65,31 @@ void guiwindow_show(const Canvas &c)
     glCompileShader(vertex_shader);
     GLint shader_compiled = 0;
     glGetShaderiv(vertex_shader, GL_COMPILE_STATUS, &shader_compiled);
-    assert(shader_compiled == GL_TRUE);
+
+    char buffer[2048];
+
+    if (shader_compiled != GL_TRUE) {
+
+        GLsizei length; 
+        glGetShaderInfoLog(vertex_shader, 2048, &length, buffer);
+        fprintf(stderr, "Shader compilation failed: \n%.*s\n",
+                length, buffer);
+        return;
+    }
 
     GLuint fragment_shader = glCreateShader(GL_FRAGMENT_SHADER);
     glShaderSource(fragment_shader, 1, &fragment_shader_text, nullptr);
     glCompileShader(fragment_shader);
     glGetShaderiv(fragment_shader, GL_COMPILE_STATUS, &shader_compiled);
-    assert(shader_compiled == GL_TRUE);
+
+    if (shader_compiled != GL_TRUE) {
+
+        GLsizei length; 
+        glGetShaderInfoLog(fragment_shader, 2048, &length, buffer);
+        fprintf(stderr, "Shader compilation failed: \n%.*s\n",
+                length, buffer);
+        return;
+    }
 
     GLuint program = glCreateProgram();
     glAttachShader(program, vertex_shader);
@@ -95,10 +111,6 @@ void guiwindow_show(const Canvas &c)
         0, 1, 3,
         1, 2, 3,
     };
-
-    GLuint vao;
-    glGenVertexArrays(1, &vao);
-    glBindVertexArray(vao);
 
     GLuint vbo;
     glGenBuffers(1, &vbo);
@@ -129,7 +141,6 @@ void guiwindow_show(const Canvas &c)
     // glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
 
     glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, c.width, c.height, 0, GL_RGB, GL_FLOAT, c.buffer);
-    glGenerateMipmap(GL_TEXTURE_2D);
 
     glUseProgram(program);
 
