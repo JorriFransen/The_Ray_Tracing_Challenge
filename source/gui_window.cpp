@@ -29,7 +29,6 @@ void guiwindow_show(const Canvas &c)
 
     glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 2);
     glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 1);
-    // glfwWindowHint(GLFW_RESIZABLE, GLFW_FALSE);
     window = glfwCreateWindow(c.width, c.height, "RayTracer", nullptr, nullptr);
     if (!window) return;
 

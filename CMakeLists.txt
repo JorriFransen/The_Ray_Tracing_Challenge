@@ -24,6 +24,7 @@ set (RAY_TRACER_LIB_SOURCE
     source/tuple.cpp
     source/util.cpp
     source/vector.cpp
+    source/world.cpp
 
     source/putting_it_together_ch01.cpp
     source/putting_it_together_ch02.cpp

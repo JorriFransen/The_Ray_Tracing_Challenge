@@ -18,23 +18,16 @@ struct Ray
     Vector direction;
 };
 
-struct Intersection_Object
+struct Sphere
 {
     Matrix transform;
     Material material;
-
-    virtual Vector normal_at(const Point &p) = 0;
-};
-
-struct Sphere : public Intersection_Object
-{
-    Vector normal_at(const Point &p);
 };
 
 struct Intersection
 {
     float t;
-    Intersection_Object *object;
+    Sphere *object;
 };
 
 struct Intersection_Result
@@ -61,7 +54,7 @@ Ray ray(Point origin, Vector direction);
 Sphere sphere_create();
 Vector sphere_normal(const Sphere &s, const Point &p);
 
-Intersection intersection(float t, Intersection_Object *object);
+Intersection intersection(float t, Sphere *object);
 
 bool intersection_eq(const Intersection &a, const Intersection &b);
 

@@ -21,11 +21,6 @@ Sphere sphere_create()
     return result;
 }
 
-Vector Sphere::normal_at(const Point &p)
-{
-    return sphere_normal(*this, p);
-}
-
 Vector sphere_normal(const Sphere &s, const Point &world_point)
 {
     Matrix inverse_transform = matrix_inverse(s.transform);
@@ -37,7 +32,7 @@ Vector sphere_normal(const Sphere &s, const Point &world_point)
     return vector_normalized(world_normal);
 }
 
-Intersection intersection(float t, Intersection_Object *object)
+Intersection intersection(float t, Sphere *object)
 {
     return { t, object };
 }

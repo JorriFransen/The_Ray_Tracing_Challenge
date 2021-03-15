@@ -48,7 +48,8 @@ void CH06_putting_it_together(Canvas &canvas)
             Intersection i = best_hit_count(ir.count, ir.intersections, &hit);
             if (hit) {
                 Point point = ray_position(r, i.t);
-                Vector normal = i.object->normal_at(point);
+                Vector normal = sphere_normal(*i.object, point);
+
                 Vector eye = vector_neg(r.direction);
                 // Vector eye = -r.direction;
                 Color color = lighting(i.object->material, light, point, eye, normal);
