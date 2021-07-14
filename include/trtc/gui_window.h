@@ -5,7 +5,10 @@
 
 #define GLFW_INCLUDE_NONE
 #include <GLFW/glfw3.h>
+
+#pragma warning(disable:4551)
 #include <glad/gl.h>
+#pragma warning(default:4551)
 
 
 using namespace RayTracer;

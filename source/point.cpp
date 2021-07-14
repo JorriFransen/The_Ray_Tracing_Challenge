@@ -12,6 +12,11 @@ Point point(float x, float y, float z)
     return *static_cast<Point *>(&result);
 }
 
+Point point(int x, int y, int z)
+{
+    return point((float)x, (float)y, (float)z);
+}
+
 Point point_add(const Point &lhs, const Vector &rhs)
 {
     Tuple result = tuple_add(lhs, rhs);

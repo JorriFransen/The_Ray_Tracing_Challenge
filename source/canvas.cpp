@@ -112,7 +112,7 @@ String canvas_to_ppm(const Canvas &c, Allocator *allocator)
         current_line_length += 1; \
     } \
     memcpy(&line[current_line_length], (str.data), (str.length)); \
-    current_line_length += (str.length); \
+    current_line_length += (int)(str.length); \
 }
 
     string_builder_append(&sb, "P3\n");
@@ -130,9 +130,9 @@ String canvas_to_ppm(const Canvas &c, Allocator *allocator)
             float _g = ceil(pixel.g * 255.0f);
             float _b = ceil(pixel.b * 255.0f);
 
-            uint8_t r = clamp(0, 255, _r);
-            uint8_t g = clamp(0, 255, _g);
-            uint8_t b = clamp(0, 255, _b);
+            uint8_t r = clamp<int, float, uint8_t>(0, 255, _r);
+            uint8_t g = clamp<int, float, uint8_t>(0, 255, _g);
+            uint8_t b = clamp<int, float, uint8_t>(0, 255, _b);
 
             String r_str = uint_to_string(ta, r);
             String g_str = uint_to_string(ta, g);
@@ -161,7 +161,7 @@ String canvas_to_ppm(const Canvas &c, Allocator *allocator)
     String result = string_builder_to_string(allocator, &sb);
     string_builder_free(&sb);
 
-    assert(result[result.length - 1] == '\n');
+    assert(result[(int)result.length - 1] == '\n');
 
     return result;
 }

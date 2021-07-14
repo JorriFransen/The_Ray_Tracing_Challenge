@@ -99,7 +99,7 @@ Intersection best_hit_count(int count, Intersection *intersections, bool *hit)
     if (count == 0) return {};
 
     float lowest = FLT_MAX;
-    uint64_t lowest_index = -1;
+    int64_t lowest_index = -1;
 
     for (int i = 0; i < count; i++) {
         if (intersections[i].t < lowest &&

@@ -270,7 +270,7 @@ Matrix2x2 matrix_submatrix(const Matrix3x3 &m, int remove_row, int remove_column
     assert(remove_column >= 0);
     assert(remove_column <= 2);
 
-    Matrix2x2 result;
+    Matrix2x2 result = {};
 
     int dr = 0;
     int dc = 0;
@@ -304,7 +304,7 @@ Matrix3x3 matrix_submatrix(const Matrix &m, int remove_row, int remove_column)
     assert(remove_column >= 0);
     assert(remove_column <= 3);
 
-    Matrix3x3 result;
+    Matrix3x3 result = {};
 
     int dr = 0;
     int dc = 0;

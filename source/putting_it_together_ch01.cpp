@@ -12,7 +12,7 @@ void CH01_putting_it_together()
     Projectile p =
         projectile(point(0, 1, 0), vector_normalized(vector(1, 1, 0))); 
 
-    Environment e = environment(vector(0, -0.1, 0), vector(-0.01, 0, 0));
+    Environment e = environment(vector(0.f, -0.1f, 0.f), vector(-0.01f, 0.f, 0.f));
 
     while (p.position.y > 0) {
         projectile_print(p);

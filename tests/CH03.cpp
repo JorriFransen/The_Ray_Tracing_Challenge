@@ -332,15 +332,15 @@ MunitResult T06_M3x3_Construction(const MunitParameter args[], void *user_data)
 
 MunitResult T07_M4x4_CMP_Identical(const MunitParameter args[], void *user_data)
 {
-    Matrix a = matrix(1, 2, 3, 4.00001,
-                      5, 6, 7, 8,
-                      9, 8, 7, 6,
-                      5, 4, 3, 2 );
+    Matrix a = matrix(1.f, 2.f, 3.f, 4.00001f,
+                      5.f, 6.f, 7.f, 8.f,
+                      9.f, 8.f, 7.f, 6.f,
+                      5.f, 4.f, 3.f, 2.f );
 
-    Matrix b = matrix(1, 2, 3, 4.000018888,
-                      5, 6, 7, 8,
-                      9, 8, 7, 6,
-                      5, 4, 3, 2 );
+    Matrix b = matrix(1.f, 2.f, 3.f, 4.000018888f,
+                      5.f, 6.f, 7.f, 8.f,
+                      9.f, 8.f, 7.f, 6.f,
+                      5.f, 4.f, 3.f, 2.f );
 
     munit_assert_double_equal(a[0][0], b[0][0], 5);
     munit_assert_double_equal(a[0][1], b[0][1], 5);
@@ -369,15 +369,15 @@ MunitResult T07_M4x4_CMP_Identical(const MunitParameter args[], void *user_data)
 
 MunitResult T08_M4x4_CMP_Different(const MunitParameter args[], void *user_data)
 {
-    Matrix a = matrix(1, 2, 3, 4.00002,
-                      5, 6, 7, 8,
-                      9, 8, 7, 6,
-                      5, 4, 3, 2 );
+    Matrix a = matrix(1.f, 2.f, 3.f, 4.00002f,
+                      5.f, 6.f, 7.f, 8.f,
+                      9.f, 8.f, 7.f, 6.f,
+                      5.f, 4.f, 3.f, 2.f );
 
-    Matrix b = matrix(1.0001, 2.00005, 3.001, 4.000018,
-                      6, 7, 8, 9,
-                      8, 7, 6, 5,
-                      4, 3, 2, 1 );
+    Matrix b = matrix(1.0001f, 2.00005f, 3.001f, 4.000018f,
+                      6.f,     7.f,      8.f,    9.f,
+                      8.f,     7.f,      6.f,    5.f,
+                      4.f,     3.f,      2.f,    1.f );
 
     assert_float(a[0][0], !=, b[0][0]);
     assert_float(a[0][1], !=, b[0][1]);
@@ -407,13 +407,13 @@ MunitResult T08_M4x4_CMP_Different(const MunitParameter args[], void *user_data)
 
 MunitResult T09_M3x3_CMP_Identical(const MunitParameter args[], void *user_data)
 {
-    Matrix3x3 a = matrix3x3(1, 2, 3.00002,
-                            4, 5, 6,
-                            7, 8, 9);
+    Matrix3x3 a = matrix3x3(1.f, 2.f, 3.00002f,
+                            4.f, 5.f, 6.f,
+                            7.f, 8.f, 9.f);
 
-    Matrix3x3 b = matrix3x3(1, 2, 3.00001999,
-                            4, 5, 6,
-                            7, 8, 9);
+    Matrix3x3 b = matrix3x3(1.f, 2.f, 3.00001999f,
+                            4.f, 5.f, 6.f,
+                            7.f, 8.f, 9.f);
 
 
     munit_assert_double_equal(a[0][0], b[0][0], 5);
@@ -435,13 +435,13 @@ MunitResult T09_M3x3_CMP_Identical(const MunitParameter args[], void *user_data)
 
 MunitResult T10_M3x3_CMP_Different(const MunitParameter args[], void *user_data)
 {
-    Matrix3x3 a = matrix3x3(1, 2, 3.00002,
-                            4, 5, 6,
-                            7, 8, 9);
+    Matrix3x3 a = matrix3x3(1.f, 2.f, 3.00002f,
+                            4.f, 5.f, 6.f,
+                            7.f, 8.f, 9.f);
 
-    Matrix3x3 b = matrix3x3(1.0001, 2.000005, 3.00001888,
-                            5, 4, 3,
-                            9, 7, 8);
+    Matrix3x3 b = matrix3x3(1.0001f, 2.000005f, 3.00001888f,
+                            5.f,     4.f,       3.f,
+                            9.f,     7.f,       8.f);
 
     assert_float(a[0][0], !=, b[0][0]);
     assert_float(a[0][1], !=, b[0][1]);
@@ -462,11 +462,11 @@ MunitResult T10_M3x3_CMP_Different(const MunitParameter args[], void *user_data)
 
 MunitResult T11_M2x2_CMP_Identical(const MunitParameter args[], void *user_data)
 {
-    Matrix2x2 a = matrix2x2(1, 2.00002,
-                            4, 5 );
+    Matrix2x2 a = matrix2x2(1.f, 2.00002f,
+                            4.f, 5.f );
 
-    Matrix2x2 b = matrix2x2(1, 2.00001999,
-                            4, 5 );
+    Matrix2x2 b = matrix2x2(1.f, 2.00001999f,
+                            4.f, 5.f );
 
     munit_assert_double_equal(a[0][0], b[0][0], 5);
     munit_assert_double_equal(a[0][1], b[0][1], 5);
@@ -481,11 +481,11 @@ MunitResult T11_M2x2_CMP_Identical(const MunitParameter args[], void *user_data)
 
 MunitResult T12_M2x2_CMP_Different(const MunitParameter args[], void *user_data)
 {
-    Matrix2x2 a = matrix2x2(1, 2.00002,
-                            4, 5 );
+    Matrix2x2 a = matrix2x2(1.f, 2.00002f,
+                            4.f, 5.f );
 
-    Matrix2x2 b = matrix2x2(1.0001, 2.00001888,
-                            5, 4 );
+    Matrix2x2 b = matrix2x2(1.0001f, 2.00001888f,
+                            5.f,     4.f );
 
     assert_float(a[0][0], !=, b[0][0]);
     assert_float(a[0][1], !=, b[0][1]);
@@ -851,18 +851,18 @@ MunitResult T28_M4x4_Inverse(const MunitParameter args[], void *user_data)
                        7,  7, -6, -7,
                        1, -3,  7,  4 );
 
-    Matrix expected_result = matrix( 0.21805,  0.45113,  0.24060, -0.04511,
-                                    -0.80827, -1.45677, -0.44361,  0.52068,
-                                    -0.07895, -0.22368, -0.05263,  0.19737,
-                                    -0.52256, -0.81391, -0.30075,  0.30639);
+    Matrix expected_result = matrix( 0.21805f,  0.45113f,  0.24060f, -0.04511f,
+                                    -0.80827f, -1.45677f, -0.44361f,  0.52068f,
+                                    -0.07895f, -0.22368f, -0.05263f,  0.19737f,
+                                    -0.52256f, -0.81391f, -0.30075f,  0.30639f);
 
     Matrix b = matrix_inverse(a);
 
     assert_float(matrix_determinant(a), ==, 532);
     assert_float(matrix_cofactor(a, 2, 3), ==, -160);
-    assert_float(b.m32, ==, (-160./532.));
+    assert_float(b.m32, ==, (-160.f/532.f));
     assert_float(matrix_cofactor(a, 3, 2), ==, 105);
-    assert_float(b.m23, ==, (105./532.));
+    assert_float(b.m23, ==, (105.f/532.f));
 
     assert_true(matrix_eq(b, expected_result));
 
@@ -876,10 +876,10 @@ MunitResult T29_M4x4_Inverse2(const MunitParameter args[], void *user_data)
                       -6,  0,  9,  6,
                       -3,  0, -9, -4);
 
-    Matrix expected_result = matrix(-0.15385, -0.15385, -0.28205, -0.53846,
-                                    -0.07692,  0.12308,  0.02564,  0.03077,
-                                     0.35897,  0.35897,  0.43590,  0.92308,
-                                    -0.69231, -0.69231, -0.76923, -1.92308 );
+    Matrix expected_result = matrix(-0.15385f, -0.15385f, -0.28205f, -0.53846f,
+                                    -0.07692f,  0.12308f,  0.02564f,  0.03077f,
+                                     0.35897f,  0.35897f,  0.43590f,  0.92308f,
+                                    -0.69231f, -0.69231f, -0.76923f, -1.92308f );
 
     Matrix b = matrix_inverse(a);
 
@@ -895,10 +895,10 @@ MunitResult T30_M4x4_Inverse3(const MunitParameter args[], void *user_data)
                       -4,  9,  6,  4,
                       -7,  6,  6,  2);
 
-    Matrix expected_result = matrix(-0.04074, -0.07778,  0.14444, -0.22222,
-                                    -0.07778,  0.03333,  0.36667, -0.33333,
-                                    -0.02901, -0.14630, -0.10926,  0.12963,
-                                     0.17778,  0.06667, -0.26667,  0.33333);
+    Matrix expected_result = matrix(-0.04074f, -0.07778f,  0.14444f, -0.22222f,
+                                    -0.07778f,  0.03333f,  0.36667f, -0.33333f,
+                                    -0.02901f, -0.14630f, -0.10926f,  0.12963f,
+                                     0.17778f,  0.06667f, -0.26667f,  0.33333f);
 
     Matrix b = matrix_inverse(a);
 

@@ -39,7 +39,7 @@ Color lighting(const Material &material, const Point_Light &light, const Point &
         if (reflect_dot_eye <= 0.0f) {
             specular = color_create(0, 0, 0);
         } else {
-            float factor = pow(reflect_dot_eye, material.shininess);
+            float factor = (float)pow(reflect_dot_eye, material.shininess);
             specular = color_mul(light.intensity, material.specular * factor);
             // specular = light.intensity * material.specular * factor;
         }

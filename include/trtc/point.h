@@ -12,6 +12,7 @@ struct Point : public Tuple
 };
 
 Point point(float x, float y, float z);
+Point point(int x, int y, int z);
 
 #define point_eq(a, b) (tuple_eq((a), (b)))
 

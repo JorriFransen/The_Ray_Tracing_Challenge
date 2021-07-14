@@ -140,10 +140,10 @@ MunitResult T07_Negative_Scale_Is_Reflection(const MunitParameter args[], void *
 MunitResult T08_X_Rotation(const MunitParameter args[], void *user_data)
 {
     Point p = point(0, 1, 0);
-    Matrix half_quarter = matrix_rotation_x(M_PI / 4);
-    Matrix full_quarter = matrix_rotation_x(M_PI / 2);
+    Matrix half_quarter = matrix_rotation_x((float)M_PI / 4.f);
+    Matrix full_quarter = matrix_rotation_x((float)M_PI / 2.f);
 
-    Point expected_result_half = point(0, sqrt(2)/2, sqrt(2)/2);
+    Point expected_result_half = point(0.f, (float)sqrt(2)/2.f, (float)sqrt(2)/2.f);
     Point expected_result_full = point(0, 0, 1);
 
     Point result_half = matrix_mul(half_quarter, p);
@@ -169,10 +169,10 @@ MunitResult T08_X_Rotation(const MunitParameter args[], void *user_data)
 MunitResult T09_X_Rotation_Inv(const MunitParameter args[], void *user_data)
 {
     Point p = point(0, 1, 0);
-    Matrix half_quarter = matrix_rotation_x(M_PI / 4);
+    Matrix half_quarter = matrix_rotation_x((float)M_PI / 4);
     Matrix inv = matrix_inverse(half_quarter);
 
-    Point expected_result = point(0, sqrt(2)/2, -(sqrt(2)/2));
+    Point expected_result = point(0.f, (float)sqrt(2)/2.f, -(float)(sqrt(2)/2.f));
 
     Point result_half = matrix_mul(inv, p);
 
@@ -189,10 +189,10 @@ MunitResult T09_X_Rotation_Inv(const MunitParameter args[], void *user_data)
 MunitResult T10_Y_Rotation(const MunitParameter args[], void *user_data)
 {
     Point p = point(0, 0, 1);
-    Matrix half_quarter = matrix_rotation_y(M_PI / 4);
-    Matrix full_quarter = matrix_rotation_y(M_PI / 2);
+    Matrix half_quarter = matrix_rotation_y((float)M_PI / 4);
+    Matrix full_quarter = matrix_rotation_y((float)M_PI / 2);
 
-    Point expected_result_half = point(sqrt(2)/2, 0, sqrt(2)/2);
+    Point expected_result_half = point((float)sqrt(2)/2.f, 0.f, (float)sqrt(2)/2.f);
     Point expected_result_full = point(1, 0, 0);
 
     Point result_half = matrix_mul(half_quarter, p);
@@ -218,10 +218,10 @@ MunitResult T10_Y_Rotation(const MunitParameter args[], void *user_data)
 MunitResult T11_Z_Rotation(const MunitParameter args[], void *user_data)
 {
     Point p = point(0, 1, 0);
-    Matrix half_quarter = matrix_rotation_z(M_PI / 4);
-    Matrix full_quarter = matrix_rotation_z(M_PI / 2);
+    Matrix half_quarter = matrix_rotation_z((float)M_PI / 4);
+    Matrix full_quarter = matrix_rotation_z((float)M_PI / 2);
 
-    Point expected_result_half = point(-(sqrt(2)/2), sqrt(2)/2, 0);
+    Point expected_result_half = point(-(float)(sqrt(2)/2.f), (float)sqrt(2)/2.f, 0.f);
     Point expected_result_full = point(-1, 0, 0);
 
     Point result_half = matrix_mul(half_quarter, p);
@@ -356,7 +356,7 @@ MunitResult T18_Transform_Sequence(const MunitParameter args[], void *user_data)
 {
     Point p = point(1, 0, 1);
 
-    Matrix a = matrix_rotation_x(M_PI / 2);
+    Matrix a = matrix_rotation_x((float)M_PI / 2);
     Matrix b = matrix_scale(5, 5, 5);
     Matrix c = matrix_translation(10, 5, 7);
 
@@ -397,7 +397,7 @@ MunitResult T19_Chain_Sequence(const MunitParameter args[], void *user_data)
 {
     Point p = point(1, 0, 1);
 
-    Matrix a = matrix_rotation_x(M_PI/2);
+    Matrix a = matrix_rotation_x((float)M_PI/2);
     Matrix b = matrix_scale(5, 5, 5);
     Matrix c = matrix_translation(10, 5, 7);
 
@@ -419,7 +419,7 @@ MunitResult T19_Chain_Sequence(const MunitParameter args[], void *user_data)
 MunitResult T20_Fluency(const MunitParameter args[], void *user_data)
 {
     Point p = point(1, 0, 1);
-    Matrix transform = matrix_identity().rotate_x(M_PI / 2).scale(5, 5, 5).translate(10, 5, 7);
+    Matrix transform = matrix_identity().rotate_x((float)M_PI / 2).scale(5, 5, 5).translate(10, 5, 7);
 
     Point expected_result = point(15, 0, 7);
     Point result = matrix_mul(transform, p);

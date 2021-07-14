@@ -20,7 +20,7 @@ void CH06_putting_it_together(Canvas &canvas)
     Point_Light light = point_light(point(-10, 10, -10), color_create(1, 1, 1));
 
     Sphere sphere = sphere_create();
-    sphere.material.color = color_create(1, 0.2, 1);
+    sphere.material.color = color_create(1.f, 0.2f, 1.f);
     // sphere.material.specular = 0.5;
 
     // sphere.transform.scale(1, 0.5, 1).rotate_z(M_PI / 3).scale(1, 0.5, 1);;

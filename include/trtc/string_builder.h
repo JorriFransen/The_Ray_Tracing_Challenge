@@ -29,7 +29,7 @@ void string_builder_init(Allocator *allocator, String_Builder *sb,
                          uint64_t default_block_cap = 2048);
 void string_builder_free(String_Builder *sb);
 
-String_Builder_Block *string_builder_allocate_block(Allocator *allocator, String_Builder *sb, uint64_t capacity);
+String_Builder_Block *string_builder_allocate_block(Allocator *allocator, uint64_t capacity);
 void string_builder_push_new_block(String_Builder *sb, uint64_t capacity);
 
 void string_builder_append(String_Builder *sb, const char *cstr);

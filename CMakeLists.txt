@@ -54,3 +54,8 @@ add_executable(tests tests/test_main.cpp)
 target_sources(tests PRIVATE ${TEST_SOURCES})
 target_include_directories(tests PRIVATE lib)
 target_link_libraries(tests raytracer_lib)
+
+if (MSVC)
+    target_compile_options(raytracer_lib PRIVATE /W4 /std:c++latest -D_CRT_SECURE_NO_WARNINGS)
+    target_compile_options(raytracer_lib PRIVATE /wd4201)
+endif()

@@ -1,7 +1,9 @@
 #include "gui_window.h"
 
+#pragma warning(disable:4551)
 #define GLAD_GL_IMPLEMENTATION
 #include <glad/gl.h>
+#pragma warning(default:4551)
 
 #include <cstdio>
 
@@ -150,7 +152,7 @@ void guiwindow_show(const Canvas &c)
     my_window.model_matrix = matrix_identity();
     glUniformMatrix4fv(my_window.model_matrix_location, 1, GL_TRUE, my_window.model_matrix.flat);
 
-    glClearColor(0.1, 0.1, 0.1, 1);
+    glClearColor(0.1f, 0.1f, 0.1f, 1.f);
 
     update_viewport(&my_window, my_window.width, my_window.height);
 
@@ -209,7 +211,7 @@ void update_viewport(GUI_Window *window, int width, int height)
     window->view_matrix = matrix_scale(width * mxscale, height * myscale, 1);
     glUniformMatrix4fv(window->view_matrix_location, 1, GL_TRUE, window->view_matrix.flat);
 
-    window->projection_matrix = matrix_ortho(0, width, height, 0, -1, 1);
+    window->projection_matrix = matrix_ortho(0, (float)width, (float)height, 0, -1, 1);
     glUniformMatrix4fv(window->projection_matrix_location, 1, GL_TRUE,
                        window->projection_matrix.flat);
 }

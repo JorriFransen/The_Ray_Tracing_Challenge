@@ -52,7 +52,7 @@ String string_ref(const char *cstr)
     return string_ref(cstr, strlen(cstr));
 }
 
-String string_ref(const char *cstr, int length)
+String string_ref(const char *cstr, int64_t length)
 {
     String result;
     result.data = (char *)cstr;
@@ -60,7 +60,7 @@ String string_ref(const char *cstr, int length)
     return result;
 }
 
-String string_copy(Allocator *allocator, const char *cstr, int length)
+String string_copy(Allocator *allocator, const char *cstr, int64_t length)
 {
     String result;
     result.length = length;
@@ -89,7 +89,7 @@ bool string_eq(const String &a, const String &b)
     if (a == b) return true;
     if (a.length != b.length) return false;
 
-    for (int64_t i = 0; i < a.length; i++)
+    for (int i = 0; i < a.length; i++)
     {
         if (a[i] != b[i]) return false;
     }
@@ -112,7 +112,7 @@ String uint_to_string(Allocator *allocator, uint64_t x)
         while (x > 0)
         {
             auto d = x % 10;
-            buf[buf_size - 2 - length] = d + '0';
+            buf[buf_size - 2 - length] = (char)d + '0';
             x /= 10;
             length++;
         }

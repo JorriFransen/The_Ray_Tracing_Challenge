@@ -79,8 +79,8 @@ Intersections<count> intersections_variadic(int num, ...)
 #define ELEVENTH_ARGUMENT(a1, a2, a3, a4, a5, a6, a7, a8, a9, a10, a11, ...) a11
 #define COUNT_ARGUMENTS(...) ELEVENTH_ARGUMENT(dummy, ## __VA_ARGS__, 9, 8, 7, 6, 5, 4, 3, 2, 1, 0)
 
-#define intersections_count(count, args...) (intersections_variadic<count>(count, args))
-#define intersections(args...) (intersections_count(COUNT_ARGUMENTS(args), args))
+#define intersections_count(count, ...) (intersections_variadic<count>(count, __VA_ARGS__))
+#define intersections(...) (intersections_count(COUNT_ARGUMENTS(args), __VA_ARGS__))
 
 Point ray_position(const Ray &r, float t);
 

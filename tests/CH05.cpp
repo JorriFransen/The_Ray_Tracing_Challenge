@@ -36,7 +36,7 @@ MunitResult T02_Point_On_Ray(const MunitParameter args[], void *user_data)
     assert_true(point_eq(ray_position(r, 0), point(2, 3, 4)));
     assert_true(point_eq(ray_position(r, 1), point(3, 3, 4)));
     assert_true(point_eq(ray_position(r, -1), point(1, 3, 4)));
-    assert_true(point_eq(ray_position(r, 2.5), point(4.5, 3, 4)));
+    assert_true(point_eq(ray_position(r, 2.5), point(4.5f, 3.f, 4.f)));
 
     return MUNIT_OK;
 }

@@ -13,12 +13,15 @@ float abs_f(float x);
 bool float_eq(float lhs, float rhs);
 float ceil(float f);
 
-template <typename OUT_TYPE, typename IN_TYPE>
-OUT_TYPE clamp(OUT_TYPE min, OUT_TYPE max, IN_TYPE x)
+template <typename BOUND_TYPE, typename IN_TYPE, typename OUT_TYPE=IN_TYPE>
+OUT_TYPE clamp(BOUND_TYPE min, BOUND_TYPE max, IN_TYPE x)
 {
-    if (x < min) return min;
-    if (x > max) return max;
-    return x;
+    if (x < min) return (OUT_TYPE)min;
+    if (x > max) return (OUT_TYPE)max;
+
+//#pragma warning(disable:4244)
+    return (OUT_TYPE)x;
+//#pragma warning(default:4244)
 }
 
 struct String
@@ -26,13 +29,13 @@ struct String
     char *data = nullptr;
     int64_t length = -1;
 
-    char& operator[](int index)
+    char& operator[](int64_t index)
     {
         assert(index < length);
         return data[index];
     }
 
-    const char& operator[](int index) const
+    const char& operator[](int64_t index) const
     {
         assert(index < length);
         return data[index];
@@ -45,8 +48,8 @@ struct String
 };
 
 String string_ref(const char *cstr);
-String string_ref(const char *cstr, int length);
-String string_copy(Allocator *allocator, const char *cstr, int length);
+String string_ref(const char *cstr, int64_t length);
+String string_copy(Allocator *allocator, const char *cstr, int64_t length);
 
 void string_free(String *str);
 

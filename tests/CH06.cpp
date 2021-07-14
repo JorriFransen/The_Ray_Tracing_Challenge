@@ -40,7 +40,7 @@ MunitResult T03_Sphere_Normal_Z_Axis(const MunitParameter args[], void *user_dat
 MunitResult T04_Sphere_Normal_Nonaxial(const MunitParameter args[], void *user_data)
 {
     Sphere s = sphere_create();
-    float sqrt3_d3 = sqrt(3) / 3;
+    float sqrt3_d3 = (float)sqrt(3) / 3.f;
 
     Vector n = sphere_normal(s, point(sqrt3_d3, sqrt3_d3, sqrt3_d3));
 
@@ -52,7 +52,7 @@ MunitResult T04_Sphere_Normal_Nonaxial(const MunitParameter args[], void *user_d
 MunitResult T04_Sphere_Normal_Normalized(const MunitParameter args[], void *user_data)
 {
     Sphere s = sphere_create();
-    float sqrt3_d3 = sqrt(3) / 3;
+    float sqrt3_d3 = (float)sqrt(3) / 3.f;
 
     Vector n = sphere_normal(s, point(sqrt3_d3, sqrt3_d3, sqrt3_d3));
 
@@ -66,9 +66,9 @@ MunitResult T05_Translated_Sphere_Normal(const MunitParameter args[], void *user
     auto s = sphere_create();
     s.transform.translate(0, 1, 0);
 
-    auto n = sphere_normal(s, point(0, 1.70711, -0.70711));
+    auto n = sphere_normal(s, point(0.f, 1.70711f, -0.70711f));
 
-    auto expected_n = vector(0, 0.70711, -0.70711);
+    auto expected_n = vector(0.f, 0.70711f, -0.70711f);
 
     assert_double_equal(n.x, expected_n.x, 5);
     assert_double_equal(n.y, expected_n.y, 5);
@@ -83,12 +83,12 @@ MunitResult T05_Translated_Sphere_Normal(const MunitParameter args[], void *user
 MunitResult T06_Transformed_Sphere_Normal(const MunitParameter args[], void *user_data)
 {
     auto s = sphere_create();
-    s.transform.rotate_z(M_PI / 5).scale(1, 0.5, 1);
+    s.transform.rotate_z((float)M_PI / 5).scale(1.f, 0.5f, 1.f);
 
-    float sqrt2_d2 = sqrt(2) / 2;
-    auto n = sphere_normal(s, point(0, sqrt2_d2, -sqrt2_d2));
+    float sqrt2_d2 = (float)sqrt(2) / 2.f;
+    auto n = sphere_normal(s, point((float)0, sqrt2_d2, -sqrt2_d2));
 
-    auto expected_n = vector(0, 0.97014, -0.24254);
+    auto expected_n = vector(0.f, 0.97014f, -0.24254f);
 
     assert_double_equal(n.x, expected_n.x, 5);
     assert_double_equal(n.y, expected_n.y, 5);
@@ -114,7 +114,7 @@ MunitResult T07_Reflect_Vector_45D(const MunitParameter args[], void *user_data)
 MunitResult T08_Reflect_Vector_Slanted_N(const MunitParameter args[], void *user_data)
 {
     Vector v = vector(0, -1, 0);
-    float sqrt2_d2 = sqrt(2) / 2;
+    float sqrt2_d2 = (float)sqrt(2) / 2.f;
     Vector n = vector(sqrt2_d2, sqrt2_d2, 0);
 
     Vector r = vector_reflect(v, n);
@@ -154,7 +154,7 @@ MunitResult T11_Material_EQ(const MunitParameter args[], void *user_data)
 {
     Material m1 = material_create();
     Material m2 = material_create();
-    Material m3 = material_create(color_create(0.5, 0.5, 0.5), 0.2, 0.8, 0.8, 100.0);
+    Material m3 = material_create(color_create(0.5f, 0.5f, 0.5f), 0.2f, 0.8f, 0.8f, 100.0f);
 
     assert_true(color_eq(m1.color, m2.color));
     assert_float(m1.ambient, ==, m2.ambient);
@@ -208,7 +208,7 @@ MunitResult T14_Light_LES(const MunitParameter args[], void *user_data)
 
     Color result = lighting(m, light, position, eye, normal);
 
-    assert_true(color_eq(result, color_create(1.9, 1.9, 1.9, 1.9)));
+    assert_true(color_eq(result, color_create(1.9f, 1.9f, 1.9f, 1.9f)));
 
     return MUNIT_OK;
 }
@@ -218,7 +218,7 @@ MunitResult T15_Light_LE45S(const MunitParameter args[], void *user_data)
     Material m = material_create();
     Point position = point(0, 0, 0);
 
-    float sqrt2_d2 = sqrt(2) / 2;
+    float sqrt2_d2 = (float)sqrt(2) / 2.f;
     Vector eye = vector(0, sqrt2_d2, -sqrt2_d2);
     Vector normal = vector(0, 0, -1);
     Point_Light light = point_light(point(0, 0, -10), color_create(1, 1, 1));
@@ -241,7 +241,7 @@ MunitResult T16_Light_L45ES(const MunitParameter args[], void *user_data)
 
     Color result = lighting(m, light, position, eye, normal);
 
-    assert_true(color_eq(result, color_create(0.7364, 0.7364, 0.7364, 0.7364)));
+    assert_true(color_eq(result, color_create(0.7364f, 0.7364f, 0.7364f, 0.7364f)));
 
     return MUNIT_OK;
 }
@@ -251,14 +251,14 @@ MunitResult T17_Light_L45En45S(const MunitParameter args[], void *user_data)
     Material m = material_create();
     Point position = point(0, 0, 0);
 
-    float sqrt2_d2 = sqrt(2) / 2;
+    float sqrt2_d2 = (float)sqrt(2) / 2.f;
     Vector eye = vector(0, -sqrt2_d2, -sqrt2_d2);
     Vector normal = vector(0, 0, -1);
     Point_Light light = point_light(point(0, 10, -10), color_create(1, 1, 1));
 
     Color result = lighting(m, light, position, eye, normal);
 
-    assert_true(color_eq(result, color_create(1.63638, 1.63638, 1.63638, 1.63638)));
+    assert_true(color_eq(result, color_create(1.63638f, 1.63638f, 1.63638f, 1.63638f)));
 
     return MUNIT_OK;
 }
@@ -274,7 +274,7 @@ MunitResult T18_Light_ELS(const MunitParameter args[], void *user_data)
 
     Color result = lighting(m, light, position, eye, normal);
 
-    assert_true(color_eq(result, color_create(0.1, 0.1, 0.1, 2.099999)));
+    assert_true(color_eq(result, color_create(0.1f, 0.1f, 0.1f, 2.099999f)));
 
     return MUNIT_OK;
 }

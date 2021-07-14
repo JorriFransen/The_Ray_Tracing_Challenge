@@ -12,12 +12,12 @@ using namespace RayTracer;
 
 MunitResult T01_Tuple_Point_Constr(const MunitParameter args[], void *user_data)
 {
-    Tuple a = tuple(4.3, -4.2, 3.1, 1.0);
+    Tuple a = tuple(4.3f, -4.2f, 3.1f, 1.0f);
 
-    assert_float(a.x, ==, 4.3);
-    assert_float(a.y, ==, -4.2);
-    assert_float(a.z, ==, 3.1);
-    assert_float(a.w, ==, 1.0);
+    assert_float(a.x, ==, 4.3f);
+    assert_float(a.y, ==, -4.2f);
+    assert_float(a.z, ==, 3.1f);
+    assert_float(a.w, ==, 1.0f);
 
     assert_true(tuple_is_point(&a));
     assert_false(tuple_is_vector(&a));
@@ -27,12 +27,12 @@ MunitResult T01_Tuple_Point_Constr(const MunitParameter args[], void *user_data)
 
 MunitResult T02_Tuple_Vector_Constr(const MunitParameter args[], void *user_data)
 {
-    Tuple a = tuple(4.3, -4.2, 3.1, 0.0);
+    Tuple a = tuple(4.3f, -4.2f, 3.1f, 0.0f);
 
-    assert_float(a.x, ==, 4.3);
-    assert_float(a.y, ==, -4.2);
-    assert_float(a.z, ==, 3.1);
-    assert_float(a.w, ==, 0.0);
+    assert_float(a.x, ==, 4.3f);
+    assert_float(a.y, ==, -4.2f);
+    assert_float(a.z, ==, 3.1f);
+    assert_float(a.w, ==, 0.0f);
 
     assert_false(tuple_is_point(&a));
     assert_true(tuple_is_vector(&a));
@@ -75,11 +75,11 @@ MunitResult T05_Tuple_EQ(const MunitParameter args[], void *user_data)
     Tuple a = tuple(1, 2, 3, 4);
     Tuple b = tuple(1, 2, 3, 4);
 
-    Tuple c = tuple(1.1, 2, 3, 4);
-    Tuple d = tuple(1.1, 2, 3, 4);
+    Tuple c = tuple(1.1f, 2.f, 3.f, 4.f);
+    Tuple d = tuple(1.1f, 2.f, 3.f, 4.f);
 
-    Tuple e = tuple(1.000009, 2, 3, 4);
-    Tuple f = tuple(0.999991, 2, 3, 4);
+    Tuple e = tuple(1.000009f, 2.f, 3.f, 4.f);
+    Tuple f = tuple(0.999991f, 2.f, 3.f, 4.f);
 
     assert_true(tuple_eq(a, b));
     assert_false(tuple_eq(a, c));
@@ -381,7 +381,7 @@ MunitResult T23_Vector_Length_1_2_3(const MunitParameter args[], void *user_data
 
     Vector v = vector(1, 2, 3);
 
-    float expected_result = sqrt(14);
+    float expected_result = (float)sqrt(14);
     float result = vector_length(v);
 
     assert_float(result, ==, expected_result);
@@ -394,7 +394,7 @@ MunitResult T24_Vector_Length_1_2_3_neg(const MunitParameter args[], void *user_
 
     Vector v = vector(-1, -2, -3);
 
-    float expected_result = sqrt(14);
+    float expected_result = (float)sqrt(14);
     float result = vector_length(v);
 
     assert_float(result, ==, expected_result);
@@ -423,8 +423,8 @@ MunitResult T26_Vector_Normalize_1_2_3(const MunitParameter args[], void *user_d
 {
     Vector v = vector(1, 2, 3);
 
-    Vector expected_result = vector(0.26726, 0.53452, 0.80178);
-    float sqrt14 = sqrt(14);
+    Vector expected_result = vector(0.26726f, 0.53452f, 0.80178f);
+    float sqrt14 = (float)sqrt(14);
     Vector expected_result2 = vector(1 / sqrt14, 2 / sqrt14, 3 / sqrt14);
     Vector result = vector_normalized(v);
 
