@@ -21,10 +21,10 @@ void canvas_init(Canvas *c, int width, int height, Allocator *allocator)
     c->height = height;
 
     auto pixel_count = width * height;
-    // auto byte_size = pixel_count * sizeof(Canvas_Pixel);
+    auto byte_size = pixel_count * sizeof(Canvas_Pixel);
     // c->buffer = (Canvas_Pixel *)malloc(byte_size);
     c->buffer = alloc_array<Canvas_Pixel>(allocator, pixel_count);
-    // memset(c->buffer, 0, byte_size);
+    memset(c->buffer, 0, byte_size);
     c->allocator = allocator;
 }
 
