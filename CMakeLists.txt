@@ -86,13 +86,12 @@ set (_TEST_SOURCES
     tests/CH06.cpp
     tests/CH07.cpp
 )
+set_source_files_properties(${_TEST_SOURCES} PROPERTIES HEADER_FILE_ONLY 1)
 
 set (TEST_SOURCES
     lib/munit/munit.c
     ${_TEST_SOURCES}
 )
-
-set_source_files_properties(${_TEST_SOURCES} PROPERTIES HEADER_FILE_ONLY 1)
 
 add_executable(tests tests/test_main.cpp)
 target_sources(tests PRIVATE ${TEST_SOURCES})
