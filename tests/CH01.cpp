@@ -6,12 +6,12 @@
 #include "vector.h"
 #include "util.h"
 
-#include <cmath>
-
 using namespace RayTracer;
 
 MunitResult T01_Tuple_Point_Constr(const MunitParameter args[], void *user_data)
 {
+//    int* iptr = nullptr;
+//    *iptr = 888;
     Tuple a = tuple(4.3f, -4.2f, 3.1f, 1.0f);
 
     assert_float(a.x, ==, 4.3f);

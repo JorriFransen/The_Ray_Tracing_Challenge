@@ -1,4 +1,8 @@
 
+
+#define _USE_MATH_DEFINES
+#include <math.h>
+
 #define MUNIT_ENABLE_ASSERT_ALIASES
 #include <munit/munit.h>
 

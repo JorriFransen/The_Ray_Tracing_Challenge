@@ -33,7 +33,33 @@ set (RAY_TRACER_LIB_SOURCE
     source/putting_it_together_ch06.cpp
 )
 
-add_library(raytracer_lib ${RAY_TRACER_LIB_SOURCE})
+set (RAY_TRACER_LIB_HEADERS
+    include/trtc/allocator.h
+    include/trtc/array.h
+    include/trtc/c_allocator.h
+    include/trtc/canvas.h
+    include/trtc/color.h
+    include/trtc/light.h
+    include/trtc/material.h
+    include/trtc/matrix.h
+    include/trtc/point.h
+    include/trtc/ray.h
+    include/trtc/string_builder.h
+    include/trtc/temp_allocator.h
+    include/trtc/tuple.h
+    include/trtc/util.h
+    include/trtc/vector.h
+    include/trtc/world.h
+
+    include/trtc/putting_it_together_ch01.h
+    include/trtc/putting_it_together_ch02.h
+    include/trtc/putting_it_together_ch04.h
+    include/trtc/putting_it_together_ch05.h
+    include/trtc/putting_it_together_ch06.h
+)
+set_source_files_properties(${RAY_TRACER_LIB_HEADERS} PROPERTIES HEADER_FILE_ONLY 1)
+
+add_library(raytracer_lib ${RAY_TRACER_LIB_SOURCE} ${RAY_TRACER_LIB_HEADERS})
 target_include_directories(raytracer_lib PUBLIC include/trtc)
 
 set(RAY_TRACER_SOURCES
@@ -41,14 +67,32 @@ set(RAY_TRACER_SOURCES
     source/gui_window.cpp
 )
 
-add_executable(raytracer ${RAY_TRACER_SOURCES})
+set (RAY_TRACER_HEADERS
+    include/trtc/gui_window.h
+)
+set_source_files_properties(${RAY_TRACER_HEADERS} PROPERTIES HEADER_FILE_ONLY 1)
+
+add_executable(raytracer ${RAY_TRACER_SOURCES} ${RAY_TRACER_HEADERS})
 target_link_libraries(raytracer raytracer_lib glfw)
 target_include_directories(raytracer PRIVATE lib)
 
+set (_TEST_SOURCES
+    tests/common.h
+    tests/CH01.cpp
+    tests/CH02.cpp
+    tests/CH03.cpp
+    tests/CH04.cpp
+    tests/CH05.cpp
+    tests/CH06.cpp
+    tests/CH07.cpp
+)
 
 set (TEST_SOURCES
     lib/munit/munit.c
+    ${_TEST_SOURCES}
 )
+
+set_source_files_properties(${_TEST_SOURCES} PROPERTIES HEADER_FILE_ONLY 1)
 
 add_executable(tests tests/test_main.cpp)
 target_sources(tests PRIVATE ${TEST_SOURCES})
